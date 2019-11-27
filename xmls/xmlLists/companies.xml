@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+		<restourants>
+			<item>
+				<id>1</id>
+				<company>4 сезони</company>
+				<address>в. Урожайна, 5</address>
+				<phone>+38097.90.99.999</phone>
+				<phone>+38097.90.99.990</phone>
+				<phone>+38097.90.99.991</phone>
+				<shedule>Пн - Пт|10:00 - 20:00</shedule>
+				<shedule>Сб - Нд|09:00 - 00:00</shedule>
+				<description>0. In this edition, we listen to a review 
+				of a new film called 'The Hoax' which stars Richard 
+				Gere. A hoax is a deception, a trick to make people 
+				believe something is true when it is not. But as we hear, 
+				the film is actually based on a true story - how, in 1971, 
+				a writer called Clifford Irving tried to get a fake autobiography 
+				of the superstar millionaire Howard Hughes published and make himself 
+				extremely rich in the process..</description>
+			</item>
+			<item>
+				<id>2</id>
+				<company>5 сезони</company>
+				<address>в. Урожайна, 456</address>
+				<phone>+38097.90.09.999</phone>
+				<phone>+38097.90.19.990</phone>
+				<phone>+38097.90.29.991</phone>
+				<shedule>Пн - Пт|10:00 - 20:00</shedule>
+				<description>1. In this edition, we listen to a review 
+				of a new film called 'The Hoax' which stars Richard 
+				Gere. A hoax is a deception, a trick to make people 
+				believe something is true when it is not. But as we hear, 
+				the film is actually based on a true story - how, in 1971, 
+				a writer called Clifford Irving tried to get a fake autobiography 
+				of the superstar millionaire Howard Hughes published and make himself 
+				extremely rich in the process..</description>
+			</item>
+			<item>
+				<id>3</id>
+				<company>6 сезони</company>
+				<address>в. Урожайна, 464</address>
+				<phone>+38097.90.95.999</phone>
+				<phone>+38097.90.94.990</phone>
+				<phone>+38097.90.93.991</phone>
+				<shedule>Пн - Пт|10:00 - 20:00</shedule>
+				<description>2. In this edition, we listen to a review 
+				of a new film called 'The Hoax' which stars Richard 
+				Gere. A hoax is a deception, a trick to make people 
+				believe something is true when it is not. But as we hear, 
+				the film is actually based on a true story - how, in 1971, 
+				a writer called Clifford Irving tried to get a fake autobiography 
+				of the superstar millionaire Howard Hughes published and make himself 
+				extremely rich in the process..</description>
+			</item>
+			<item>
+				<id>4</id>
+				<company>7 сезони</company>
+				<address>в. Урожайна, 46</address>
+				<phone>+38097.97.99.999</phone>
+				<phone>+38097.94.99.990</phone>
+				<phone>+38097.91.99.991</phone>
+				<shedule>Пн - Пт|10:00 - 20:00</shedule>
+				<description>3. In this edition, we listen to a review 
+				of a new film called 'The Hoax' which stars Richard 
+				Gere. A hoax is a deception, a trick to make people 
+				believe something is true when it is not. But as we hear, 
+				the film is actually based on a true story - how, in 1971, 
+				a writer called Clifford Irving tried to get a fake autobiography 
+				of the superstar millionaire Howard Hughes published and make himself 
+				extremely rich in the process..</description>
+			</item>
+			
+		</restourants>
+		<boutique>
+			<item>
+				<id>5</id>
+				<company>789789 сезони</company>
+				<address>в. Урожайна, 5</address>
+			</item>
+			<item>
+				<id>6</id>
+				<company>5 се797897зони</company>
+				<address>в. Урожайна, 456</address>
+			</item>
+			<item>
+				<id>7</id>
+				<company>6 679679</company>
+				<address>в. Урожайна, 464</address>
+			</item>
+			<item>
+				<id>8</id>
+				<company>7 tltuil</company>
+				<address>в. Урожайна, 46456</address>
+			</item>
+			
+		</boutique>			
+	</channel>
+</rss>

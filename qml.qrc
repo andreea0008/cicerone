@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>TopHead.qml</file>
+        <file>img/crown.png</file>
+        <file>img/left-arrow.png</file>
+        <file>BaseProperty.qml</file>
+        <file>components/Button.qml</file>
+        <file>img/favourite-star_not_selected.png</file>
+        <file>img/event_red.png</file>
+        <file>img/event_white.png</file>
+        <file>img/settings_red.png</file>
+        <file>img/settings_white.png</file>
+        <file>img/category_red.png</file>
+        <file>img/category_white.png</file>
+        <file>img/favorite_red.png</file>
+        <file>img/favorite_white.png</file>
+    </qresource>
+</RCC>
