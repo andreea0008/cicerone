@@ -9,17 +9,6 @@ Rectangle{
     height: app.height * 0.1
     color: bp.backgroundColor
 
-//    Image{
-//        id: backArrow
-//        height: parent.height * 0.5
-//        width: height
-//        anchors.left: parent.left
-//        anchors.leftMargin: height / 2
-//        anchors.verticalCenter: parent.verticalCenter
-//        source: "qrc:/Delegates/img/left-arrow.png"
-//      //  visible: true//stackAllCategory.depth > 1/
-//    }
-
     Text{
         id: textGuideIf
         anchors.left: backArrow.visible ? backArrow.right : parent.left
@@ -28,7 +17,7 @@ Rectangle{
         anchors.bottomMargin: sp(5)
         font.pixelSize: sp(28)
         color: bp.text_color
-        text: "GuideIf"
+        text: "Cicerone"
         font.bold: true
     }
 
@@ -40,6 +29,16 @@ Rectangle{
         anchors.leftMargin: height / 2
         anchors.verticalCenter: textGuideIf.verticalCenter
         source: "img/left-arrow.png"
+        visible: bp.visibleBackButton()
+        MouseArea{
+            anchors.fill: parent
+            onReleased: {
+                switch(bp.currentPageId)
+                {
+                case 1: stackEvents.pop(); break;
+                }
+            }
+        }
     }
 
     Rectangle{

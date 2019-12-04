@@ -13,9 +13,6 @@ Rectangle{
     property int idCategorie: 999
     property int currentIdSelect: 888
 
-    signal menuCategoryChange(var idCategory)
-    signal pressCheckedButton()
-
     onCurrentIdSelectChanged: {
         if(currentIdSelect != idCategorie)
             isChecked = false
@@ -40,14 +37,11 @@ Rectangle{
         color: bp.text_color
     }
 
-//    MouseArea{
-//        anchors.fill: parent
-//        onPressed: {
-////            menuCategoryChange(idCategorie)
-////            if(isChecked)
-//                console.log(123)
-////                pressCheckedButton()
-////            isChecked = !isChecked
-//        }
-//    }
+    MouseArea{
+        anchors.fill: parent
+        onPressed: {
+            bp.currentPageId = idCategorie
+            console.log(bp.currentPageId, idCategorie)
+        }
+    }
 }

@@ -16,5 +16,8 @@
         <file>img/category_white.png</file>
         <file>img/favorite_red.png</file>
         <file>img/favorite_white.png</file>
+        <file>pages/TestpushPage.qml</file>
+        <file>components/Finder.qml</file>
+        <file>components/InformationItem.qml</file>
     </qresource>
 </RCC>
