@@ -9,6 +9,8 @@ Rectangle{
     height: app.height * 0.1
     color: bp.backgroundColor
 
+    property FontLoader fontloader    
+
     Text{
         id: textGuideIf
         anchors.left: backArrow.visible ? backArrow.right : parent.left
@@ -19,6 +21,7 @@ Rectangle{
         color: bp.text_color
         text: "Cicerone"
         font.bold: true
+        font.family: fontloader.name
     }
 
     AppImage {

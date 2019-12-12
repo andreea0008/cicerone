@@ -13,10 +13,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \
     src/company.cpp \
     src/xml.cpp \
-    src/category.cpp
+    src/category.cpp \
+    src/clipboard.cpp
 
 RESOURCES += qml.qrc \
     xml_files.qrc
@@ -36,4 +36,5 @@ HEADERS += \
     src/category.h \
     src/xml.h \
     src/company.h \
-    src/saver.h
+    src/saver.h \
+    src/clipboard.h

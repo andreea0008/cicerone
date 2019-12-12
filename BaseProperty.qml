@@ -10,6 +10,7 @@ QtObject {
     readonly property color selected_color: "#1F1E23"
     readonly property color text_color: "white"
     readonly property int   count_categories: 4
+    readonly property color pressed_color: "#343339"
 
     //pages properties
     property int currentPageId: 1
@@ -22,6 +23,15 @@ QtObject {
     //finder property
     property color finderBackground: "#232228"
     property color finderTextAreabackground: "#343339"
+
+    //font
+    property int h1: 16
+    property int h2: 13
+
+    readonly property FontLoader fontLoader: FontLoader{
+        id: fontLoader
+        source: "fonts/Roboto-Medium.ttf"
+    }
 
     function visibleBackButton()
     {
