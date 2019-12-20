@@ -35,7 +35,7 @@ QtObject {
 
     function visibleBackButton()
     {
-        return stackEvents.depth > 1
+       // return stackEvents.depth > 1
     }
 
     function visiblePage(pageId)

@@ -56,6 +56,8 @@ Row {
             return "../img/delegate_icons/mail.png"
         else if (type === "location")
             return "../img/delegate_icons/location.png"
+        else if (type === "schedule")
+            return "../img/delegate_icons/schedule.png"
     }
 
     function runEvent()

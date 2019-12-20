@@ -31,6 +31,7 @@ App {
         anchors.right: parent.right
         fontloader: bp.fontLoader
     }
+
     Item{
         anchors.top: topHead.bottom
         anchors.bottom: parent.bottom
@@ -50,6 +51,11 @@ App {
 
         FavoriteCategoryItem{
             id: favoriteCategoryItem
+            anchors.fill: parent
+        }
+
+        Settings{
+            id: settingsItem
             anchors.fill: parent
         }
     }

@@ -3,12 +3,13 @@ import QtQuick.Layouts 1.3
 
 import "../components"
 import "../"
+
 Rectangle {
     id: delegate
     anchors.leftMargin: dp(2)
     anchors.rightMargin: dp(2)
     property int lrMar
-    property bool isCheck
+    property bool isFavorite
 
     property BaseProperty bp: BaseProperty{}
     
@@ -51,13 +52,13 @@ Rectangle {
                     width: parent.height * 0.5
                     height: width
                     antialiasing: true
-                    source: delegate.isCheck ? "../img/delegate_icons/128x128/favorite_uncheck.png"
-                                             : "../img/delegate_icons/128x128/favorite_check.png"
+                    source: delegate.isFavorite ? "../img/delegate_icons/128x128/favorite_check.png"
+                                                : "../img/delegate_icons/128x128/favorite_uncheck.png"
                 }
                 
                 MouseArea{
                     anchors.fill: parent
-                    onPressed: delegate.isCheck = !delegate.isCheck
+                    onPressed: delegate.isFavorite = !delegate.isFavorite
                 }
             }
             
@@ -75,20 +76,27 @@ Rectangle {
             
             RowLayout{
                 Layout.fillWidth: true
-                Item{
-                    Layout.preferredWidth: columnInformation.width
-                    Layout.preferredHeight: location.height
-                    
-                    InformationItem{
-                        id: location
-                        anchors.centerIn: parent
-                        width: parent.width
-                        
-                        visible: redSpacer.visible
-                        baseProperty: bp
-                        type: "location"
-                        textInformation: "Грушевсько 25"
-                    }
+
+                InformationItem{
+                    id: location
+                    Layout.preferredWidth: columnInformation.width/2
+                    Layout.preferredHeight: height
+
+                    visible: redSpacer.visible
+                    baseProperty: bp
+                    type: "location"
+                    textInformation: "Грушевсько 25"
+                }
+
+                InformationItem{
+                    id: schedule
+                    Layout.preferredWidth: columnInformation.width/2
+                    Layout.preferredHeight: height
+
+                    visible: redSpacer.visible
+                    baseProperty: bp
+                    type: "schedule"
+                    textInformation: "09:00 - 19:00" + " Відчинено"
                 }
             }
             
