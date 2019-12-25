@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     src/company.cpp \
+    src/companylistbycategory.cpp \
     src/settings.cpp \
     src/xml.cpp \
     src/category.cpp \
@@ -36,6 +37,7 @@ QML_DESIGNER_IMPORT_PATH =
 
 HEADERS += \
     src/category.h \
+    src/companylistbycategory.h \
     src/settings.h \
     src/xml.h \
     src/company.h \

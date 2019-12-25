@@ -37,6 +37,7 @@ Item
                 height: parent.height
                 spacing: dp(1)
                 clip: true
+                model: CompanyList
 //                model: ['Кафе', 'Ресторани', 'Кафе', 'Ресторани', 'Кафе', 'Ресторани']
                 antialiasing: true
                 delegate: DelegateCompany {

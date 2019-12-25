@@ -14,6 +14,7 @@ Item
     anchors.topMargin: dp(4)
 
     property alias depthStack: stackEvents.depth
+    property alias eventsStack: stackEvents
     //events
     StackView{
         id: stackEvents
@@ -147,6 +148,7 @@ Item
                     anchors.leftMargin: dp(1)
                     anchors.rightMargin: dp(1)
                     text: modelData
+                    onRelesed: stackEvents.push("../TestpushPage.qml")
                 }
             }
         }

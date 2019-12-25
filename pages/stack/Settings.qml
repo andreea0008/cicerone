@@ -29,8 +29,10 @@ Item {
                 color: bp.text_color
             }
 
-            CiceroneSwitch { onCheckedChanged: CiceroneSettings.setIsSendData(checked)}
-
+            CiceroneSwitch {
+                checked: CiceroneSettings.isSendData
+                onCheckedChanged: CiceroneSettings.setIsSendData(checked)
+            }
         }
         Item{
             width: parent.width

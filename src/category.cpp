@@ -20,8 +20,6 @@ Category::Category(QObject *parent) : QAbstractItemModel(parent),
     else {
         qDebug() << "loaded" << m_data.size();
     }
-    connect(this, &QAbstractItemModel::rowsMoved, this, &Category::sltRowsMoved);
-    addElement("deeded");
 }
 
 Category::~Category()
@@ -45,7 +43,7 @@ int Category::columnCount(const QModelIndex &parent) const
 
 QModelIndex Category::parent(const QModelIndex &child) const
 {
-    Q_UNUSED(child);
+    Q_UNUSED(child)
     return QModelIndex();
 }
 
@@ -116,35 +114,13 @@ void Category::move(int from, int to)
 
 void Category::saveCategoryInFile()
 {
-    if(!isMoved)
-        return;
-    if(tmpCat.isEmpty())
-        xml::getInstance()->saveCategory(m_data);
-    else
-        xml::getInstance()->saveCategory(tmpCat, false);
+
 }
 
 bool Category::loadCategoryFromFile()
 {
     bool isLoad = xml::getInstance()->loadCategory(m_data, xml::getInstance()->isExistCustomFile());
     return isLoad;
-}
-
-void Category::sltRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row)
-{
-    Q_UNUSED(parent)
-    Q_UNUSED(end)
-    Q_UNUSED(destination)
-
-    if(tmpCat.size() == 0)
-        tmpCat = m_data;
-
-    tmpCat.insert(row, tmpCat.at(start));
-
-    if(row < start)
-        tmpCat.removeAt(start+1);
-    else
-        tmpCat.removeAt(start);
 }
 
 

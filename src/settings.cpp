@@ -1,8 +1,10 @@
 #include "settings.h"
 #include <QDebug>
+#include <QSettings>
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
+    mSettings = new QSettings("smartgame", "cicerone");
     loadSettings();
 }
 
@@ -22,14 +24,17 @@ void Settings::setIsSendData(bool isSendData)
         return;
     m_isSendData = isSendData;
     emit isSendDataChanged(m_isSendData);
+    saveSettings();
 }
 
 void Settings::saveSettings()
 {
+    mSettings->setValue("is_send_data", isSendData());
 
 }
 
 void Settings::loadSettings()
 {
-
+    setIsSendData(mSettings->value("is_send_data", false).toBool());
+    mSettings->sync();
 }

@@ -49,5 +49,7 @@
         <file>pages/stack/Settings.qml</file>
         <file>components/CustomComboBox.qml</file>
         <file>components/CiceroneSwitch.qml</file>
+        <file>delegates/DelegateLocaleBusinessItem.qml</file>
+        <file>img/delegate_icons/schedule.png</file>
     </qresource>
 </RCC>

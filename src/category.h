@@ -11,9 +11,9 @@ class MyCategory : public QObject
     Q_OBJECT
 
 public:
-    MyCategory(const unsigned int id, const QString &category, QObject *parent = 0);
-    MyCategory(const unsigned int id, const QString &category, const QString &pathToFile, QObject *parent = 0);
-    MyCategory(const unsigned int id, const QString &category, const QString &pathToFile, const QString &pathToFileOnline, const QString &tag = "", QObject *parent = 0);
+    MyCategory(const unsigned int id, const QString &category, QObject *parent = nullptr);
+    MyCategory(const unsigned int id, const QString &category, const QString &pathToFile, QObject *parent = nullptr);
+    MyCategory(const unsigned int id, const QString &category, const QString &pathToFile, const QString &pathToFileOnline, const QString &tag = "", QObject *parent = nullptr);
 
     QString getCategory() const { return m_category; }
     unsigned int getId() const { return m_id; }
@@ -33,8 +33,8 @@ class Category : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit Category(QObject *parent = 0);
-    ~Category();
+    explicit Category(QObject *parent = nullptr);
+    ~Category()override;
 
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
@@ -51,8 +51,6 @@ public:
     void saveCategoryInFile();
     bool loadCategoryFromFile();
 
-private slots:
-    void sltRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
 private:
     enum MyCategoryRoles{ Id, NameRole, PathToFile, UrlFile, Tag };
     bool isMoved;

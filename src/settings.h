@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <QObject>
+class QSettings;
 
 class Settings : public QObject
 {
@@ -22,6 +23,9 @@ public slots:
     Q_INVOKABLE void setIsSendData(bool isSendData);
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void loadSettings();
+
+private:
+    QSettings *mSettings;
 };
 
 #endif // SETTINGS_H

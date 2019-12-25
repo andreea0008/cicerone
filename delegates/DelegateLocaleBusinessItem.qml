@@ -10,7 +10,13 @@ Rectangle {
     anchors.rightMargin: dp(2)
     property int lrMar
     property bool isFavorite
-
+    property string companyName: ""
+    property string address: ""
+    property string sheduleByCurrentDate: ""
+    property string facebook: ""
+    property string instagramm: ""
+    property string phone1: ""
+    property string phone2: ""
     property BaseProperty bp: BaseProperty{}
     
     MouseArea{
@@ -36,11 +42,11 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: parent.height
-                text: qsTr(modelData)
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
                 font.family: bp.fontLoader.name
                 font.pixelSize: bp.h1
+                text: companyName
             }
             
             Item{
@@ -85,7 +91,7 @@ Rectangle {
                     visible: redSpacer.visible
                     baseProperty: bp
                     type: "location"
-                    textInformation: "Грушевсько 25"
+                    textInformation: address
                 }
 
                 InformationItem{
@@ -96,7 +102,7 @@ Rectangle {
                     visible: redSpacer.visible
                     baseProperty: bp
                     type: "schedule"
-                    textInformation: "09:00 - 19:00" + " Відчинено"
+                    textInformation: sheduleByCurrentDate
                 }
             }
             
@@ -109,7 +115,7 @@ Rectangle {
                     visible: redSpacer.visible
                     baseProperty: bp
                     type: "call"
-                    textInformation: "+ 3 8 097 90 99 299"
+                    textInformation: phone1
                 }
                 
                 InformationItem{
@@ -118,7 +124,7 @@ Rectangle {
                     visible: redSpacer.visible
                     baseProperty: bp
                     type: "facebook"
-                    textInformation: "+ 3 8 097 90 99 299"
+                    textInformation: facebook
                 }
             }
             
@@ -131,7 +137,7 @@ Rectangle {
                     visible: redSpacer.visible
                     baseProperty: bp
                     type: "call"
-                    textInformation: "+ 3 8 097 90 99 299"
+                    textInformation: phone2
                 }
                 
                 InformationItem{
@@ -140,7 +146,7 @@ Rectangle {
                     visible: redSpacer.visible
                     baseProperty: bp
                     type: "instagram"
-                    textInformation: "insta"
+                    textInformation: instagramm
                 }
             }
             
@@ -179,17 +185,16 @@ Rectangle {
         }
     ]
     
-    transitions: [
-        Transition {
-            from: "hide"
-            to: "show"
-            NumberAnimation { target: redSpacer; properties: "width" }
-        },
-        Transition {
-            from: "show"
-            to: "hide"
-            NumberAnimation { target: redSpacer; properties: "width" }
-        }
-        
-    ]
+//    transitions: [
+//        Transition {
+//            from: "hide"
+//            to: "show"
+//            NumberAnimation { target: redSpacer; properties: "width" }
+//        },
+//        Transition {
+//            from: "show"
+//            to: "hide"
+//            NumberAnimation { target: redSpacer; properties: "width" }
+//        }
+//    ]
 }

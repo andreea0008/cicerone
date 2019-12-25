@@ -30,6 +30,13 @@ App {
         anchors.left: parent.left
         anchors.right: parent.right
         fontloader: bp.fontLoader
+        backArrowVisible: stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1
+        onPressedArrowButton: {
+            switch(categoryId){
+                case 1: stackEventItem.eventsStack.pop(); break;
+                case 2: stackCategoryItem.categoryStack.pop(); break;
+            }
+        }
     }
 
     Item{

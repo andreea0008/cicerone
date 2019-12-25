@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.3
 import "../delegates"
 import "../components"
 import "../"
+
 Item{
     width: parent.width
     height: parent.height
@@ -14,7 +15,8 @@ Item{
         anchors.bottom: parent.bottom
         spacing: dp(1)
         clip: true
-        model: ['Кафе', 'Ресторани', 'Кафе', 'Ресторани', 'Кафе', 'Ресторани']
+//        model: ['Кафе', 'Ресторани', 'Кафе', 'Ресторани', 'Кафе', 'Ресторани']
+        model: CompanyList
         antialiasing: true
         delegate: DelegateLocaleBusinessItem {
             id: delegate
@@ -23,6 +25,8 @@ Item{
             color: bp.backgroundDelegateColor
             height: bp.heightDelegate
             state: "hide"
+            companyName: NameCompany
+            isFavorite: IsFavorite
         }
     }
 }

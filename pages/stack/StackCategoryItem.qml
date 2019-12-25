@@ -11,6 +11,8 @@ Item
     id: stackCategoryItem
     anchors.fill: parent
     visible: bp.visiblePage(2)
+    property alias depthCount: stackCategory.depth
+    property alias categoryStack: stackCategory
 
     StackView{
         id: stackCategory
@@ -29,13 +31,14 @@ Item
                 height: parent.height
                 spacing: dp(1)
                 clip: true
-                model: ['Кафе', 'Ресторани', 'Кафе', 'Ресторани', 'Кафе', 'Ресторани']
+                model: Category
                 antialiasing: true
                 delegate: DelegateCompany {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.leftMargin: dp(1)
                     anchors.rightMargin: dp(1)
+                    text: categoryName
                     onRelesed: stackCategory.push("../TestpushPage.qml")
                 }
             }

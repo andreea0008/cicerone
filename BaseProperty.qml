@@ -33,14 +33,10 @@ QtObject {
         source: "fonts/Roboto-Medium.ttf"
     }
 
-    function visibleBackButton()
-    {
-       // return stackEvents.depth > 1
-    }
+
 
     function visiblePage(pageId)
     {
-        console.log(pageId, currentPageId)
         if(pageId === currentPageId)
             return true
         return false

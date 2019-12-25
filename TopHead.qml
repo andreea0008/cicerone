@@ -9,7 +9,10 @@ Rectangle{
     height: app.height * 0.1
     color: bp.backgroundColor
 
-    property FontLoader fontloader    
+    property FontLoader fontloader
+    property alias backArrowVisible: backArrow.visible
+
+    signal pressedArrowButton(var categoryId)
 
     Text{
         id: textGuideIf
@@ -32,15 +35,15 @@ Rectangle{
         anchors.leftMargin: height / 2
         anchors.verticalCenter: textGuideIf.verticalCenter
         source: "img/left-arrow.png"
-        visible: bp.visibleBackButton()
+        visible: visibleBackButton()
         MouseArea{
             anchors.fill: parent
-            onReleased: {
-                switch(bp.currentPageId)
-                {
-                case 1: stackEvents.pop(); break;
-                }
-            }
+            onReleased: pressedArrowButton(bp.currentPageId)
+        }
+
+        function visibleBackButton()
+        {
+            return stackCategoryItem.depth > 1
         }
     }
 

@@ -5,8 +5,10 @@
 
 // uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
 #include <FelgoLiveClient>
-#include "src/settings.h"
 #include <QQmlContext>
+#include "src/settings.h"
+#include "src/category.h"
+#include "src/companylistbycategory.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +22,8 @@ int main(int argc, char *argv[])
     felgo.initialize(&engine);
 
     Settings settings(&engine);
-
+    Category category(&engine);
+    CompanyListByCategory companyListByCategory(&engine);
     // Set an optional license key from project file
     // This does not work if using Felgo Live, only for Felgo Cloud Builds and local builds
     //felgo.setLicenseKey(PRODUCT_LICENSE_KEY);
@@ -33,10 +36,12 @@ int main(int argc, char *argv[])
     // this is the preferred deployment option for publishing games to the app stores, because then your qml files and js files are protected
     // to avoid deployment of your qml files and images, also comment the DEPLOYMENTFOLDERS command in the .pro file
     // also see the .pro file for more details
-     felgo.setMainQmlFileName(QStringLiteral("qrc:/main.qml"));
+    felgo.setMainQmlFileName(QStringLiteral("qrc:/main.qml"));
 
     engine.load(QUrl(felgo.mainQmlFileName()));
     engine.rootContext()->setContextProperty("CiceroneSettings", &settings);
+    engine.rootContext()->setContextProperty("Category", &category);
+    engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
 
     // to start your project as Live Client, comment (remove) the lines "felgo.setMainQmlFileName ..." & "engine.load ...",
     // and uncomment the line below

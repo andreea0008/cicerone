@@ -33,7 +33,7 @@ Item{
             currentIdSelect: bp.currentPageId
         }
         Button{
-            id: categories4
+            id: favoriteCategories
             Layout.preferredWidth: parent.width/bp.count_categories
             Layout.preferredHeight: parent.height
             pressedIconState:   "../img/favorite_red.png"
