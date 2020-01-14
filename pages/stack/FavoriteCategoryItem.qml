@@ -37,15 +37,23 @@ Item
                 height: parent.height
                 spacing: dp(1)
                 clip: true
-                model: CompanyList
-//                model: ['Кафе', 'Ресторани', 'Кафе', 'Ресторани', 'Кафе', 'Ресторани']
+                model: FavoriteCompanyList
                 antialiasing: true
-                delegate: DelegateCompany {
+                delegate: DelegateLocaleBusinessItem {
+                    id: delegate
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.leftMargin: dp(1)
-                    anchors.rightMargin: dp(1)
-                    onRelesed: stackCategory.push("pages/TestpushPage.qml")
+                    color: bp.backgroundDelegateColor
+                    height: bp.heightDelegate
+                    state: "hide"
+                    companyName: NameCompany
+                    isFavorite: IsFavorite
+                    onIsFavoriteChanged: {
+                        if(!isFavorite){
+                            FavoriteCompanyList.removeCompany(index)
+                            CompanyList.changeIsFavoriteProperty(companyName, isFavorite)
+                        }
+                    }
                 }
             }
         }

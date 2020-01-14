@@ -13,6 +13,8 @@ Item
     visible: bp.visiblePage(1)
     anchors.topMargin: dp(4)
 
+    onVisibleChanged: if(!visible) stackEvents.pop()
+
     property alias depthStack: stackEvents.depth
     property alias eventsStack: stackEvents
     //events
@@ -148,7 +150,7 @@ Item
                     anchors.leftMargin: dp(1)
                     anchors.rightMargin: dp(1)
                     text: modelData
-                    onRelesed: stackEvents.push("../TestpushPage.qml")
+                    onRelesed: stackEvents.push("../EventsPage.qml")
                 }
             }
         }

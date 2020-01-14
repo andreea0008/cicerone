@@ -16,7 +16,6 @@ App {
     onInitTheme: { Theme.normalFont = bp.fontLoader }
 
     property BaseProperty bp: BaseProperty{}
-
     // Background
     Rectangle {
         width: app.width
@@ -30,8 +29,9 @@ App {
         anchors.left: parent.left
         anchors.right: parent.right
         fontloader: bp.fontLoader
-        backArrowVisible: stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1
+        backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1) && (bp.currentPageId !== 3 || bp.currentPageId !== 4)
         onPressedArrowButton: {
+            console.log(bp.currentPageId)
             switch(categoryId){
                 case 1: stackEventItem.eventsStack.pop(); break;
                 case 2: stackCategoryItem.categoryStack.pop(); break;

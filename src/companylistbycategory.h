@@ -8,6 +8,7 @@
 
 class CompanyListByCategory : public QAbstractItemModel {
     Q_OBJECT
+
 public:
     explicit CompanyListByCategory(QObject *parent = nullptr);
     ~CompanyListByCategory()override {}
@@ -20,10 +21,18 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void addCompany(Company *company);
+    Q_INVOKABLE void removeCompany(int index);
+    Q_INVOKABLE void removeCompany(QString companyName);
+    Q_INVOKABLE void changeIsFavoriteProperty(const int index, bool isFavorite);
+    Q_INVOKABLE void changeIsFavoriteProperty(QString companyName, bool isFavorite);
+    Q_INVOKABLE void addCompanyToFavorite(QString nameCompany);
+
+protected:
+    QVector<Company*> listCompany;
+
 private:
     enum CompanyRoles {Id, NameCompany, IsFavorite, Address, ScheduleByCurrentDate,
                       StateOpen, Phone1, Phone2, Facebook, Instagramm, Www, Email, Location };
-    QVector<Company*> listCompany;
     QHash<int, QByteArray> roles;
 };
 

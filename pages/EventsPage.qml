@@ -15,27 +15,15 @@ Item{
         anchors.bottom: parent.bottom
         spacing: dp(1)
         clip: true
-        model: CompanyList
-        Component.onCompleted: CompanyList.isFavoriteList = false
-        onVisibleChanged: CompanyList.isFavoriteList = false
+        model: 10
         antialiasing: true
-        delegate: DelegateLocaleBusinessItem {
+        delegate: DelegateEvent {
             id: delegate
             anchors.left: parent.left
             anchors.right: parent.right
             color: bp.backgroundDelegateColor
             height: bp.heightDelegate
             state: "hide"
-            companyName: NameCompany
-            isFavorite: IsFavorite
-            onIsFavoriteChanged:
-            {
-                CompanyList.changeIsFavoriteProperty(index, isFavorite)
-                if(isFavorite)
-                    FavoriteCompanyList.addCompanyToFavorite(companyName)
-                else
-                    FavoriteCompanyList.removeCompany(companyName)
-            }
         }
     }
 }

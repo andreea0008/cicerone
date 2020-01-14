@@ -51,5 +51,11 @@
         <file>components/CiceroneSwitch.qml</file>
         <file>delegates/DelegateLocaleBusinessItem.qml</file>
         <file>img/delegate_icons/schedule.png</file>
+        <file>pages/EventsPage.qml</file>
+        <file>delegates/DelegateEvent.qml</file>
+        <file>pages/DetailEventPage.qml</file>
+        <file>../../Downloads/pin.png</file>
+        <file>img/delegate_icons/right_arrow.png</file>
+        <file>components/MapPointer.qml</file>
     </qresource>
 </RCC>

@@ -13,6 +13,8 @@ Item
     visible: bp.visiblePage(2)
     property alias depthCount: stackCategory.depth
     property alias categoryStack: stackCategory
+    onVisibleChanged: if(!visible) stackCategory.pop()
+
 
     StackView{
         id: stackCategory

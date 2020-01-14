@@ -18,6 +18,7 @@ QtObject {
     //delegates properties
     property color backgroundDelegateColor: "#232228"
     property int heightDelegate: Theme.listItem.minimumHeight * 1.25
+    property int doubleHeightDelegate: 2*heightDelegate
     property color colorTextDelegate: "white"
 
     //finder property
@@ -28,12 +29,13 @@ QtObject {
     property int h1: 16
     property int h2: 13
 
+    //margin
+    property int margin: dp(15)
+
     readonly property FontLoader fontLoader: FontLoader{
         id: fontLoader
         source: "fonts/Roboto-Medium.ttf"
     }
-
-
 
     function visiblePage(pageId)
     {

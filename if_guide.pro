@@ -1,4 +1,4 @@
-QT += quick xml
+QT += quick xml location
 CONFIG += c++11 felgo
 
 # The following define makes your compiler emit warnings if you use
@@ -16,6 +16,7 @@ SOURCES += \
     main.cpp \
     src/company.cpp \
     src/companylistbycategory.cpp \
+    src/favoritecompanylist.cpp \
     src/settings.cpp \
     src/xml.cpp \
     src/category.cpp \
@@ -38,6 +39,7 @@ QML_DESIGNER_IMPORT_PATH =
 HEADERS += \
     src/category.h \
     src/companylistbycategory.h \
+    src/favoritecompanylist.h \
     src/settings.h \
     src/xml.h \
     src/company.h \

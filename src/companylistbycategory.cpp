@@ -19,6 +19,8 @@ CompanyListByCategory::CompanyListByCategory(QObject *parent)
     roles[Location] = "Location";
 
     addCompany(new Company("vnjdnvjkdsnv"));
+    addCompany(new Company("vnjdnvjkdsnv1"));
+    addCompany(new Company("vnjdnvjkdsnv2"));
 
 }
 
@@ -89,4 +91,45 @@ void CompanyListByCategory::addCompany(Company *company)
     beginInsertRows(QModelIndex(), listCompany.size(), listCompany.size());
     listCompany << company;
     endInsertRows();
+}
+
+void CompanyListByCategory::removeCompany(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    listCompany.removeAt(index);
+    endRemoveRows();
+}
+
+void CompanyListByCategory::removeCompany(QString companyName)
+{
+    int companyNameIndex = -1;
+    for(int i = 0; i < listCompany.size(); i++)
+        if(listCompany.at(i)->getNameCompany() == companyName){
+            companyNameIndex = i;
+            break;
+        }
+    if(companyNameIndex != -1)
+        removeCompany(companyNameIndex);
+}
+
+void CompanyListByCategory::changeIsFavoriteProperty(const int index, bool isFavorite)
+{
+    listCompany.at(index)->setIsFavorite(isFavorite);
+}
+
+void CompanyListByCategory::changeIsFavoriteProperty(QString companyName, bool isFavorite)
+{
+    int companyNameIndex = -1;
+    for(int i = 0; i < listCompany.size(); i++)
+        if(listCompany.at(i)->getNameCompany() == companyName){
+            companyNameIndex = i;
+            break;
+        }
+    if(companyNameIndex != -1)
+        listCompany.at(companyNameIndex)->setIsFavorite(isFavorite);
+}
+
+void CompanyListByCategory::addCompanyToFavorite(QString nameCompany)
+{
+        addCompany(new Company(nameCompany));
 }

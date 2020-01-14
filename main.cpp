@@ -9,6 +9,7 @@
 #include "src/settings.h"
 #include "src/category.h"
 #include "src/companylistbycategory.h"
+#include "src/favoritecompanylist.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +24,9 @@ int main(int argc, char *argv[])
 
     Settings settings(&engine);
     Category category(&engine);
+
     CompanyListByCategory companyListByCategory(&engine);
+    FavoriteCompanyList favoriteCompanyList(&companyListByCategory);
     // Set an optional license key from project file
     // This does not work if using Felgo Live, only for Felgo Cloud Builds and local builds
     //felgo.setLicenseKey(PRODUCT_LICENSE_KEY);
@@ -42,6 +45,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("CiceroneSettings", &settings);
     engine.rootContext()->setContextProperty("Category", &category);
     engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
+    engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
 
     // to start your project as Live Client, comment (remove) the lines "felgo.setMainQmlFileName ..." & "engine.load ...",
     // and uncomment the line below

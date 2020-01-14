@@ -35,15 +35,9 @@ Rectangle{
         anchors.leftMargin: height / 2
         anchors.verticalCenter: textGuideIf.verticalCenter
         source: "img/left-arrow.png"
-        visible: visibleBackButton()
         MouseArea{
             anchors.fill: parent
             onReleased: pressedArrowButton(bp.currentPageId)
-        }
-
-        function visibleBackButton()
-        {
-            return stackCategoryItem.depth > 1
         }
     }
 
