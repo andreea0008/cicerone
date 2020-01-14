@@ -8,13 +8,10 @@ Rectangle{
     property string unpressedIconState: ""
     property string textButton: ""
 
-    property real koefHeight: 0.5
+    property real koefHeight: 0.35
     property bool isChecked: false
     property int idCategorie: 999
     property int currentIdSelect: 888
-
-    signal menuCategoryChange(var idCategory)
-    signal pressCheckedButton()
 
     onCurrentIdSelectChanged: {
         if(currentIdSelect != idCategorie)
@@ -38,16 +35,14 @@ Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
         text: textButton
         color: bp.text_color
+        font.family: bp.fontLoader.name
     }
 
-//    MouseArea{
-//        anchors.fill: parent
-//        onPressed: {
-////            menuCategoryChange(idCategorie)
-////            if(isChecked)
-//                console.log(123)
-////                pressCheckedButton()
-////            isChecked = !isChecked
-//        }
-//    }
+    MouseArea{
+        anchors.fill: parent
+        onPressed: {
+            bp.currentPageId = idCategorie
+            console.log(bp.currentPageId, idCategorie)
+        }
+    }
 }

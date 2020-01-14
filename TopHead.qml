@@ -9,16 +9,10 @@ Rectangle{
     height: app.height * 0.1
     color: bp.backgroundColor
 
-//    Image{
-//        id: backArrow
-//        height: parent.height * 0.5
-//        width: height
-//        anchors.left: parent.left
-//        anchors.leftMargin: height / 2
-//        anchors.verticalCenter: parent.verticalCenter
-//        source: "qrc:/Delegates/img/left-arrow.png"
-//      //  visible: true//stackAllCategory.depth > 1/
-//    }
+    property FontLoader fontloader
+    property alias backArrowVisible: backArrow.visible
+
+    signal pressedArrowButton(var categoryId)
 
     Text{
         id: textGuideIf
@@ -28,8 +22,9 @@ Rectangle{
         anchors.bottomMargin: sp(5)
         font.pixelSize: sp(28)
         color: bp.text_color
-        text: "GuideIf"
+        text: "Cicerone"
         font.bold: true
+        font.family: fontloader.name
     }
 
     AppImage {
@@ -40,6 +35,10 @@ Rectangle{
         anchors.leftMargin: height / 2
         anchors.verticalCenter: textGuideIf.verticalCenter
         source: "img/left-arrow.png"
+        MouseArea{
+            anchors.fill: parent
+            onReleased: pressedArrowButton(bp.currentPageId)
+        }
     }
 
     Rectangle{

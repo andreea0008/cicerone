@@ -1,23 +1,55 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include "src/category.h"
+#include <QApplication>
+#include <FelgoApplication>
 
+#include <QQmlApplicationEngine>
+
+// uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
+#include <FelgoLiveClient>
+#include <QQmlContext>
+#include "src/settings.h"
+#include "src/category.h"
+#include "src/companylistbycategory.h"
+#include "src/favoritecompanylist.h"
 
 int main(int argc, char *argv[])
 {
-//    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app(argc, argv);
+    FelgoApplication felgo;
 
-    QGuiApplication app(argc, argv);
+    // Use platform-specific fonts instead of Felgo's default font
+    felgo.setPreservePlatformFonts(true);
 
     QQmlApplicationEngine engine;
-    qmlRegisterType<Category>("com.yourcompany.xyz", 1, 0, "MyQMLType");
-//    Category *cat = new Category(&engine);
-//    engine.rootContext()->setContextProperty("category_xml", cat);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    felgo.initialize(&engine);
 
-//    if (engine.rootObjects().isEmpty())
-//        return -1;
+    Settings settings(&engine);
+    Category category(&engine);
+
+    CompanyListByCategory companyListByCategory(&engine);
+    FavoriteCompanyList favoriteCompanyList(&companyListByCategory);
+    // Set an optional license key from project file
+    // This does not work if using Felgo Live, only for Felgo Cloud Builds and local builds
+    //felgo.setLicenseKey(PRODUCT_LICENSE_KEY);
+
+    // use this during development
+    // for PUBLISHING, use the entry point below
+    //felgo.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
+
+    // use this instead of the above call to avoid deployment of the qml files and compile them into the binary with qt's resource system qrc
+    // this is the preferred deployment option for publishing games to the app stores, because then your qml files and js files are protected
+    // to avoid deployment of your qml files and images, also comment the DEPLOYMENTFOLDERS command in the .pro file
+    // also see the .pro file for more details
+    felgo.setMainQmlFileName(QStringLiteral("qrc:/main.qml"));
+
+    engine.load(QUrl(felgo.mainQmlFileName()));
+    engine.rootContext()->setContextProperty("CiceroneSettings", &settings);
+    engine.rootContext()->setContextProperty("Category", &category);
+    engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
+    engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
+
+    // to start your project as Live Client, comment (remove) the lines "felgo.setMainQmlFileName ..." & "engine.load ...",
+    // and uncomment the line below
+    //FelgoLiveClient client (&engine);
 
     return app.exec();
 }

@@ -116,20 +116,20 @@ void xml::saveFavoriteCategoryByType(QVector<Company *> &listCompany, int typeFa
     xmlWriter.writeStartDocument();
     xmlWriter.writeStartElement("LIST");
     if(listCompany.count() != 0){
-        for(int i = 0; i < listCompany.size(); i++){
-            xmlWriter.writeStartElement("crown_id_company"/* + QString::number(i+1)*/);
-            xmlWriter.writeTextElement("id", QString::number(listCompany[i]->getIdCompany()));
-            xmlWriter.writeTextElement("company", listCompany[i]->getNameCompany());
-            xmlWriter.writeTextElement("address", listCompany[i]->getAddressCompany());
-            foreach (QString tempPhone, listCompany[i]->getPhones())
-                xmlWriter.writeTextElement("phone", tempPhone);
+//        for(int i = 0; i < listCompany.size(); i++){
+//            xmlWriter.writeStartElement("crown_id_company"/* + QString::number(i+1)*/);
+//            xmlWriter.writeTextElement("id", QString::number(listCompany[i]->getIdCompany()));
+//            xmlWriter.writeTextElement("company", listCompany[i]->getNameCompany());
+//            xmlWriter.writeTextElement("address", listCompany[i]->getAddressCompany());
+//            foreach (QString tempPhone, listCompany[i]->getPhones())
+//                xmlWriter.writeTextElement("phone", tempPhone);
 
-            foreach (QString tempSchedule, listCompany[i]->getSchedule())
-                xmlWriter.writeTextElement("shedule", tempSchedule);
-            xmlWriter.writeTextElement("description", listCompany[i]->getDescription());
+//            foreach (QString tempSchedule, listCompany[i]->getSchedule())
+//                xmlWriter.writeTextElement("shedule", tempSchedule);
+//            xmlWriter.writeTextElement("description", listCompany[i]->getDescription());
 
-            xmlWriter.writeEndElement();
-        }
+//            xmlWriter.writeEndElement();
+//        }
     }
     xmlWriter.writeEndElement();
     xmlWriter.writeEndDocument();
@@ -178,8 +178,8 @@ bool xml::loadFavoriteCategoryByType(QVector<Company *> &listCompany, int typeFa
                             xmlReader.skipCurrentElement();
                         }
 
-                        if(!nameCompany.isEmpty())
-                            listCompany.push_back(new Company(id, nameCompany, phonesList, scheduleList, address, description));
+//                        if(!nameCompany.isEmpty())
+//                            listCompany.push_back(new Company(id, nameCompany, phonesList, scheduleList, address, description));
                     }
                 }
             }
@@ -230,9 +230,9 @@ bool xml::loadCompany(QVector<Company *> &listCompany, QString &tag, bool isDefa
                         else
                             xmlReader.skipCurrentElement();
                     }
-                    if(!nameCompany.isEmpty()){
-                        listCompany.push_back(new Company(id, nameCompany, phones, daysAndHour, address, description));
-                    }
+  //                  if(!nameCompany.isEmpty()){
+//                        listCompany.push_back(new Company(id, nameCompany, phones, daysAndHour, address, description));
+//                    }
                 }
             }
         }else{

@@ -1,17 +1,21 @@
 import QtQuick.Controls 2.2
 import Felgo 3.0
 import QtQuick 2.0
-import QtQuick 2.12
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.13
 import "components"
+import "delegates"
+import "pages/stack"
+
 App {
     id: app
     visible: true
     width: 640
     height: 480
 
-    property BaseProperty bp: BaseProperty{}
+    onInitTheme: { Theme.normalFont = bp.fontLoader }
 
+    property BaseProperty bp: BaseProperty{}
     // Background
     Rectangle {
         width: app.width
@@ -24,7 +28,17 @@ App {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
+        fontloader: bp.fontLoader
+        backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1) && (bp.currentPageId !== 3 || bp.currentPageId !== 4)
+        onPressedArrowButton: {
+            console.log(bp.currentPageId)
+            switch(categoryId){
+                case 1: stackEventItem.eventsStack.pop(); break;
+                case 2: stackCategoryItem.categoryStack.pop(); break;
+            }
+        }
     }
+
     Item{
         anchors.top: topHead.bottom
         anchors.bottom: parent.bottom
@@ -32,127 +46,32 @@ App {
         anchors.right: parent.right
         anchors.bottomMargin: app.height * 0.1
 
-        SwipeView {
-            id: swipeView
+        EventItem {
+            id: stackEventItem
             anchors.fill: parent
-            //events
-//            StackView{
-//                id: stackAllCategory
+        }
 
-//                onVisibleChanged: {
-//                    if(!visible)
-//                        releaseStack()
-//                }
+        StackCategoryItem {
+            id: stackCategoryItem
+            anchors.fill: parent
+        }
 
-//                focus: true
-//                initialItem: Rectangle{
-//                    width: parent.width
-//                    height: parent.height
-//                    color: bp.backgroundColor
+        FavoriteCategoryItem{
+            id: favoriteCategoryItem
+            anchors.fill: parent
+        }
 
-//                    ListView{
-//                        id: list
-//                        width: parent.width
-//                        height: parent.height
-//                        spacing: dp(1)
-//                        clip: true
-//                        model: 10
-//                        antialiasing: true
-//                        delegate: Rectangle {
-//                            id: name
-//                            width: parent.width
-//                            height: Theme.listItem.minimumHeight *2
-//                            color: "red"
-//                        }
-//                    }
-//                }
-//            }
-            //catalog
-            StackView{
-                id: stackAllCategory2
-
-                onVisibleChanged: {
-                    if(!visible)
-                        releaseStack()
-                }
-
-                focus: true
-                initialItem: Rectangle{
-                    width: parent.width
-                    height: parent.height
-                    color: bp.backgroundColor
-
-                    ListView{
-                        id: list2
-                        width: parent.width
-                        height: parent.height
-                        spacing: dp(1)
-                        clip: true
-                        model: 9// category_xml
-                        antialiasing: true
-
-                        delegate: Rectangle {
-                            id: name2
-                            width: parent.width
-                            height: Theme.listItem.minimumHeight
-                            color: bp.selected_color
-                            Text{
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.left: parent.left
-                                anchors.leftMargin: sp(10)
-                                text: modelData
-                                color: "white"
-                            }
-                            onYChanged: console.log(y)
-                        }
-                    }
-                }
-            }
+        Settings{
+            id: settingsItem
+            anchors.fill: parent
         }
     }
 
-    Item{
+    Footer {
+        id: footer
+        anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: parent.bottom
         height: app.height * 0.08
-        RowLayout{
-            id: rowLayout
-            anchors.fill: parent
-            spacing: 0
-
-            Button{
-                id: categories
-                Layout.preferredWidth: parent.width/bp.count_categories
-                Layout.preferredHeight: parent.height
-                pressedIconState: "../img/event_red.png"
-                unpressedIconState: "../img/event_white.png"
-                textButton: "Events"
-            }
-            Button{
-                id: categories2
-                Layout.preferredWidth: parent.width/bp.count_categories
-                Layout.preferredHeight: parent.height
-                pressedIconState: "../img/category_red.png"
-                unpressedIconState: "../img/category_white.png"
-                textButton: "Category"
-            }
-            Button{
-                id: categories4
-                Layout.preferredWidth: parent.width/bp.count_categories
-                Layout.preferredHeight: parent.height
-                pressedIconState: "../img/favorite_red.png"
-                unpressedIconState: "../img/favorite_white.png"
-                textButton: "Favorite"
-            }
-            Button{
-                id: settings
-                Layout.preferredWidth: parent.width/bp.count_categories
-                Layout.preferredHeight: parent.height
-                pressedIconState: "../img/settings_red.png"
-                unpressedIconState: "../img/settings_white.png"
-                textButton: "Settings"
-            }
-        }
     }
 }

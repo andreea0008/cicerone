@@ -16,5 +16,46 @@
         <file>img/category_white.png</file>
         <file>img/favorite_red.png</file>
         <file>img/favorite_white.png</file>
+        <file>pages/TestpushPage.qml</file>
+        <file>components/Finder.qml</file>
+        <file>components/InformationItem.qml</file>
+        <file>img/delegate_icons/call.png</file>
+        <file>img/delegate_icons/facebook.png</file>
+        <file>img/delegate_icons/instagram.png</file>
+        <file>img/delegate_icons/location.png</file>
+        <file>img/delegate_icons/mail.png</file>
+        <file>fonts/Bodoni-Bold-Cyrillic.ttf</file>
+        <file>fonts/helvetica.otf</file>
+        <file>fonts/Journal-Cyrillic.ttf</file>
+        <file>fonts/Journal-Italic-Cyrillic.ttf</file>
+        <file>fonts/Roboto-Regular.ttf</file>
+        <file>src/category.cpp</file>
+        <file>src/category.h</file>
+        <file>src/clipboard.cpp</file>
+        <file>src/clipboard.h</file>
+        <file>src/company.cpp</file>
+        <file>src/company.h</file>
+        <file>src/saver.h</file>
+        <file>src/xml.cpp</file>
+        <file>src/xml.h</file>
+        <file>fonts/Roboto-Medium.ttf</file>
+        <file>delegates/DelegateCompany.qml</file>
+        <file>components/Footer.qml</file>
+        <file>pages/stack/StackCategoryItem.qml</file>
+        <file>pages/stack/FavoriteCategoryItem.qml</file>
+        <file>pages/stack/EventItem.qml</file>
+        <file>img/delegate_icons/128x128/favorite_check.png</file>
+        <file>img/delegate_icons/128x128/favorite_uncheck.png</file>
+        <file>pages/stack/Settings.qml</file>
+        <file>components/CustomComboBox.qml</file>
+        <file>components/CiceroneSwitch.qml</file>
+        <file>delegates/DelegateLocaleBusinessItem.qml</file>
+        <file>img/delegate_icons/schedule.png</file>
+        <file>pages/EventsPage.qml</file>
+        <file>delegates/DelegateEvent.qml</file>
+        <file>pages/DetailEventPage.qml</file>
+        <file>../../Downloads/pin.png</file>
+        <file>img/delegate_icons/right_arrow.png</file>
+        <file>components/MapPointer.qml</file>
     </qresource>
 </RCC>

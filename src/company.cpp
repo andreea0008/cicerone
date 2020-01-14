@@ -1,25 +1,128 @@
 #include "company.h"
 
-Company::Company(const QString &nameCompany, QObject *parent):QObject(parent), m_company(nameCompany)
+Company::Company(const QString &nameBusinessCompany, QObject *parent):QObject(parent), nameCompany(nameBusinessCompany)
 {}
 
-Company::Company(int id, const QString &nameCompany, QObject *parent) : QObject(parent), m_id(id), m_company(nameCompany)
+int Company::id() const
 {
-
+    return m_id;
 }
 
-//Company::Company(int id, const QString &nameCompany, const QString &addressCompany, const QString &hourFrom, const QString &hourTo, const QString &specialization, const QString &description, QObject *parent) :
-//    QObject(parent), m_id(id), m_company(nameCompany), m_address(addressCompany, m_hourFrom(hourFrom), m_hourTo(hourTo), m_typeSpecialization(specialization), m_description(description))
-//{
-
-//}
-
-Company::Company(int id, const QString &nameCompany, const QStringList &phonesCompany, const QStringList &schedule, const QString &addressCompany, const QString &description, const QString url, const QString email, const QString facebookUrl, QObject *parent) :
-    QObject(parent), m_id(id), m_company(nameCompany), m_phones(phonesCompany), m_schedule(schedule), m_address(addressCompany), m_description(description),
-    m_url(url), m_email(email), m_facebook(facebookUrl)
+void Company::setId(int id)
 {
-
+    m_id = id;
 }
+
+QString Company::getNameCompany() const
+{
+    return nameCompany;
+}
+
+void Company::setNameCompany(const QString &value)
+{
+    nameCompany = value;
+}
+
+bool Company::getIsFavorite() const
+{
+    return isFavorite;
+}
+
+void Company::setIsFavorite(bool value)
+{
+    isFavorite = value;
+}
+
+QString Company::getAddress() const
+{
+    return address;
+}
+
+void Company::setAddress(const QString &value)
+{
+    address = value;
+}
+
+QString Company::scheduleByCurrentDate()
+{
+    return QString("Here will be schedule");
+}
+
+bool Company::getIsOpen()
+{
+    return true;
+}
+
+QVector<QString> Company::getPhones() const
+{
+    return phones;
+}
+
+void Company::setPhones(const QVector<QString> &value)
+{
+    phones = value;
+}
+
+QString Company::getFacebook() const
+{
+    return facebook;
+}
+
+void Company::setFacebook(const QString &value)
+{
+    facebook = value;
+}
+
+QString Company::getInstagramm() const
+{
+    return instagramm;
+}
+
+void Company::setInstagramm(const QString &value)
+{
+    instagramm = value;
+}
+
+QString Company::getWww() const
+{
+    return www;
+}
+
+void Company::setWww(const QString &value)
+{
+    www = value;
+}
+
+QString Company::getEmail() const
+{
+    return email;
+}
+
+void Company::setEmail(const QString &value)
+{
+    email = value;
+}
+
+QString Company::stateOpen()
+{
+    return QString("StateOpen");
+}
+
+Location Company::getLocation() const
+{
+    return location;
+}
+
+void Company::setLocation(const Location &value)
+{
+    location = value;
+}
+
+QString Company::getFormattedLocation()
+{
+    return "loca-location";
+}
+
 
 
 
