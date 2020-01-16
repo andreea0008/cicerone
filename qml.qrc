@@ -54,8 +54,9 @@
         <file>pages/EventsPage.qml</file>
         <file>delegates/DelegateEvent.qml</file>
         <file>pages/DetailEventPage.qml</file>
-        <file>../../Downloads/pin.png</file>
         <file>img/delegate_icons/right_arrow.png</file>
         <file>components/MapPointer.qml</file>
+        <file>components/EventElementInfo.qml</file>
+        <file>img/delegate_icons/money.png</file>
     </qresource>
 </RCC>

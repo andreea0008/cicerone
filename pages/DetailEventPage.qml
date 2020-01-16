@@ -14,8 +14,11 @@ FlickablePage {
     // you can configure the internal flickable with the "flickable" property of the page
     flickable.contentWidth: parent.width
     flickable.contentHeight: column.height
-    property real c1: 48.920541
-    property real c2: 24.710238
+    property string name_event: "name_event"
+    property string address_event: "where_event_will_be"
+    property string cost_event: "how_much"
+    property string descriptio_event: "description_event"
+    property var coordinates: [48.920541, 24.710238]
 
     property var durationAnimation: [1000, 800]
 
@@ -25,36 +28,45 @@ FlickablePage {
         anchors.fill: parent
         anchors.leftMargin: bp.margin
         anchors.rightMargin: bp.margin
-        spacing: 0
-
-        Text {
-            id: name
+        spacing: 4
+        EventElementInfo {
             Layout.fillWidth: true
             Layout.preferredHeight: bp.heightDelegate
-            text: qsTr("Name")
-            verticalAlignment: Text.AlignVCenter
-            color: bp.colorTextDelegate
+            text_information: name_event
+            sourceFile: "qrc:/img/event_red.png"
         }
 
-        Text {
-            id: where
+        EventElementInfo {
             Layout.fillWidth: true
             Layout.preferredHeight: bp.heightDelegate
-            text: qsTr("Address")
-            verticalAlignment: Text.AlignVCenter
-            color: bp.colorTextDelegate
+            text_information: address_event
+            sourceFile: "qrc:/img/delegate_icons/location.png"
+        }
+
+        EventElementInfo {
+            Layout.fillWidth: true
+            Layout.preferredHeight: bp.heightDelegate
+            text_information: cost_event
+            sourceFile: "qrc:/img/delegate_icons/money.png"
         }
 
         TextEdit{
             Layout.fillWidth: true
-            text: "ikdc\ni\nem\ncie\nm\nc\ne\nc]n"
+            text: descriptio_event
             color: bp.colorTextDelegate
         }
 
+        Item{
+            id: spacer
+            Layout.fillWidth: true
+            Layout.preferredHeight: dp(6)
+        }
+
         AppMap {
+            id: map
             width: parent.width
             height: parent.width /2
-            center: QtPositioning.coordinate(c1, c2)
+            center: QtPositioning.coordinate(coordinates[0], coordinates[1])
             plugin: Plugin {
                 name: "mapbox"
                 // configure your own map_id and access_token here
@@ -84,27 +96,9 @@ FlickablePage {
             zoomLevel: 16
             enabled: false
 
-            ListModel
-            {
-                id: model
-                ListElement{
-                    latitude: 48.920541
-                    longitude: 24.710238
-                }
-            }
-
-            MapItemView {
-                model: model
-
-                delegate: MapQuickItem {
-                    coordinate: QtPositioning.coordinate(latitude, longitude)
-
-                    //                    anchorPoint.x: image.width * 0.5
-                    //                    anchorPoint.y: image.height
-
-                    sourceItem: MapPointer {
-                    }
-                }
+            MapQuickItem{
+                coordinate: map.center
+                sourceItem: MapPointer {}
             }
         }
     }

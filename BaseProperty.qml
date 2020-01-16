@@ -31,6 +31,7 @@ QtObject {
 
     //margin
     property int margin: dp(15)
+    property int half_margin: dp(8)
 
     readonly property FontLoader fontLoader: FontLoader{
         id: fontLoader
