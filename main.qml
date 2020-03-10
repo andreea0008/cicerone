@@ -10,8 +10,8 @@ import "pages/stack"
 App {
     id: app
     visible: true
-    width: 640
-    height: 480
+    width: 375
+    height: 812
 
     onInitTheme: { Theme.normalFont = bp.fontLoader }
 

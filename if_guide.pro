@@ -1,6 +1,7 @@
 QT += quick xml location
-CONFIG += c++11 felgo
-
+CONFIG += felgo
+CONFIG += C++14
+#QMAKE_CXXFLAGS += -std=c++11
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Refer to the documentation for the
@@ -14,10 +15,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    src/Networker/jsonfileloader.cpp \
+    src/Networker/jsonnetworkloader.cpp \
+    src/Networker/jsonsaver.cpp \
+    src/Networker/networkloader.cpp \
     src/company.cpp \
     src/companylistbycategory.cpp \
     src/favoritecompanylist.cpp \
+    src/loaderinterface.cpp \
     src/settings.cpp \
+    src/updater.cpp \
     src/xml.cpp \
     src/category.cpp \
     src/clipboard.cpp
@@ -37,10 +44,17 @@ QML_DESIGNER_IMPORT_PATH =
 #!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/Networker/jsonfileloader.h \
+    src/Networker/jsonnetworkloader.h \
+    src/Networker/jsonsaver.h \
+    src/Networker/networkloader.h \
+    src/Networker/urls.h \
     src/category.h \
     src/companylistbycategory.h \
     src/favoritecompanylist.h \
+    src/loaderinterface.h \
     src/settings.h \
+    src/updater.h \
     src/xml.h \
     src/company.h \
     src/saver.h \

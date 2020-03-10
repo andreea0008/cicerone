@@ -11,6 +11,9 @@
 #include "src/companylistbycategory.h"
 #include "src/favoritecompanylist.h"
 
+//TEST
+#include"src/updater.h"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -21,6 +24,10 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     felgo.initialize(&engine);
+
+//    Test
+    Updater::instance()->startLoad();
+    //END TEST
 
     Settings settings(&engine);
     Category category(&engine);
