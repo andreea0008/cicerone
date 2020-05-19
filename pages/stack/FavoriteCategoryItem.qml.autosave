@@ -52,7 +52,6 @@ Item
                     //                    facebook: FacebookLink
                     onIsFavoriteChanged: {
                         if(!isFavorite){
-                            console.log("remove_From_favorite_")
                             CompanyList.changeIsFavoriteProperty(companyName, isFavorite)
                             FavoriteCompanyList.removeCompanyByIndex(index)
                         }

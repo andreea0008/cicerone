@@ -10,9 +10,9 @@ class NetworkLoader : public LoaderInterface
     Q_OBJECT
 public:
     NetworkLoader(QObject *parent = nullptr);
-
-    virtual void load();
-    virtual void save();
+    ~NetworkLoader();
+    virtual void load() = 0;
+    virtual void save() = 0;
 
 protected:
     std::unique_ptr<QNetworkAccessManager> manager;

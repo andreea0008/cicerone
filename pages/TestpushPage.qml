@@ -8,6 +8,7 @@ Item{
     //width: parent.width
     //height: parent.height
     Finder{ id: finder; properties: bp }
+
     ListView{
         id: list
         width: parent.width
@@ -16,8 +17,6 @@ Item{
         spacing: dp(1)
         clip: true
         model: CompanyList
-        Component.onCompleted: CompanyList.isFavoriteList = false
-        onVisibleChanged: CompanyList.isFavoriteList = false
         antialiasing: true
         delegate: DelegateLocaleBusinessItem {
             id: delegate
@@ -25,16 +24,22 @@ Item{
             anchors.right: parent.right
             color: bp.backgroundDelegateColor
             height: bp.heightDelegate
-            state: "hide"
+            state: "show"
             companyName: NameCompany
             isFavorite: IsFavorite
+            address: Address
+            scheduleByCurrentDate: Schedule
+            facebook: FacebookLink
             onIsFavoriteChanged:
             {
-                CompanyList.changeIsFavoriteProperty(index, isFavorite)
-                if(isFavorite)
+                if(isFavorite){
+                    CompanyList.changeIsFavoriteProperty(index, true)
                     FavoriteCompanyList.addCompanyToFavorite(companyName)
-                else
+                }
+                else{
+                    CompanyList.changeIsFavoriteProperty(index, false)
                     FavoriteCompanyList.removeCompany(companyName)
+                }
             }
         }
     }

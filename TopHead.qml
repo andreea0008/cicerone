@@ -1,6 +1,6 @@
-import QtQuick 2.0
-
+import QtQuick 2.12
 import Felgo 3.0
+
 Rectangle{
     id: topHead
     anchors.top: parent.top

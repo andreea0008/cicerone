@@ -41,7 +41,10 @@ Item
                     anchors.leftMargin: dp(1)
                     anchors.rightMargin: dp(1)
                     text: categoryName
-                    onRelesed: stackCategory.push("../TestpushPage.qml")
+                    onRelesed: {
+                        CompanyList.filterCompanyByCategoryIndex(categoryId)
+                        stackCategory.push("../TestpushPage.qml")
+                    }
                 }
             }
         }

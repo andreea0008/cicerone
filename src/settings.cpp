@@ -1,5 +1,4 @@
 #include "settings.h"
-#include <QDebug>
 #include <QSettings>
 
 Settings::Settings(QObject *parent) : QObject(parent)

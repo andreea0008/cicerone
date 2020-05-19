@@ -1,28 +1,31 @@
 #include "jsonnetworkloader.h"
 #include <QNetworkReply>
+#include <QEventLoop>
 #include "jsonsaver.h"
 #include <QDebug>
 #include "jsonfileloader.h"
 
-JsonNetworkLoader::JsonNetworkLoader(QUrl url, QObject *object)
-    : NetworkLoader(object),
-      url_(url)
+JsonNetworkLoader::JsonNetworkLoader(QString url, QObject *object)
+    : NetworkLoader(object)
 {
-
+    url_ = url;
 }
 
-JsonNetworkLoader::JsonNetworkLoader(QUrl url, QString fileName, QObject *object)
+JsonNetworkLoader::JsonNetworkLoader(QString url, QString fileName, QObject *object)
     : NetworkLoader(object),
-      url_(url),
       fileName_(fileName)
 {
-
+    url_ = url;
 }
 
 void JsonNetworkLoader::load()
 {
+    QEventLoop loop;
+    qDebug() << __FUNCTION__ << "start load";
+    manager->get(QNetworkRequest(url_));
     connect(manager.get(), &QNetworkAccessManager::finished, this, &JsonNetworkLoader::onLoaded);
-    manager->get(QNetworkRequest(url()));
+    connect(manager.get(), &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+    loop.exec();
 }
 
 void JsonNetworkLoader::save()
@@ -36,7 +39,7 @@ QUrl JsonNetworkLoader::url() const
     return url_;
 }
 
-void JsonNetworkLoader::setUrl(const QUrl &url)
+void JsonNetworkLoader::setUrl(const QString &url)
 {
     url_ = url;
 }

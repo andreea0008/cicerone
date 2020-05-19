@@ -13,7 +13,7 @@ QtObject {
     readonly property color pressed_color: "#343339"
 
     //pages properties
-    property int currentPageId: 1
+    property int currentPageId: 2
 
     //delegates properties
     property color backgroundDelegateColor: "#232228"

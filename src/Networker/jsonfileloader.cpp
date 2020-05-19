@@ -6,7 +6,6 @@ JsonFileLoader::JsonFileLoader(const QString location, QObject *parent)
       location_(location)
 {
     file_ = std::make_unique<QFile>(location_);
-    load();
 }
 
 JsonFileLoader::~JsonFileLoader()
@@ -21,10 +20,8 @@ JsonFileLoader::~JsonFileLoader()
 void JsonFileLoader::load()
 {
     if(!file_->open(QIODevice::ReadOnly | QIODevice::Text)){
-        qDebug() << "file_NOT_open";
-        return;
+        qDebug() << "file_not_open";
     }
-
     auto ba = file_->readAll();
     jsonDocument_ = QJsonDocument::fromJson(ba);
 }

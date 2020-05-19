@@ -1,8 +1,10 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-
+import Felgo 3.0
 import "../components"
 import "../"
+import com.cicerone.filterModel 1.0
 
 Rectangle {
     id: delegate
@@ -10,34 +12,50 @@ Rectangle {
     anchors.rightMargin: dp(2)
     property int lrMar
     property bool isFavorite
-    property string companyName: ""
-    property string address: ""
-    property string sheduleByCurrentDate: ""
+    property string companyName
+    property var address
+    property string scheduleByCurrentDate
     property string facebook: ""
     property string instagramm: ""
-    property string phone1: ""
-    property string phone2: ""
+
+    state: "hide"
     property BaseProperty bp: BaseProperty{}
-    
+
     MouseArea{
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
         onReleased: delegate.state = (delegate.state === "hide") ? "show" : "hide"
     }
-    
+
+    Component.onCompleted: parseLocationData()
+
+    ListModel { id: locationData }
+    ListModel { id: phonesData }
+
+    SortFilterProxyModel{
+        id: proxyPhoneDataModel
+        sourceModel: phonesData
+        filters: ValueFilter {
+            id: valuefilter
+            roleName: "index"
+            value: swipeViewAddressesAndPhones.currentIndex
+        }
+    }
+
     Column{
         id: columnInformation
         anchors.fill: parent
         anchors.leftMargin: dp(15)
         anchors.rightMargin: dp(15)
-        
+        visible: true
+
         Item{
             anchors.left: parent.left
             anchors.right: parent.right
             height: bp.heightDelegate
-            
-            
+
+
             Text {
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -48,11 +66,14 @@ Rectangle {
                 font.pixelSize: bp.h1
                 text: companyName
             }
-            
-            Item{
+
+            MouseArea{
                 anchors.right: parent.right
                 height: parent.height
                 width: height
+                onPressed: {
+                    delegate.isFavorite = !delegate.isFavorite
+                }
                 Image{
                     anchors.centerIn: parent
                     width: parent.height * 0.5
@@ -61,99 +82,99 @@ Rectangle {
                     source: delegate.isFavorite ? "../img/delegate_icons/128x128/favorite_check.png"
                                                 : "../img/delegate_icons/128x128/favorite_uncheck.png"
                 }
-                
-                MouseArea{
-                    anchors.fill: parent
-                    onPressed: delegate.isFavorite = !delegate.isFavorite
-                }
             }
-            
-            
         }
+
         Rectangle{
             id: redSpacer
             height: 1
             width: parent.width
             color: bp.red_line_color
         }
-        
-        ColumnLayout{
-            Layout.fillWidth: true
-            
-            RowLayout{
-                Layout.fillWidth: true
 
-                InformationItem{
-                    id: location
-                    Layout.preferredWidth: columnInformation.width/2
-                    Layout.preferredHeight: height
+        SwipeView {
+            id: swipeViewAddressesAndPhones
+            width: parent.width
 
-                    visible: redSpacer.visible
-                    baseProperty: bp
-                    type: "location"
-                    textInformation: address
-                }
+            height: (locationData.count +1) * bp.heightDelegate
+            clip: true
 
-                InformationItem{
-                    id: schedule
-                    Layout.preferredWidth: columnInformation.width/2
-                    Layout.preferredHeight: height
+            Repeater{
+                model: locationData
+                Loader {
+                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+                    sourceComponent: Column{
+                        id: locationColumnComponent
+                        width: delegate.width
+                        height: delegate.height * 2
 
-                    visible: redSpacer.visible
-                    baseProperty: bp
-                    type: "schedule"
-                    textInformation: sheduleByCurrentDate
+                        RowLayout{
+                            Layout.fillWidth: true
+
+                            InformationItem{
+                                id: location
+                                Layout.preferredWidth: columnInformation.width/2
+                                Layout.preferredHeight: height
+
+                                visible: redSpacer.visible
+                                baseProperty: bp
+                                type: "location"
+                                textInformation: address_location
+                            }
+
+                            InformationItem{
+                                id: schedule
+                                Layout.preferredWidth: columnInformation.width/2
+                                Layout.preferredHeight: height
+
+                                visible: redSpacer.visible
+                                baseProperty: bp
+                                type: "schedule"
+                                textInformation: scheduleByCurrentDate
+                            }
+                        }
+
+                        ListView {
+                            id: listPhonesByLocation
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: model.count * bp.heightDelegate
+                            visible: redSpacer.visible
+                            interactive: false
+                            clip: true
+                            model: proxyPhoneDataModel
+                            orientation: ListView.Horizontal
+                            delegate: InformationItem{
+                                width: columnInformation.width /2
+                                height: bp.heightDelegate
+                                baseProperty: bp
+                                type: "call"
+                                textInformation: phone
+                            }
+                        }
+                    }
                 }
             }
-            
-            RowLayout{
-                Layout.fillWidth: true
-                
-                InformationItem{
-                    Layout.preferredWidth: columnInformation.width/2
-                    Layout.preferredHeight: height
-                    visible: redSpacer.visible
-                    baseProperty: bp
-                    type: "call"
-                    textInformation: phone1
-                }
-                
-                InformationItem{
-                    Layout.preferredWidth: columnInformation.width/2
-                    Layout.preferredHeight: height
-                    visible: redSpacer.visible
-                    baseProperty: bp
-                    type: "facebook"
-                    textInformation: facebook
-                }
-            }
-            
-            RowLayout{
-                Layout.fillWidth: true
-                
-                InformationItem{
-                    Layout.preferredWidth: columnInformation.width/2
-                    Layout.preferredHeight: height
-                    visible: redSpacer.visible
-                    baseProperty: bp
-                    type: "call"
-                    textInformation: phone2
-                }
-                
-                InformationItem{
-                    Layout.preferredWidth: columnInformation.width/2
-                    Layout.preferredHeight: height
-                    visible: redSpacer.visible
-                    baseProperty: bp
-                    type: "instagram"
-                    textInformation: instagramm
-                }
-            }
-            
         }
     }
-    
-    
+
+    PageIndicator {
+        id: indicator
+
+        count: swipeViewAddressesAndPhones.count
+        currentIndex: swipeViewAddressesAndPhones.currentIndex
+        //        visible: count > 1
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        delegate: Rectangle{
+            width: bp.heightDelegate /8
+            height: width
+            radius: width /2
+            color: bp.red_line_color
+            opacity: swipeViewAddressesAndPhones.currentIndex === index ? 1.0 : 0.4
+        }
+    }
+
     states: [
         State {
             name: "hide"
@@ -184,17 +205,41 @@ Rectangle {
             }
         }
     ]
-    
-//    transitions: [
-//        Transition {
-//            from: "hide"
-//            to: "show"
-//            NumberAnimation { target: redSpacer; properties: "width" }
-//        },
-//        Transition {
-//            from: "show"
-//            to: "hide"
-//            NumberAnimation { target: redSpacer; properties: "width" }
-//        }
-//    ]
+
+    transitions: [
+        Transition {
+            from: "hide"
+            to: "show"
+            NumberAnimation { target: redSpacer; properties: "width" }
+        },
+        Transition {
+            from: "show"
+            to: "hide"
+            NumberAnimation { target: redSpacer; properties: "width" }
+        }
+    ]
+
+    function parseLocationData(){
+        var startIndex = 0
+        for (var prop in address)
+        {
+            var lat = address[prop]["lat"]
+            var lng = address[prop]["lng"]
+            var phones = address[prop]["phone"]
+            var locationAddress = address[prop]["address"]
+            locationData.append(
+                        {
+                            "lat": lat,
+                            "lng": lng,
+                            "address_location": locationAddress,
+                            "phones": phones
+                        }
+                        )
+            for( var phone in phones)
+            {
+                phonesData.append( {"phone" : phones[phone], "index": startIndex} )
+            }
+            startIndex++
+        }
+    }
 }

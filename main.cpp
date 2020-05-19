@@ -10,6 +10,7 @@
 #include "src/category.h"
 #include "src/companylistbycategory.h"
 #include "src/favoritecompanylist.h"
+#include "src/Filters/filtermodel.h"
 
 //TEST
 #include"src/updater.h"
@@ -24,16 +25,15 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     felgo.initialize(&engine);
+    qmlRegisterType<FilterModel>("com.cicerone.filterModel", 1, 0, "FilterModel");
 
-//    Test
-    Updater::instance()->startLoad();
-    //END TEST
+
 
     Settings settings(&engine);
     Category category(&engine);
 
     CompanyListByCategory companyListByCategory(&engine);
-    FavoriteCompanyList favoriteCompanyList(&companyListByCategory);
+    FavoriteCompanyList favoriteCompanyList(&engine);
     // Set an optional license key from project file
     // This does not work if using Felgo Live, only for Felgo Cloud Builds and local builds
     //felgo.setLicenseKey(PRODUCT_LICENSE_KEY);
@@ -53,7 +53,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("Category", &category);
     engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
     engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
-
+//    //    Test
+//        Updater::instance()->startLoad();
+//        //END TEST
     // to start your project as Live Client, comment (remove) the lines "felgo.setMainQmlFileName ..." & "engine.load ...",
     // and uncomment the line below
     //FelgoLiveClient client (&engine);

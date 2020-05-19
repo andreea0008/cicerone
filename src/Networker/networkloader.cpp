@@ -6,12 +6,6 @@ NetworkLoader::NetworkLoader(QObject *parent)
     manager = std::make_unique<QNetworkAccessManager>(this);
 }
 
-void NetworkLoader::load()
+NetworkLoader::~NetworkLoader()
 {
-
-}
-
-void NetworkLoader::save()
-{
-
 }

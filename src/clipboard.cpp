@@ -1,7 +1,6 @@
 #include "clipboard.h"
 #include <QClipboard>
 #include <QApplication>
-#include <QDebug>
 
 Clipboard::Clipboard(QObject *parent)
     : QObject(parent)

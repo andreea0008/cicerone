@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QDebug>
 #include <QAbstractItemModel>
+#include <QJsonDocument>
 
 class MyCategory : public QObject
 {
@@ -36,6 +36,8 @@ public:
     explicit Category(QObject *parent = nullptr);
     ~Category()override;
 
+    Q_PROPERTY(bool isLoaded READ isLoaded WRITE setIsLoaded NOTIFY isLoadedChanged)
+
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
 
@@ -44,19 +46,27 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
 
     QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE void addElement(uint id, const QString &name);
     Q_INVOKABLE void addElement(const QString &name);
     Q_INVOKABLE void deleteElement(int index);
     Q_INVOKABLE void move(int from, int to);
 
-    void saveCategoryInFile();
-    bool loadCategoryFromFile();
+    bool isLoaded() const;
+
+signals:
+    void isLoadedChanged(bool isLoaded);
+
+public slots:
+    void parseData(QString stageName, QByteArray document);
+    void setIsLoaded(bool isLoaded);
 
 private:
     enum MyCategoryRoles{ Id, NameRole, PathToFile, UrlFile, Tag };
-    bool isMoved;
+    const QString currentStage = "category";
     QHash<int, QByteArray> m_roles;
     QVector<MyCategory *> m_data;
     QVector<MyCategory *> tmpCat;
+    bool _isLoaded;
 };
 
 #endif // CATEGORY_H

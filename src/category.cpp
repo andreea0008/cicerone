@@ -5,26 +5,28 @@
 #include <QXmlStreamWriter>
 #include <QFile>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 #include "src/xml.h"
+#include "updater.h"
 
-Category::Category(QObject *parent) : QAbstractItemModel(parent),
-    isMoved(false)
+Category::Category(QObject *parent) : QAbstractItemModel(parent)
 {
     m_roles[Id] = "categoryId";
     m_roles[NameRole] = "categoryName";
     m_roles[PathToFile] = "pathToFileCategory";
     m_roles[UrlFile] = "urlCategory";
     m_roles[Tag] = "tag";
-    if(!loadCategoryFromFile())
-        qDebug() << "failed_load";
-    else {
-        qDebug() << "loaded" << m_data.size();
-    }
+    setIsLoaded(false);
+    connect(Updater::instance(), &Updater::dataChanged, this, &Category::parseData);
+    Updater::instance()->startLoad();
+
 }
 
 Category::~Category()
 {
-    saveCategoryInFile();
 }
 
 int Category::rowCount(const QModelIndex &parent) const
@@ -79,10 +81,17 @@ QHash<int, QByteArray> Category::roleNames() const
     return m_roles;
 }
 
+void Category::addElement(uint id, const QString &name)
+{
+    beginInsertRows(QModelIndex(), m_data.count(), m_data.count());
+    m_data << new MyCategory(id, name);
+    endInsertRows();
+}
+
 void Category::addElement(const QString &name)
 {
     beginInsertRows(QModelIndex(), m_data.count(), m_data.count());
-    m_data << new MyCategory(m_data.count() + 1, name);
+    m_data << new MyCategory(uint(m_data.size() + 1), name);
     endInsertRows();
 }
 
@@ -109,18 +118,33 @@ void Category::move(int from, int to)
         m_data.removeAt(from);
         endMoveRows();
     }
-    isMoved = true;
 }
 
-void Category::saveCategoryInFile()
+bool Category::isLoaded() const
 {
-
+    return _isLoaded;
 }
 
-bool Category::loadCategoryFromFile()
+void Category::parseData(QString stageName, QByteArray document)
 {
-    bool isLoad = xml::getInstance()->loadCategory(m_data, xml::getInstance()->isExistCustomFile());
-    return isLoad;
+    if(stageName != currentStage)
+        return;
+    QJsonDocument doc = QJsonDocument::fromJson(document);
+    auto array = doc.array();
+    for(const auto item : array)
+    {
+        auto objectCategory = item.toObject();
+        const auto categoryId = uint(objectCategory.value("id").toInt());
+        const auto nameCategory = objectCategory.value("name").toString();
+        addElement(categoryId, nameCategory);
+    }
+    setIsLoaded(!m_data.isEmpty());
+}
+
+void Category::setIsLoaded(bool isLoaded)
+{
+    _isLoaded = isLoaded;
+    emit isLoadedChanged(_isLoaded);
 }
 
 

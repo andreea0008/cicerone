@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include <QTime>
+#include <QVariant>
 
 struct Schedule
 {
@@ -11,11 +12,18 @@ struct Schedule
     QTime to;
     QTime breakFrom;
     QTime breakTo;
+
+    void setFromByString(const QString timeFromString)
+    {
+        from = QTime::fromString(timeFromString);
+    }
 };
 
-struct Location
+struct LocationCompany
 {
-    QString ltg;
+    QStringList phones;
+    QString address;
+    QString lat;
     QString lng;
 };
 
@@ -36,13 +44,12 @@ public:
     bool getIsFavorite() const;
     void setIsFavorite(bool value);
 
-    QString getAddress() const;
-    void setAddress(const QString &value);
+    QVector<LocationCompany> getAddress() const;
+    void setAddress(const QVector<LocationCompany> &value);
 
+    void  setSheduleByCurrentDay(const Schedule& scheduleByCurrentDay);
     QString scheduleByCurrentDate();
     bool getIsOpen();
-    QVector<QString> getPhones() const;
-    void setPhones(const QVector<QString> &value);
 
     QString getFacebook() const;
     void setFacebook(const QString &value);
@@ -57,22 +64,28 @@ public:
     void setEmail(const QString &value);
 
     QString stateOpen();
-    Location getLocation() const;
-    void setLocation(const Location &value);
+    LocationCompany getLocation() const;
+    QVariantMap getLocationList();
+
+    void setLocation(const LocationCompany &value);
     QString getFormattedLocation();
+
+    int getCategoryId() const;
+    void setCategoryId(int value);
 
 private:
     int m_id;
+    int categoryId;
     QString nameCompany;
     bool isFavorite;
-    QString address;
+    QVector<LocationCompany> address;
     QVector<Schedule> scheduleWeek;
-    QVector<QString> phones;
     QString facebook;
     QString instagramm;
     QString www;
     QString email;
-    Location location;
+    LocationCompany location;
+    Schedule schedule;
 };
 
 #endif // COMPANY_H

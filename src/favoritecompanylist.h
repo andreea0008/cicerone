@@ -6,8 +6,12 @@
 
 class FavoriteCompanyList : public CompanyListByCategory
 {
+    Q_OBJECT
 public:
-    FavoriteCompanyList(CompanyListByCategory *parent);
+    FavoriteCompanyList(QObject *parent = nullptr);
+
+    Q_INVOKABLE void refresh();
+    Q_INVOKABLE void addCompanyToFavorite(QString nameCompany);
 };
 
 #endif // FAVORITECOMPANYLIST_H

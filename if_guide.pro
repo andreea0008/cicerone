@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    src/Filters/filtermodel.cpp \
     src/Networker/jsonfileloader.cpp \
     src/Networker/jsonnetworkloader.cpp \
     src/Networker/jsonsaver.cpp \
@@ -44,6 +45,7 @@ QML_DESIGNER_IMPORT_PATH =
 #!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/Filters/filtermodel.h \
     src/Networker/jsonfileloader.h \
     src/Networker/jsonnetworkloader.h \
     src/Networker/jsonsaver.h \
