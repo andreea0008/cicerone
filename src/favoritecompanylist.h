@@ -12,6 +12,7 @@ public:
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE void addCompanyToFavorite(QString nameCompany);
+    Q_INVOKABLE void removeCompanyFromFavorite(QString companyName);
 };
 
 #endif // FAVORITECOMPANYLIST_H

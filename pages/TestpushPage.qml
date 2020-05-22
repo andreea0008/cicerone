@@ -5,9 +5,11 @@ import "../components"
 import "../"
 
 Item{
-    //width: parent.width
-    //height: parent.height
-    Finder{ id: finder; properties: bp }
+    Finder{
+        id: finder;
+        properties: bp
+        onTextChanged: CompanyList.searchCompanyByNameInFilteringList(text)
+    }
 
     ListView{
         id: list
@@ -24,23 +26,32 @@ Item{
             anchors.right: parent.right
             color: bp.backgroundDelegateColor
             height: bp.heightDelegate
-            state: "show"
+            state: "hide"
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address
             scheduleByCurrentDate: Schedule
             facebook: FacebookLink
-            onIsFavoriteChanged:
-            {
-                if(isFavorite){
-                    CompanyList.changeIsFavoriteProperty(index, true)
-                    FavoriteCompanyList.addCompanyToFavorite(companyName)
-                }
-                else{
-                    CompanyList.changeIsFavoriteProperty(index, false)
-                    FavoriteCompanyList.removeCompany(companyName)
-                }
-            }
+            onPressedFavorite: pressFavorite(index, companyName, isFavorite);
+//            {
+//                if(isFavorite){
+//                    CompanyList.changeIsFavoriteProperty(index, true)
+//                    FavoriteCompanyList.addCompanyToFavorite(companyName)
+//                } else {
+//                    FavoriteCompanyList.removeCompany(companyName)
+//                    CompanyList.changeIsFavoriteProperty(index, false)
+//                }
+//            }
+        }
+    }
+
+    function pressFavorite(index, companyName, isFavorite){
+        if(isFavorite){
+            CompanyList.changeIsFavoriteProperty(index, true)
+            FavoriteCompanyList.addCompanyToFavorite(companyName)
+        } else {
+            FavoriteCompanyList.removeCompany(companyName)
+            CompanyList.changeIsFavoriteProperty(index, false)
         }
     }
 }

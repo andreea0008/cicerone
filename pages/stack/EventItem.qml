@@ -55,7 +55,6 @@ Item
                     
                     var dateArr = getDateArray(now);
                     for (var item in dateArr){
-//                        console.log(dateArr[item].getDay())
                         append( { date: dateArr[item].getDate(), day: weekday[dateArr[item].getDay()] })
                     }
                 }

@@ -42,7 +42,6 @@ Rectangle{
         anchors.fill: parent
         onPressed: {
             bp.currentPageId = idCategorie
-            console.log(bp.currentPageId, idCategorie)
         }
     }
 }

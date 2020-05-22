@@ -1,9 +1,10 @@
 #include "favoritecompanylist.h"
+#include <QDebug>
 
 FavoriteCompanyList::FavoriteCompanyList(QObject *parent)
     : CompanyListByCategory(parent)
 {
-    refresh();
+//    refresh();
 }
 
 void FavoriteCompanyList::refresh()
@@ -31,5 +32,20 @@ void FavoriteCompanyList::addCompanyToFavorite(QString nameCompany)
             break;
         }
     }
+}
+
+void FavoriteCompanyList::removeCompanyFromFavorite(QString companyName)
+{
+    for(int i = 0; i < allCompanies.size(); i++)
+    {
+        Company* currentCompany = allCompanies.at(i);
+        if(currentCompany->getNameCompany() == companyName)
+        {
+            currentCompany->setIsFavorite(false);
+            break;
+        }
+    }
+    beginResetModel();
+    endResetModel();
 }
 

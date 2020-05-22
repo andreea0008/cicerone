@@ -18,7 +18,6 @@ Rectangle {
     property string facebook: ""
     property string instagramm: ""
 
-    state: "hide"
     property BaseProperty bp: BaseProperty{}
 
     MouseArea{
@@ -29,6 +28,9 @@ Rectangle {
     }
 
     Component.onCompleted: parseLocationData()
+
+    signal pressedFavorite()
+     state: "hide"
 
     ListModel { id: locationData }
     ListModel { id: phonesData }
@@ -73,6 +75,7 @@ Rectangle {
                 width: height
                 onPressed: {
                     delegate.isFavorite = !delegate.isFavorite
+                    pressedFavorite()
                 }
                 Image{
                     anchors.centerIn: parent

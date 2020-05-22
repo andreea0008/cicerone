@@ -26,15 +26,20 @@ public:
     Q_INVOKABLE void changeIsFavoriteProperty(const int index, bool isFavorite);
     Q_INVOKABLE void changeIsFavoriteProperty(QString companyName, bool isFavorite);
     Q_INVOKABLE void filterCompanyByCategoryIndex(const int index);
+    Q_INVOKABLE void searchCompanyByNameInFilteringList(QString partNameCompany);
     void parseData(QByteArray document);
 
 protected:
     QVector<Company*> filteredCompany;
     QVector<Company*> allCompanies;
+    QVector<Company*> cloneFilteredCompany;
     void initializeRoles();
     enum CompanyRoles {Id, NameCompany, IsFavorite, Address, ScheduleByCurrentDate,
                       StateOpen, Phones, Facebook, Instagramm, Www, Email, Location };
     QHash<int, QByteArray> roles;
+private:
+    QString previousPartNameForSearch;
+    int currentCategoryIndex;
 };
 
 #endif // COMPANYLISTBYCATEGORY_H

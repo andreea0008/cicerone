@@ -50,12 +50,9 @@ Item
                     address: Address
                     //                    scheduleByCurrentDate: Schedule
                     //                    facebook: FacebookLink
-                    onIsFavoriteChanged: {
-                        if(!isFavorite){
-                            console.log("remove_From_favorite_")
-                            CompanyList.changeIsFavoriteProperty(companyName, isFavorite)
-                            FavoriteCompanyList.removeCompanyByIndex(index)
-                        }
+                    onPressedFavorite: {
+                        CompanyList.changeIsFavoriteProperty(companyName, false)
+                        FavoriteCompanyList.removeCompanyByIndex(index)
                     }
                 }
             }

@@ -92,7 +92,6 @@ FlickablePage {
 
             activeMapType: supportedMapTypes[3]
 
-//            Component.onCompleted: console.log(supportedMapTypes.length)
             zoomLevel: 16
             enabled: false
 

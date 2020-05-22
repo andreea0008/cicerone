@@ -132,13 +132,38 @@ void CompanyListByCategory::changeIsFavoriteProperty(QString companyName, bool i
 
 void CompanyListByCategory::filterCompanyByCategoryIndex(const int index)
 {
+    currentCategoryIndex = index;
     //clear filtered company
     filteredCompany.clear();
 
-//    start filter by category id
+    //    start filter by category id
     for(Company* company : allCompanies)
         if(company->getCategoryId() == index)
             addCompany(company);
+}
+
+void CompanyListByCategory::searchCompanyByNameInFilteringList(QString partNameCompany)
+{
+    QVector<Company*> result;
+    qDebug() << partNameCompany << previousPartNameForSearch;
+
+    if(previousPartNameForSearch.size() > partNameCompany.size())
+        filterCompanyByCategoryIndex(currentCategoryIndex);
+
+    for(int index = 0; index < filteredCompany.size(); index++){
+        const auto currentCompany = filteredCompany.at(index);
+        const auto nameCompany = currentCompany->getNameCompany().toLower();
+        if(nameCompany.contains(partNameCompany.toLower()))
+            result.push_back(currentCompany);
+    }
+
+    beginResetModel();
+    filteredCompany.clear();
+    filteredCompany = result;
+    endResetModel();
+
+    previousPartNameForSearch = partNameCompany;
+
 }
 
 void CompanyListByCategory::parseData(QByteArray document)
