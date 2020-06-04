@@ -1,6 +1,7 @@
 #include "company.h"
 #include <QQmlPropertyMap>
-
+#include <QDebug>
+#include <QJsonArray>
 Company::Company(const QString &nameBusinessCompany, QObject *parent)
     : QObject(parent),
       nameCompany(nameBusinessCompany),
@@ -54,7 +55,16 @@ void Company::setSheduleByCurrentDay(const Schedule &scheduleByCurrentDay)
 
 QString Company::scheduleByCurrentDate()
 {
-    return QString("%1-%2").arg(schedule.from.toString("hh:mm")).arg(schedule.to.toString("hh:mm"));
+//    qDebug() << QString("%1-%2").arg(schedule.breakTimeFrom.toString("hh:mm")).arg(schedule.workTimeTo.toString("hh:mm"));
+//    return QString("%1-%2").arg(schedule.breakTimeFrom.toString("hh:mm")).arg(schedule.workTimeTo.toString("hh:mm"));
+    if(address.isEmpty())
+        return QString();
+
+    for(int i = 0; i < address.size(); i++)
+    {
+        qDebug() << address.at(i).address << address.at(i).weekSchedule.size();
+    }
+    return QString("20:00 - 21:00");
 }
 
 bool Company::getIsOpen()
@@ -123,6 +133,14 @@ QVariantMap Company::getLocationList()
         propertyMap.insert("lat", QVariant::fromValue(currentAddress.lat));
         propertyMap.insert("lng", QVariant::fromValue(currentAddress.lng));
         propertyMap.insert("phone", QVariant::fromValue(currentAddress.phones));
+        propertyMap.insert("schedule", QVariant::fromValue<QVector<Schedule>>(currentAddress.weekSchedule));
+        qDebug() << propertyMap.value("schedule");
+
+//            QJsonArray result;
+//            std::copy (currentAddress.weekSchedule.begin(), currentAddress.weekSchedule.end(), std::back_inserter(result));
+
+//        const auto value = QJsonDocument::from;
+//        qDebug() << result;
         mapLocations.insert(QString("location_%1").arg(rand()), QVariant::fromValue(propertyMap));
     }
     return mapLocations;

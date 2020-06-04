@@ -6,6 +6,8 @@
 #include <QDebug>
 #include "updater.h"
 
+static const int DAYS_COUNT = 7;
+
 CompanyListByCategory::CompanyListByCategory(QObject *parent)
     : QAbstractItemModel(parent)
 {
@@ -207,6 +209,24 @@ void CompanyListByCategory::parseData(QByteArray document)
                 phonesList.push_back(phoneObject.toObject().value("phone_number").toString());
             }
             locationCompany.phones = phonesList;
+
+            //fill schedule
+            QVector<Schedule> scheduleByLocation;
+            qDebug() << __LINE__ << scheduleByLocation.size();
+            const auto listJsonSchedules = locationObject.value("working_days_schedule").toArray();
+           qDebug() << __LINE__ << listJsonSchedules.size();
+            for(const auto scheduleObject : listJsonSchedules)
+            {
+                const auto objectSchedule = scheduleObject.toObject();
+                Schedule schedule;
+                schedule.workTimeFrom  = Schedule::setFromByString(objectSchedule.value("work_time_from").toString());
+                schedule.workTimeTo    = Schedule::setFromByString(objectSchedule.value("work_time_to").toString());
+                schedule.breakTimeFrom = Schedule::setFromByString(objectSchedule.value("break_time_from").toString());
+                schedule.breakTimeTo   = Schedule::setFromByString(objectSchedule.value("break_time_to").toString());
+                schedule.day = objectSchedule.value("day").toString();
+                scheduleByLocation.push_back(schedule);
+            }
+            locationCompany.weekSchedule = scheduleByLocation;
             vectorAddresses.push_back(locationCompany);
         }
         company->setAddress(vectorAddresses);

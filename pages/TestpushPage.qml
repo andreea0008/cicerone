@@ -26,22 +26,12 @@ Item{
             anchors.right: parent.right
             color: bp.backgroundDelegateColor
             height: bp.heightDelegate
-            state: "hide"
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address
             scheduleByCurrentDate: Schedule
             facebook: FacebookLink
             onPressedFavorite: pressFavorite(index, companyName, isFavorite);
-//            {
-//                if(isFavorite){
-//                    CompanyList.changeIsFavoriteProperty(index, true)
-//                    FavoriteCompanyList.addCompanyToFavorite(companyName)
-//                } else {
-//                    FavoriteCompanyList.removeCompany(companyName)
-//                    CompanyList.changeIsFavoriteProperty(index, false)
-//                }
-//            }
         }
     }
 

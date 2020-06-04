@@ -8,19 +8,21 @@
 
 struct Schedule
 {
-    QTime from;
-    QTime to;
-    QTime breakFrom;
-    QTime breakTo;
+    QString day;
+    QTime workTimeFrom;
+    QTime workTimeTo;
+    QTime breakTimeFrom;
+    QTime breakTimeTo;
 
-    void setFromByString(const QString timeFromString)
+    static QTime setFromByString(const QString timeFromString)
     {
-        from = QTime::fromString(timeFromString);
+        return  QTime::fromString(timeFromString);
     }
 };
 
 struct LocationCompany
 {
+    QVector<Schedule> weekSchedule;
     QStringList phones;
     QString address;
     QString lat;
@@ -87,5 +89,5 @@ private:
     LocationCompany location;
     Schedule schedule;
 };
-
+Q_DECLARE_METATYPE(Schedule);
 #endif // COMPANY_H

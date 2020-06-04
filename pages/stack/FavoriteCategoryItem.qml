@@ -44,7 +44,6 @@ Item
                     anchors.right: parent.right
                     color: bp.backgroundDelegateColor
                     height: bp.heightDelegate
-                    state: "hide"
                     companyName: NameCompany
                     isFavorite: IsFavorite
                     address: Address

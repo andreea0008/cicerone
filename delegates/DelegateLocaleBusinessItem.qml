@@ -30,11 +30,11 @@ Rectangle {
     Component.onCompleted: parseLocationData()
 
     signal pressedFavorite()
-     state: "hide"
+    state: "hide"
 
     ListModel { id: locationData }
     ListModel { id: phonesData }
-
+    ListModel { id: weekSchedule }
     SortFilterProxyModel{
         id: proxyPhoneDataModel
         sourceModel: phonesData
@@ -99,7 +99,7 @@ Rectangle {
             id: swipeViewAddressesAndPhones
             width: parent.width
 
-            height: (locationData.count +1) * bp.heightDelegate
+            height: (locationData.count) * bp.heightDelegate
             clip: true
 
             Repeater{
@@ -159,6 +159,63 @@ Rectangle {
                 }
             }
         }
+
+        Rectangle{
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: bp.heightDelegate
+            color: "transparent"
+
+            ListModel{
+                id: socialInformationModel
+                ListElement{
+                    name: "assessment"
+                    icon: "qrc:/img/category_red.png"
+                    link: "facebook"
+                }
+            }
+
+            ListView {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.topMargin: bp.heightDelegate * 0.125
+                width: parent.width
+                height: bp.heightDelegate * 0.75
+                model: socialInformationModel
+                orientation: ListView.Horizontal
+                layoutDirection: ListView.RightToLeft
+                clip: true
+                spacing: bp.heightDelegate * 0.125
+
+                delegate: MouseArea{
+                    height: bp.heightDelegate * 0.75
+                    width: bp.heightDelegate * 0.75
+
+                    Image{
+                        anchors.fill: parent
+                        source: icon
+                        antialiasing: true
+                    }
+
+                    onPressed: {
+                        if( name == "assessent")
+                            assessmentItem.visible = true
+                        else
+                        {
+                            Qt.openUrlExternally(link === "facebook" ? "facebook.com" : "dsfsd")
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                id: assessmentItem
+                visible: false
+                anchors.fill: parent
+                color: "red"
+            }
+
+        }
+
     }
 
     PageIndicator {
@@ -197,7 +254,7 @@ Rectangle {
             name: "show"
             PropertyChanges {
                 target: delegate
-                height: bp.heightDelegate *4.2
+                height: bp.heightDelegate * 4.2
                 color: bp.pressed_color
             }
             
@@ -230,6 +287,7 @@ Rectangle {
             var lng = address[prop]["lng"]
             var phones = address[prop]["phone"]
             var locationAddress = address[prop]["address"]
+            var schedules = address[prop]["schedule"]
             locationData.append(
                         {
                             "lat": lat,
@@ -242,6 +300,12 @@ Rectangle {
             {
                 phonesData.append( {"phone" : phones[phone], "index": startIndex} )
             }
+            console.log(schedules)
+            for( var schedule in schedules)
+            {
+                console.log(schedules[schedule])
+            }
+
             startIndex++
         }
     }
