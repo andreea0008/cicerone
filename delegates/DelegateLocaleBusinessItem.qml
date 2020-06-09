@@ -14,7 +14,6 @@ Rectangle {
     property bool isFavorite
     property string companyName
     property var address
-    property string scheduleByCurrentDate
     property string facebook: ""
     property string instagramm: ""
 
@@ -33,8 +32,11 @@ Rectangle {
     state: "hide"
 
     ListModel { id: locationData }
+
     ListModel { id: phonesData }
+
     ListModel { id: weekSchedule }
+
     SortFilterProxyModel{
         id: proxyPhoneDataModel
         sourceModel: phonesData
@@ -125,14 +127,14 @@ Rectangle {
                                 textInformation: address_location
                             }
 
-                            InformationItem{
+                            ScheduleInformationItem{
                                 id: schedule
                                 Layout.preferredWidth: columnInformation.width/2
                                 Layout.preferredHeight: height
 
                                 visible: redSpacer.visible
                                 baseProperty: bp
-                                type: "schedule"
+                                isBreakHourNow: true
                                 textInformation: scheduleByCurrentDate
                             }
                         }
@@ -160,17 +162,17 @@ Rectangle {
             }
         }
 
-        Rectangle{
+        Item{
+            id: socialItem
             anchors.left: parent.left
             anchors.right: parent.right
             height: bp.heightDelegate
-            color: "transparent"
 
             ListModel{
                 id: socialInformationModel
                 ListElement{
                     name: "assessment"
-                    icon: "qrc:/img/category_red.png"
+                    icon: "qrc:/img/delegate_icons/facebook.png"
                     link: "facebook"
                 }
             }
@@ -213,9 +215,7 @@ Rectangle {
                 anchors.fill: parent
                 color: "red"
             }
-
         }
-
     }
 
     PageIndicator {
@@ -223,7 +223,7 @@ Rectangle {
 
         count: swipeViewAddressesAndPhones.count
         currentIndex: swipeViewAddressesAndPhones.currentIndex
-        //        visible: count > 1
+        visible: count > 1
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         delegate: Rectangle{
@@ -238,31 +238,19 @@ Rectangle {
     states: [
         State {
             name: "hide"
-            PropertyChanges {
-                target: delegate
-                height: bp.heightDelegate
-                color: bp.backgroundDelegateColor
-            }
+            PropertyChanges { target: delegate; height: bp.heightDelegate; color: bp.backgroundDelegateColor }
             
-            PropertyChanges {
-                target: redSpacer
-                visible: false
-                width: 0
-            }
+            PropertyChanges { target: redSpacer; visible: false; width: 0 }
+
+            PropertyChanges { target: socialItem; visible: false }
         },
         State {
             name: "show"
-            PropertyChanges {
-                target: delegate
-                height: bp.heightDelegate * 4.2
-                color: bp.pressed_color
-            }
+            PropertyChanges { target: delegate; height: bp.heightDelegate * 4.2; color: bp.pressed_color }
             
-            PropertyChanges {
-                target: redSpacer
-                visible: true
-                width: columnInformation.width
-            }
+            PropertyChanges { target: redSpacer; visible: true; width: columnInformation.width }
+
+            PropertyChanges { target: socialItem; visible: true }
         }
     ]
 
@@ -287,23 +275,21 @@ Rectangle {
             var lng = address[prop]["lng"]
             var phones = address[prop]["phone"]
             var locationAddress = address[prop]["address"]
-            var schedules = address[prop]["schedule"]
+            var schedule_cy_current_date = address[prop]["schedule_cy_current_date"]
+            var isNowBreakHour = address[prop]["schedule_is_now_break"]
             locationData.append(
                         {
                             "lat": lat,
                             "lng": lng,
                             "address_location": locationAddress,
-                            "phones": phones
+                            "phones": phones,
+                            "scheduleByCurrentDate": schedule_cy_current_date,
+                            "isNowBreakHour": isNowBreakHour
                         }
                         )
             for( var phone in phones)
             {
                 phonesData.append( {"phone" : phones[phone], "index": startIndex} )
-            }
-            console.log(schedules)
-            for( var schedule in schedules)
-            {
-                console.log(schedules[schedule])
             }
 
             startIndex++

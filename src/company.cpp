@@ -134,13 +134,11 @@ QVariantMap Company::getLocationList()
         propertyMap.insert("lng", QVariant::fromValue(currentAddress.lng));
         propertyMap.insert("phone", QVariant::fromValue(currentAddress.phones));
         propertyMap.insert("schedule", QVariant::fromValue<QVector<Schedule>>(currentAddress.weekSchedule));
-        qDebug() << propertyMap.value("schedule");
-        qDebug() << __LINE__ << currentAddress.sheduleByCurrentDay();
-//            QJsonArray result;
-//            std::copy (currentAddress.weekSchedule.begin(), currentAddress.weekSchedule.end(), std::back_inserter(result));
 
-//        const auto value = QJsonDocument::from;
-//        qDebug() << result;
+        const auto scheduleByCurrentDate = currentAddress.sheduleByCurrentDay();
+        propertyMap.insert("schedule_is_now_break", scheduleByCurrentDate.first);
+        propertyMap.insert("schedule_cy_current_date", scheduleByCurrentDate.second);
+        qDebug() << __LINE__ << scheduleByCurrentDate.second;
         mapLocations.insert(QString("location_%1").arg(rand()), QVariant::fromValue(propertyMap));
     }
     return mapLocations;

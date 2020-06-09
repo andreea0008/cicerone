@@ -59,5 +59,8 @@
         <file>components/EventElementInfo.qml</file>
         <file>img/delegate_icons/money.png</file>
         <file>pages/SplashScreen/Splash.qml</file>
+        <file>components/ScheduleInformationItem.qml</file>
+        <file>img/delegate_icons/lock_schedule.png</file>
+        <file>img/delegate_icons/unlock_schedule.png</file>
     </qresource>
 </RCC>

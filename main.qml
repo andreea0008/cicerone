@@ -3,10 +3,12 @@ import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
+
 import "components"
 import "delegates"
 import "pages/stack"
 import "pages/SplashScreen"
+
 App {
     id: app
     visible: true
@@ -14,7 +16,6 @@ App {
     height: 812
 
     onInitTheme: { Theme.normalFont = bp.fontLoader }
-
     property BaseProperty bp: BaseProperty{}
     // Background
     Rectangle {
@@ -22,8 +23,6 @@ App {
         height: app.height
         color: bp.backgroundColor
     }
-
-
 
     TopHead{
         id: topHead

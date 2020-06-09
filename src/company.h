@@ -6,6 +6,7 @@
 #include <QTime>
 #include <QVariant>
 #include <QDebug>
+#include <QPair>
 
 static QString FORMAT_SCHEDULE = QString("hh:mm");
 struct Schedule
@@ -49,23 +50,23 @@ struct LocationCompany
     QString address;
     QString lat;
     QString lng;
-    mutable bool isNowBreak = false;
 
-    QString sheduleByCurrentDay() const
+    QPair<bool, QString> sheduleByCurrentDay() const
     {
         //1 = Monday to 7 = Sunday
         QLocale englishLocale = QLocale(QLocale::English);
         const QString nameCurrentDay = englishLocale.toString(QDate::currentDate(), "dddd").toLower();
         qDebug() << __LINE__ << nameCurrentDay;
-        QString result = "";
+        QPair<bool, QString> result;
         for(int indexDay = 0; indexDay < weekSchedule.size(); indexDay++){
             const auto currentSchedule = weekSchedule.at(indexDay);
             if(weekSchedule.at(indexDay).day == nameCurrentDay){
                 const auto workSchedule = currentSchedule.workShedule();
                 const auto breakSchedule = currentSchedule.breakSchedule();
-                isNowBreak = currentSchedule.nowIsBreak(QTime::currentTime());
+                const auto isNowBreak = currentSchedule.nowIsBreak(QTime::currentTime());
                 qDebug() << __LINE__ << workSchedule << breakSchedule << isNowBreak << QTime::currentTime();
-                result = isNowBreak ? breakSchedule : workSchedule;
+                result = QPair<bool, QString>(isNowBreak,
+                                              isNowBreak ? breakSchedule : workSchedule);
                 break;
             }
         }

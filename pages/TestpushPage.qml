@@ -29,7 +29,7 @@ Item{
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address
-            scheduleByCurrentDate: Schedule
+//            scheduleByCurrentDate: Schedule
             facebook: FacebookLink
             onPressedFavorite: pressFavorite(index, companyName, isFavorite);
         }
