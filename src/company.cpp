@@ -40,12 +40,12 @@ void Company::setIsFavorite(bool value)
 
 QVector<LocationCompany> Company::getAddress() const
 {
-    return address;
+    return locationsList;
 }
 
 void Company::setAddress(const QVector<LocationCompany> &value)
 {
-    address = value;
+    locationsList = value;
 }
 
 void Company::setSheduleByCurrentDay(const Schedule &scheduleByCurrentDay)
@@ -57,12 +57,12 @@ QString Company::scheduleByCurrentDate()
 {
 //    qDebug() << QString("%1-%2").arg(schedule.breakTimeFrom.toString("hh:mm")).arg(schedule.workTimeTo.toString("hh:mm"));
 //    return QString("%1-%2").arg(schedule.breakTimeFrom.toString("hh:mm")).arg(schedule.workTimeTo.toString("hh:mm"));
-    if(address.isEmpty())
+    if(locationsList.isEmpty())
         return QString();
 
-    for(int i = 0; i < address.size(); i++)
+    for(int i = 0; i < locationsList.size(); i++)
     {
-        qDebug() << address.at(i).address << address.at(i).weekSchedule.size();
+        qDebug() << locationsList.at(i).address << locationsList.at(i).weekSchedule.size();
     }
     return QString("20:00 - 21:00");
 }
@@ -125,9 +125,9 @@ LocationCompany Company::getLocation() const
 QVariantMap Company::getLocationList()
 {
     QVariantMap mapLocations;
-    for(int i = 0; i < address.size(); i++)
+    for(int i = 0; i < locationsList.size(); i++)
     {
-        const auto currentAddress = address.at(i);
+        const auto currentAddress = locationsList.at(i);
         QMap<QString, QVariant> propertyMap;
         propertyMap.insert("address", QVariant::fromValue(currentAddress.address));
         propertyMap.insert("lat", QVariant::fromValue(currentAddress.lat));
@@ -135,7 +135,7 @@ QVariantMap Company::getLocationList()
         propertyMap.insert("phone", QVariant::fromValue(currentAddress.phones));
         propertyMap.insert("schedule", QVariant::fromValue<QVector<Schedule>>(currentAddress.weekSchedule));
         qDebug() << propertyMap.value("schedule");
-
+        qDebug() << __LINE__ << currentAddress.sheduleByCurrentDay();
 //            QJsonArray result;
 //            std::copy (currentAddress.weekSchedule.begin(), currentAddress.weekSchedule.end(), std::back_inserter(result));
 

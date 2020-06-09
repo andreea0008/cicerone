@@ -5,7 +5,9 @@
 #include <QVector>
 #include <QTime>
 #include <QVariant>
+#include <QDebug>
 
+static QString FORMAT_SCHEDULE = QString("hh:mm");
 struct Schedule
 {
     QString day;
@@ -18,6 +20,26 @@ struct Schedule
     {
         return  QTime::fromString(timeFromString);
     }
+
+    QString workShedule() const
+    {
+        QString workSchedule = QString("%1-%2")
+                .arg(workTimeFrom.toString(FORMAT_SCHEDULE))
+                .arg(workTimeTo.toString(FORMAT_SCHEDULE));
+        return workSchedule;
+    }
+    QString breakSchedule() const
+    {
+        QString breakSchedule = QString("%1-%2")
+                .arg(breakTimeFrom.toString(FORMAT_SCHEDULE))
+                .arg(breakTimeTo.toString(FORMAT_SCHEDULE));
+        return breakSchedule;
+    }
+
+    bool nowIsBreak(QTime breakTime) const
+    {
+        return (breakTime > breakTimeFrom) && (breakTime < breakTimeTo);
+    }
 };
 
 struct LocationCompany
@@ -27,6 +49,28 @@ struct LocationCompany
     QString address;
     QString lat;
     QString lng;
+    mutable bool isNowBreak = false;
+
+    QString sheduleByCurrentDay() const
+    {
+        //1 = Monday to 7 = Sunday
+        QLocale englishLocale = QLocale(QLocale::English);
+        const QString nameCurrentDay = englishLocale.toString(QDate::currentDate(), "dddd").toLower();
+        qDebug() << __LINE__ << nameCurrentDay;
+        QString result = "";
+        for(int indexDay = 0; indexDay < weekSchedule.size(); indexDay++){
+            const auto currentSchedule = weekSchedule.at(indexDay);
+            if(weekSchedule.at(indexDay).day == nameCurrentDay){
+                const auto workSchedule = currentSchedule.workShedule();
+                const auto breakSchedule = currentSchedule.breakSchedule();
+                isNowBreak = currentSchedule.nowIsBreak(QTime::currentTime());
+                qDebug() << __LINE__ << workSchedule << breakSchedule << isNowBreak << QTime::currentTime();
+                result = isNowBreak ? breakSchedule : workSchedule;
+                break;
+            }
+        }
+        return result;
+    }
 };
 
 class Company : public QObject{
@@ -80,7 +124,7 @@ private:
     int categoryId;
     QString nameCompany;
     bool isFavorite;
-    QVector<LocationCompany> address;
+    QVector<LocationCompany> locationsList;
     QVector<Schedule> scheduleWeek;
     QString facebook;
     QString instagramm;
