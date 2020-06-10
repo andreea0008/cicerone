@@ -1,14 +1,14 @@
 import QtQuick 2.0
 import Felgo 3.0
+import "../"
 
 Row {
     width: 300
-    height: baseProperty.heightDelegate
+    height: BaseProperty.heightDelegate
     spacing: height /8
 
     property string textInformation: ""
     property bool isBreakHourNow: false
-    property QtObject baseProperty
 
     signal pressedAndHold(var clipText)
 
@@ -16,7 +16,7 @@ Row {
         source: isBreakHourNow ? "qrc:/img/delegate_icons/lock_schedule.png"
                                : "qrc:/img/delegate_icons/unlock_schedule.png"
 
-        width: baseProperty.heightDelegate /2
+        width: BaseProperty.heightDelegate /2
         height: width
         antialiasing: true
         anchors.verticalCenter: parent.verticalCenter
@@ -25,10 +25,10 @@ Row {
     Text{
         verticalAlignment: Text.AlignVCenter
         text: textInformation
-        height: baseProperty.heightDelegate
-        color: baseProperty.colorTextDelegate
+        height: BaseProperty.heightDelegate
+        color: BaseProperty.colorTextDelegate
         font.family: fontLoader.name
-        font.pixelSize: baseProperty.h2
+        font.pixelSize: base.h2
 
         FontLoader{
             id: fontLoader

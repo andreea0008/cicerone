@@ -17,7 +17,7 @@ Rectangle {
     property string facebook: ""
     property string instagramm: ""
 
-    property BaseProperty bp: BaseProperty{}
+//    property BaseProperty bp: BaseProperty{}
 
     MouseArea{
         id: mouseArea
@@ -57,7 +57,7 @@ Rectangle {
         Item{
             anchors.left: parent.left
             anchors.right: parent.right
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
 
             Text {
@@ -66,8 +66,8 @@ Rectangle {
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
-                font.family: bp.fontLoader.name
-                font.pixelSize: bp.h1
+                font.family: BaseProperty.fontLoader.name
+                font.pixelSize: BaseProperty.h1
                 text: companyName
             }
 
@@ -94,14 +94,14 @@ Rectangle {
             id: redSpacer
             height: 1
             width: parent.width
-            color: bp.red_line_color
+            color: BaseProperty.red_line_color
         }
 
         SwipeView {
             id: swipeViewAddressesAndPhones
             width: parent.width
 
-            height: (locationData.count) * bp.heightDelegate
+            height: (locationData.count) * BaseProperty.heightDelegate
             clip: true
 
             Repeater{
@@ -122,7 +122,6 @@ Rectangle {
                                 Layout.preferredHeight: height
 
                                 visible: redSpacer.visible
-                                baseProperty: bp
                                 type: "location"
                                 textInformation: address_location
                             }
@@ -133,7 +132,6 @@ Rectangle {
                                 Layout.preferredHeight: height
 
                                 visible: redSpacer.visible
-                                baseProperty: bp
                                 isBreakHourNow: true
                                 textInformation: scheduleByCurrentDate
                             }
@@ -143,7 +141,7 @@ Rectangle {
                             id: listPhonesByLocation
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: model.count * bp.heightDelegate
+                            height: model.count * BaseProperty.heightDelegate
                             visible: redSpacer.visible
                             interactive: false
                             clip: true
@@ -151,8 +149,7 @@ Rectangle {
                             orientation: ListView.Horizontal
                             delegate: InformationItem{
                                 width: columnInformation.width /2
-                                height: bp.heightDelegate
-                                baseProperty: bp
+                                height: BaseProperty.heightDelegate
                                 type: "call"
                                 textInformation: phone
                             }
@@ -166,7 +163,7 @@ Rectangle {
             id: socialItem
             anchors.left: parent.left
             anchors.right: parent.right
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
             ListModel{
                 id: socialInformationModel
@@ -179,18 +176,18 @@ Rectangle {
 
             ListView {
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.topMargin: bp.heightDelegate * 0.125
+                anchors.topMargin: BaseProperty.heightDelegate * 0.125
                 width: parent.width
-                height: bp.heightDelegate * 0.75
+                height: BaseProperty.heightDelegate * 0.75
                 model: socialInformationModel
                 orientation: ListView.Horizontal
                 layoutDirection: ListView.RightToLeft
                 clip: true
-                spacing: bp.heightDelegate * 0.125
+                spacing: BaseProperty.heightDelegate * 0.125
 
                 delegate: MouseArea{
-                    height: bp.heightDelegate * 0.75
-                    width: bp.heightDelegate * 0.75
+                    height: BaseProperty.heightDelegate * 0.75
+                    width: BaseProperty.heightDelegate * 0.75
 
                     Image{
                         anchors.fill: parent
@@ -227,10 +224,10 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         delegate: Rectangle{
-            width: bp.heightDelegate /8
+            width: BaseProperty.heightDelegate /8
             height: width
             radius: width /2
-            color: bp.red_line_color
+            color: BaseProperty.red_line_color
             opacity: swipeViewAddressesAndPhones.currentIndex === index ? 1.0 : 0.4
         }
     }
@@ -238,7 +235,7 @@ Rectangle {
     states: [
         State {
             name: "hide"
-            PropertyChanges { target: delegate; height: bp.heightDelegate; color: bp.backgroundDelegateColor }
+            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate; color: BaseProperty.backgroundDelegateColor }
             
             PropertyChanges { target: redSpacer; visible: false; width: 0 }
 
@@ -246,7 +243,7 @@ Rectangle {
         },
         State {
             name: "show"
-            PropertyChanges { target: delegate; height: bp.heightDelegate * 4.2; color: bp.pressed_color }
+            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate * 4.2; color: BaseProperty.pressed_color }
             
             PropertyChanges { target: redSpacer; visible: true; width: columnInformation.width }
 

@@ -5,11 +5,12 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
 import "../../components"
 import "../../delegates"
+import "../../"
 
 Item
 {
     anchors.fill: parent
-    visible: bp.visiblePage(3)
+    visible: BaseProperty.visiblePage(3)
 
     StackView{
         id: stackCategory
@@ -20,15 +21,15 @@ Item
         initialItem: Rectangle{
             width: parent.width
             height: parent.height
-            color: bp.backgroundColor
+            color: BaseProperty.backgroundColor
 
             Text{
                 anchors.centerIn: parent
                 visible: listViewFavoriteCategory.count === 0
                 text: qsTr("Тут поки пусто")
-                color: bp.text_color
-                font.family: bp.fontLoader.name
-                font.pixelSize: bp.h1
+                color: BaseProperty.text_color
+                font.family: BaseProperty.fontLoader.name
+                font.pixelSize: BaseProperty.h1
             }
             
             ListView{
@@ -42,8 +43,8 @@ Item
                 delegate: DelegateLocaleBusinessItem {
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    color: bp.backgroundDelegateColor
-                    height: bp.heightDelegate
+                    color: BaseProperty.backgroundDelegateColor
+                    height: BaseProperty.heightDelegate
                     companyName: NameCompany
                     isFavorite: IsFavorite
                     address: Address

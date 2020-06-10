@@ -62,5 +62,6 @@
         <file>components/ScheduleInformationItem.qml</file>
         <file>img/delegate_icons/lock_schedule.png</file>
         <file>img/delegate_icons/unlock_schedule.png</file>
+        <file>qmldir</file>
     </qresource>
 </RCC>

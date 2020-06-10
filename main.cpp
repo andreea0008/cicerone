@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
     engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
 
-//    engine.addImportPath("qrc:/");
+    engine.addImportPath("qrc:/");
 //    //    Test
 //        Updater::instance()->startLoad();
 //        //END TEST

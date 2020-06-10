@@ -1,0 +1,2 @@
+module Singletons
+singleton BaseProperty 1.0 BaseProperty.qml

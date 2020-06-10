@@ -1,12 +1,12 @@
 import QtQuick 2.0
 import Felgo 3.0
+import "../"
 
 SearchBar {
     id: searchBar
     iosAlternateStyle: true
-    property QtObject properties: QtObject{}
     textField.placeholderText: qsTr("Пошук")
-    barBackgroundColor:properties.finderBackground
-    inputBackgroundColor: properties.finderTextAreabackground
-    textColor: properties.text_color
+    barBackgroundColor: BaseProperty.finderBackground
+    inputBackgroundColor: BaseProperty.finderTextAreabackground
+    textColor: BaseProperty.text_color
 }

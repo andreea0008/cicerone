@@ -1,9 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.1
+import "../"
 
 Rectangle{
     id: box
-    color: bp.backgroundColor
+    color: BaseProperty.backgroundColor
     property string pressedIconState: ""
     property string unpressedIconState: ""
     property string textButton: ""
@@ -34,14 +35,14 @@ Rectangle{
         anchors.top: img.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         text: textButton
-        color: bp.text_color
-        font.family: bp.fontLoader.name
+        color: BaseProperty.text_color
+        font.family: BaseProperty.fontLoader.name
     }
 
     MouseArea{
         anchors.fill: parent
         onPressed: {
-            bp.currentPageId = idCategorie
+            BaseProperty.currentPageId = idCategorie
         }
     }
 }

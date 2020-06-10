@@ -6,11 +6,11 @@ import QtGraphicalEffects 1.13
 import "../"
 
 Rectangle {
-    height: bp.heightDelegate
-    color: bp.backgroundDelegateColor
+    height: BaseProperty.heightDelegate
+    color: BaseProperty.backgroundDelegateColor
 
     property alias text: label.text
-    property BaseProperty bp: BaseProperty{}
+//    property BaseProperty bp: BaseProperty{}
     
     signal relesed()
 
@@ -20,19 +20,19 @@ Rectangle {
         anchors.leftMargin: dp(15)
         text: qsTr(modelData)
         verticalAlignment: Text.AlignVCenter
-        color: bp.text_color
-        font.family: bp.fontLoader.name
-        font.pixelSize: bp.h1
+        color: BaseProperty.text_color
+        font.family: BaseProperty.fontLoader.name
+        font.pixelSize: BaseProperty.h1
     }
 
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
-        onPressed: parent.color = bp.pressed_color
-        onCanceled: parent.color = bp.backgroundDelegateColor
-        onExited: parent.color = bp.backgroundDelegateColor
+        onPressed: parent.color = BaseProperty.pressed_color
+        onCanceled: parent.color = BaseProperty.backgroundDelegateColor
+        onExited: parent.color = BaseProperty.backgroundDelegateColor
         onReleased: {
-            parent.color = bp.backgroundDelegateColor
+            parent.color = BaseProperty.backgroundDelegateColor
             relesed()
         }
     }

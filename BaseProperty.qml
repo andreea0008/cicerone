@@ -1,4 +1,4 @@
-//pragma Singleton
+pragma Singleton
 import QtQuick.Controls 2.2
 import Felgo 3.0
 import QtQuick 2.0
@@ -31,8 +31,8 @@ QtObject {
     property int h2: 13
 
     //margin
-    property int margin: dp(15)
-    property int half_margin: dp(8)
+    property int margin: 15
+    property int half_margin: 8
 
     readonly property FontLoader fontLoader: FontLoader{
         id: fontLoader

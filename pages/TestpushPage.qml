@@ -7,7 +7,6 @@ import "../"
 Item{
     Finder{
         id: finder;
-        properties: bp
         onTextChanged: CompanyList.searchCompanyByNameInFilteringList(text)
     }
 
@@ -24,8 +23,8 @@ Item{
             id: delegate
             anchors.left: parent.left
             anchors.right: parent.right
-            color: bp.backgroundDelegateColor
-            height: bp.heightDelegate
+            color: BaseProperty.backgroundDelegateColor
+            height: BaseProperty.heightDelegate
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address

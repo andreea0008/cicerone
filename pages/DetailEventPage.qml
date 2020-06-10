@@ -6,6 +6,7 @@ import QtLocation 5.5
 import QtPositioning 5.12
 import QtQuick.Layouts 1.3
 import "../components"
+import "../"
 
 // FlickablePage already contains an AppFlickable and ScrollIndicator
 FlickablePage {
@@ -22,30 +23,30 @@ FlickablePage {
 
     property var durationAnimation: [1000, 800]
 
-    backgroundColor: bp.backgroundColor
+    backgroundColor: BaseProperty.backgroundColor
     ColumnLayout{
         id: column
         anchors.fill: parent
-        anchors.leftMargin: bp.margin
-        anchors.rightMargin: bp.margin
+        anchors.leftMargin: dp(BaseProperty.margin)
+        anchors.rightMargin: leftMargin
         spacing: 4
         EventElementInfo {
             Layout.fillWidth: true
-            Layout.preferredHeight: bp.heightDelegate
+            Layout.preferredHeight: BaseProperty.heightDelegate
             text_information: name_event
             sourceFile: "qrc:/img/event_red.png"
         }
 
         EventElementInfo {
             Layout.fillWidth: true
-            Layout.preferredHeight: bp.heightDelegate
+            Layout.preferredHeight: BaseProperty.heightDelegate
             text_information: address_event
             sourceFile: "qrc:/img/delegate_icons/location.png"
         }
 
         EventElementInfo {
             Layout.fillWidth: true
-            Layout.preferredHeight: bp.heightDelegate
+            Layout.preferredHeight: BaseProperty.heightDelegate
             text_information: cost_event
             sourceFile: "qrc:/img/delegate_icons/money.png"
         }
@@ -53,7 +54,7 @@ FlickablePage {
         TextEdit{
             Layout.fillWidth: true
             text: descriptio_event
-            color: bp.colorTextDelegate
+            color: BaseProperty.colorTextDelegate
         }
 
         Item{

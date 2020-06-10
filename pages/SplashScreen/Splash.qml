@@ -4,8 +4,7 @@ Rectangle {
     id: splash
     anchors.fill: parent
     property bool isLoaded: Category.isLoaded
-    property BaseProperty bp: BaseProperty{}
-    color: bp.backgroundColor
+    color: BaseProperty.backgroundColor
 
     onIsLoadedChanged: {
         if(isLoaded)
@@ -33,6 +32,6 @@ Rectangle {
         anchors.top: imageCompany.bottom
         anchors.topMargin: dp(10)
         text: "created by Leochko"
-        color: bp.colorTextDelegate
+        color: BaseProperty.colorTextDelegate
     }
 }

@@ -6,10 +6,10 @@ import "../"
 AppSwitch{
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    backgroundColorOn: bp.red_line_color
-    backgroundColorOff: bp.pressed_color
-    backgroundColorOffPressed: bp.red_line_color
-    knobBorderColor: bp.selected_color
-    knobColorOff: bp.red_line_color
-    knobColorOn: bp.selected_color
+    backgroundColorOn: BaseProperty.red_line_color
+    backgroundColorOff: BaseProperty.pressed_color
+    backgroundColorOffPressed: BaseProperty.red_line_color
+    knobBorderColor: BaseProperty.selected_color
+    knobColorOff: BaseProperty.red_line_color
+    knobColorOn: BaseProperty.selected_color
 }

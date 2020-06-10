@@ -7,13 +7,12 @@ Item {
     property string sourceFile: ""
     property string text_information: ""
     property alias ref_text: text
-    readonly property BaseProperty bp: BaseProperty{}
 
     Image{
         id: icon
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        height: bp.heightDelegate/2
+        height: BaseProperty.heightDelegate/2
         width: height
         source: sourceFile
         antialiasing: true
@@ -22,11 +21,11 @@ Item {
     Text {
         id: text
         anchors.left: icon.right
-        anchors.leftMargin: bp.half_margin
+        anchors.leftMargin: dp(BaseProperty.half_margin)
         anchors.right: parent.right
-        height: bp.heightDelegate
+        height: BaseProperty.heightDelegate
         text: text_information
         verticalAlignment: Text.AlignVCenter
-        color: bp.colorTextDelegate
+        color: BaseProperty.colorTextDelegate
     }
 }

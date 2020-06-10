@@ -5,12 +5,13 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
 import "../../components"
 import "../../delegates"
+import "../../"
 
 Item
 {
     id: stackCategoryItem
     anchors.fill: parent
-    visible: bp.visiblePage(2)
+    visible: BaseProperty.visiblePage(2)
     property alias depthCount: stackCategory.depth
     property alias categoryStack: stackCategory
     onVisibleChanged: if(!visible) stackCategory.pop()
@@ -25,7 +26,7 @@ Item
         initialItem: Rectangle{
             width: parent.width
             height: parent.height
-            color: bp.backgroundColor
+            color: BaseProperty.backgroundColor
             
             ListView{
                 id: listViewCategory

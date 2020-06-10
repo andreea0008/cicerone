@@ -6,7 +6,7 @@ import "../../components"
 
 Item {
     anchors.fill: parent
-    visible: bp.visiblePage(4)
+    visible: BaseProperty.visiblePage(4)
 
     Column{
         anchors.fill: parent
@@ -15,7 +15,7 @@ Item {
 
         Item{
             width: parent.width
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
             Text{
                 id: sendData
@@ -23,10 +23,10 @@ Item {
                 width: parent.width * 0.75
                 anchors.left: parent.left
                 text: qsTr("Always send data")
-                font.family: bp.fontLoader.name
+                font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: bp.h1
-                color: bp.text_color
+                font.pixelSize: BaseProperty.h1
+                color: BaseProperty.text_color
             }
 
             CiceroneSwitch {
@@ -36,7 +36,7 @@ Item {
         }
         Item{
             width: parent.width
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
             Text{
                 id: loadData
@@ -44,10 +44,10 @@ Item {
                 width: parent.width * 0.75
                 anchors.left: parent.left
                 text: qsTr("Always check update")
-                font.family: bp.fontLoader.name
+                font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: bp.h1
-                color: bp.text_color
+                font.pixelSize: BaseProperty.h1
+                color: BaseProperty.text_color
             }
 
             CiceroneSwitch { }
@@ -55,7 +55,7 @@ Item {
 
         Item{
             width: parent.width
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
             Text{
                 id: saveDataOnPhone
@@ -63,10 +63,10 @@ Item {
                 width: parent.width * 0.75
                 anchors.left: parent.left
                 text: qsTr("Offline")
-                font.family: bp.fontLoader.name
+                font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: bp.h1
-                color: bp.text_color
+                font.pixelSize: BaseProperty.h1
+                color: BaseProperty.text_color
             }
 
             CiceroneSwitch { }
@@ -74,7 +74,7 @@ Item {
 
         Item{
             width: parent.width
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
             Text{
                 id: city
@@ -82,10 +82,10 @@ Item {
                 width: parent.width * 0.75
                 anchors.left: parent.left
                 text: qsTr("City")
-                font.family: bp.fontLoader.name
+                font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: bp.h1
-                color: bp.text_color
+                font.pixelSize: BaseProperty.h1
+                color: BaseProperty.text_color
             }
 
             CiceroneSwitch { }

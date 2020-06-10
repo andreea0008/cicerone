@@ -15,13 +15,13 @@ App {
     width: 375
     height: 812
 
-    onInitTheme: { Theme.normalFont = bp.fontLoader }
-    property BaseProperty bp: BaseProperty{}
+    onInitTheme: { Theme.normalFont = BaseProperty.fontLoader }
+//    property BaseProperty bp: BaseProperty{}
     // Background
     Rectangle {
         width: app.width
         height: app.height
-        color: bp.backgroundColor
+        color: BaseProperty.backgroundColor
     }
 
     TopHead{
@@ -29,8 +29,8 @@ App {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        fontloader: bp.fontLoader
-        backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1) && (bp.currentPageId !== 3 || bp.currentPageId !== 4)
+        fontloader: BaseProperty.fontLoader
+        backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1) && (BaseProperty.currentPageId !== 3 || BaseProperty.currentPageId !== 4)
         onPressedArrowButton: {
             switch(categoryId){
                 case 1: stackEventItem.eventsStack.pop(); break;

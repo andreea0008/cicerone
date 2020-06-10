@@ -1,22 +1,21 @@
 import QtQuick 2.0
 import Felgo 3.0
+import "../"
 
 Row {
     width: 300
-    height: baseProperty.heightDelegate
+    height: BaseProperty.heightDelegate
     spacing: height /8
 
     property string textInformation: ""
     property string type:           ""
-
-    property QtObject baseProperty
 
     signal pressedAndHold(var clipText)
 
     Image{
         id: icon
         source: getLogoByType()
-        width: baseProperty.heightDelegate /2
+        width: BaseProperty.heightDelegate /2
         height: width
         antialiasing: true
         anchors.verticalCenter: parent.verticalCenter
@@ -26,10 +25,10 @@ Row {
         id: informText
         verticalAlignment: Text.AlignVCenter
         text: textInformation
-        height: baseProperty.heightDelegate
-        color: baseProperty.colorTextDelegate
+        height: BaseProperty.heightDelegate
+        color: BaseProperty.colorTextDelegate
         font.family: fontLoader.name
-        font.pixelSize: baseProperty.h2
+        font.pixelSize: BaseProperty.h2
 
         FontLoader{
             id: fontLoader

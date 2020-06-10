@@ -7,10 +7,11 @@ import QtGraphicalEffects 1.13
 import "../../components"
 import "../../delegates"
 import "../../pages/stack"
+import "../../"
 
 Item
 {
-    visible: bp.visiblePage(1)
+    visible: BaseProperty.visiblePage(1)
     anchors.topMargin: dp(4)
 
     onVisibleChanged: if(!visible) stackEvents.pop()
@@ -27,7 +28,7 @@ Item
         initialItem: Rectangle{
             width: parent.width
             height: parent.height
-            color: bp.backgroundColor
+            color: BaseProperty.backgroundColor
             
             ListModel{
                 id: listModelDate
@@ -79,7 +80,7 @@ Item
                         verticalOffset: 2
                         radius: 8.0
                         samples: 17
-                        color: bp.red_line_color
+                        color: BaseProperty.red_line_color
                         visible: listDates.currentIndex === index
                         source: rect
                     }
@@ -89,9 +90,9 @@ Item
                         anchors.fill: parent
                         anchors.leftMargin: dp(4)
                         anchors.rightMargin: dp(4)
-                        color: bp.backgroundDelegateColor
+                        color: BaseProperty.backgroundDelegateColor
                         radius: width /4
-                        border.color: bp.red_line_color
+                        border.color: BaseProperty.red_line_color
                         border.width: index === listDates.currentIndex ? dp(1) : dp(0)
                         
                         Column{
@@ -101,9 +102,9 @@ Item
                                 anchors.right: parent.right
                                 height: parent.height /2
                                 text: day
-                                font.family: bp.fontLoader.name
-                                font.pixelSize: bp.h1
-                                color: bp.text_color
+                                font.family: BaseProperty.fontLoader.name
+                                font.pixelSize: BaseProperty.h1
+                                color: BaseProperty.text_color
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                             }
@@ -112,10 +113,10 @@ Item
                                 anchors.right: parent.right
                                 height: parent.height /2
                                 text: date
-                                font.family: bp.fontLoader.name
-                                font.pixelSize: bp.h1
+                                font.family: BaseProperty.fontLoader.name
+                                font.pixelSize: BaseProperty.h1
                                 
-                                color: bp.red_line_color
+                                color: BaseProperty.red_line_color
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                             }
