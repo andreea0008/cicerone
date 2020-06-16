@@ -28,7 +28,7 @@ Row {
         height: BaseProperty.heightDelegate
         color: BaseProperty.colorTextDelegate
         font.family: fontLoader.name
-        font.pixelSize: base.h2
+        font.pixelSize: BaseProperty.h2
 
         FontLoader{
             id: fontLoader
