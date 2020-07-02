@@ -8,13 +8,14 @@ JsonSaver::JsonSaver(QJsonDocument document, QString location, QString name)
       name_(name)
 {
     qDebug() << __FILE__ << __LINE__ << QString("%1.json").arg(name_);
-    file_ = std::make_unique<QFile>(QString("%1.json").arg(name_));
+    file_ = new QFile(QString("%1.json").arg(name_));
     file_->open(QIODevice::WriteOnly | QIODevice::Text);
 }
 
 JsonSaver::~JsonSaver()
 {
     file_->close();
+    delete file_;
     qDebug() << __FILE__ << __LINE__;
 }
 

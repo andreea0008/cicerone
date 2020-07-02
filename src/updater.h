@@ -2,13 +2,10 @@
 #define UPDATER_H
 
 #include <QObject>
-#include <memory>
 #include <QMap>
 #include "settings.h"
 
 
-using std::unique_ptr;
-using std::make_unique;
 
 /**
  * @brief Singleton Updater class
@@ -26,7 +23,8 @@ class Updater : public QObject
     Updater(QObject *parent = nullptr);
     Updater(const Updater&) = delete;
     void operator=(const Updater &updater) = delete;
-    unique_ptr<Settings> _settings;
+
+    Settings* _settings;
     QMap<QString, QString> _namesAndUrls{ {"country", ""} };
 
     bool loadDataByName(const QString& name, const Stages nextStage);

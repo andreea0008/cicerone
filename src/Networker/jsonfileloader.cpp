@@ -5,12 +5,13 @@ JsonFileLoader::JsonFileLoader(const QString location, QObject *parent)
     : NetworkLoader(parent),
       location_(location)
 {
-    file_ = std::make_unique<QFile>(location_);
+    file_ = new QFile(location_);
 }
 
 JsonFileLoader::~JsonFileLoader()
 {
     file_->close();
+    delete  file_;
 }
 
 /**

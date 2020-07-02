@@ -2,7 +2,6 @@
 #define JSONFILELOADER_H
 
 #include <QObject>
-#include <memory>
 #include "networkloader.h"
 #include <QFile>
 #include <QJsonDocument>
@@ -24,7 +23,7 @@ public:
     QJsonDocument loadedJsonDocument() const;
 
 private:
-    std::unique_ptr<QFile> file_;
+    QFile* file_;
     QJsonDocument jsonDocument_;
     QString location_;
 

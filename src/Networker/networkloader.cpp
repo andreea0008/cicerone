@@ -3,7 +3,7 @@
 NetworkLoader::NetworkLoader(QObject *parent)
     : LoaderInterface(parent)
 {
-    manager = std::make_unique<QNetworkAccessManager>(this);
+    manager = new QNetworkAccessManager(this);
 }
 
 NetworkLoader::~NetworkLoader()

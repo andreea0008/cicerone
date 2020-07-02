@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QJsonDocument>
 #include <QFile>
-#include <memory>
 
 class JsonSaver
 {
@@ -17,7 +16,7 @@ private:
     QJsonDocument jsonDocument_;
     QString location_;
     QString name_;
-    std::unique_ptr<QFile> file_;
+    QFile* file_;
 };
 
 #endif // JSONSAVER_H

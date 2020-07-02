@@ -23,8 +23,8 @@ void JsonNetworkLoader::load()
     QEventLoop loop;
     qDebug() << __FUNCTION__ << "start load";
     manager->get(QNetworkRequest(url_));
-    connect(manager.get(), &QNetworkAccessManager::finished, this, &JsonNetworkLoader::onLoaded);
-    connect(manager.get(), &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+    connect(manager, &QNetworkAccessManager::finished, this, &JsonNetworkLoader::onLoaded);
+    connect(manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
     loop.exec();
 }
 

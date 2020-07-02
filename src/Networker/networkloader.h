@@ -15,7 +15,7 @@ public:
     virtual void save() = 0;
 
 protected:
-    std::unique_ptr<QNetworkAccessManager> manager;
+    QNetworkAccessManager* manager;
 };
 
 #endif // NETWORKLOADER_H
