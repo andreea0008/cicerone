@@ -34,6 +34,11 @@ QtObject {
     property int margin: 15
     property int half_margin: 8
 
+    //indicator
+    readonly property real opacityActive: 1.0
+    readonly property real opacityInactive: 0.4
+    property int heigthIndicator: heightDelegate /8
+
     readonly property FontLoader fontLoader: FontLoader{
         id: fontLoader
         source: "fonts/Roboto-Medium.ttf"

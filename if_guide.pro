@@ -37,6 +37,7 @@ SOURCES += \
     src/clipboard.cpp
 
 RESOURCES += qml.qrc \
+    api_data.qrc \
     xml_files.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model

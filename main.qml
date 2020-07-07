@@ -77,7 +77,7 @@ App {
         height: app.height * 0.08
     }
 
-    Splash {
+//    Splash {
 
-    }
+//    }
 }

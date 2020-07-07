@@ -15,7 +15,6 @@ class Updater : public QObject
     Q_OBJECT
 
     enum Stages { NoLoaded, CountryLoaded, CityLoaded, CategoryLoaded, PublicPlacesLoaded };
-    const QString MAIN_URL = "http://127.0.0.1:8000/api/v1/catalog/";
 
     Stages currentStage = Stages::NoLoaded;
     void setNewStage(const Stages stage);

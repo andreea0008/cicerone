@@ -6,8 +6,6 @@
 #include <QDebug>
 #include "updater.h"
 
-static const int DAYS_COUNT = 7;
-
 CompanyListByCategory::CompanyListByCategory(QObject *parent)
     : QAbstractItemModel(parent)
 {
@@ -175,13 +173,13 @@ void CompanyListByCategory::parseData(QByteArray document)
     for(const auto item : array)
     {
         auto objectCompany = item.toObject();
-        auto name_company = objectCompany.value("name_company").toString();
+        auto name_company = objectCompany.value("name").toString();
         Company *company = new Company(name_company, this);
 
         company->setCategoryId(objectCompany.value("category").toInt());
 
         //parse phone calls
-        auto phonesArray = objectCompany.value("phones").toArray();
+        auto phonesArray = objectCompany.value("phone").toArray();
         QStringList phonesList;
         for(const auto phoneItem : phonesArray)
         {
@@ -189,6 +187,7 @@ void CompanyListByCategory::parseData(QByteArray document)
             const auto phone = phoneObject.value("phone").toString();
             phonesList.push_back(phone);
         }
+
         auto locationArray = objectCompany.value("location").toArray();
 
         //parse locations
@@ -197,24 +196,23 @@ void CompanyListByCategory::parseData(QByteArray document)
         {
             auto locationObject = location.toObject();
             LocationCompany locationCompany;
-            locationCompany.address = locationObject.value("address_location").toString();
+            locationCompany.address = locationObject.value("address").toString();
             locationCompany.lat = locationObject.value("lat").toString();
             locationCompany.lng = locationObject.value("lng").toString();
 
             //add phones
             QStringList phonesList;
-            const auto listJsonPhones = locationObject.value("phones").toArray();
+            const auto listJsonPhones = locationObject.value("phone").toArray();
             for(const auto phoneObject : listJsonPhones)
             {
-                phonesList.push_back(phoneObject.toObject().value("phone_number").toString());
+                phonesList.push_back(phoneObject.toObject().value("phone").toString());
             }
+
             locationCompany.phones = phonesList;
 
             //fill schedule
             QVector<Schedule> scheduleByLocation;
-            qDebug() << __LINE__ << scheduleByLocation.size();
-            const auto listJsonSchedules = locationObject.value("working_days_schedule").toArray();
-           qDebug() << __LINE__ << listJsonSchedules.size();
+            const auto listJsonSchedules = locationObject.value("working_schedule").toArray();
             for(const auto scheduleObject : listJsonSchedules)
             {
                 const auto objectSchedule = scheduleObject.toObject();

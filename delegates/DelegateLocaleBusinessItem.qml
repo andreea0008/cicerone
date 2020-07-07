@@ -224,18 +224,20 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         delegate: Rectangle{
-            width: BaseProperty.heightDelegate /8
+            width: BaseProperty.heigthIndicator
             height: width
             radius: width /2
             color: BaseProperty.red_line_color
-            opacity: swipeViewAddressesAndPhones.currentIndex === index ? 1.0 : 0.4
+            opacity: swipeViewAddressesAndPhones.currentIndex === index ? BaseProperty.opacityActive
+                                                                        : BaseProperty.opacityInactive
         }
     }
 
     states: [
         State {
             name: "hide"
-            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate; color: BaseProperty.backgroundDelegateColor }
+            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate;
+                              color: BaseProperty.backgroundDelegateColor }
             
             PropertyChanges { target: redSpacer; visible: false; width: 0 }
 
@@ -243,7 +245,8 @@ Rectangle {
         },
         State {
             name: "show"
-            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate * 4.2; color: BaseProperty.pressed_color }
+            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate * 4.2;
+                              color: BaseProperty.pressed_color }
             
             PropertyChanges { target: redSpacer; visible: true; width: columnInformation.width }
 
@@ -287,6 +290,7 @@ Rectangle {
             for( var phone in phones)
             {
                 phonesData.append( {"phone" : phones[phone], "index": startIndex} )
+                console.log(phonesData)
             }
 
             startIndex++

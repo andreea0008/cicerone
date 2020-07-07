@@ -22,7 +22,6 @@ Category::Category(QObject *parent) : QAbstractItemModel(parent)
     setIsLoaded(false);
     connect(Updater::instance(), &Updater::dataChanged, this, &Category::parseData);
     Updater::instance()->startLoad();
-
 }
 
 Category::~Category()

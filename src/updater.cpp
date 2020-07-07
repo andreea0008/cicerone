@@ -27,7 +27,7 @@ bool Updater::loadDataByName(const QString& name, const Stages nextStage)
     loaderCountry.load();
     if(loaderCountry.loadedJsonDocument().isEmpty())
     {
-        JsonNetworkLoader jsonNetworkLoader(QString("%1%2/").arg(MAIN_URL).arg(name), name, this);
+        JsonNetworkLoader jsonNetworkLoader(QString("%1%2/").arg(MainUrl).arg(name), name, this);
         jsonNetworkLoader.load();
     }
     auto isLoaded = !loaderCountry.loadedJsonDocument().toJson().isEmpty();
@@ -44,7 +44,7 @@ void Updater::startLoad()
     loadDataByName("country", Stages::CountryLoaded);
     loadDataByName("city", Stages::CityLoaded);
     loadDataByName("category", Stages::CategoryLoaded);
-    loadDataByName("public-place", Stages::PublicPlacesLoaded);
+    loadDataByName("public_place", Stages::PublicPlacesLoaded);
 
     if(currentStage == Stages::PublicPlacesLoaded)
         emit dataLoaded();
@@ -54,16 +54,15 @@ QByteArray Updater::loadDataByStage(Updater::Resources resource)
 {
     QString name = "";
     switch (resource) {
-    case Resources::PublicPlace:
-        name = "public-place";
-        break;
+    case Resources::PublicPlace: name = "public_place"; break;
     }
 
     JsonFileLoader loaderCountry(QString("%1.json").arg(name));
     loaderCountry.load();
     if(loaderCountry.loadedJsonDocument().isEmpty())
     {
-        JsonNetworkLoader jsonNetworkLoader(QString("%1%2/").arg(MAIN_URL).arg(name), name, this);
+        qDebug() << PublicPlaceUrl;
+        JsonNetworkLoader jsonNetworkLoader(PublicPlaceUrl, name, this);
         jsonNetworkLoader.load();
     }
 
