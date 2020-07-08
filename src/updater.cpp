@@ -21,18 +21,18 @@ Updater::Updater(QObject *parent) : QObject(parent)
 /**
  * @brief start load data for models
  */
-bool Updater::loadDataByName(const QString& name, const Stages nextStage)
+bool Updater::loadDataByName(const QString& name, const Stages nextStage,  bool needUpdate)
 {
-    JsonFileLoader loaderCountry(QString("%1.json").arg(name));
-    loaderCountry.load();
-    if(loaderCountry.loadedJsonDocument().isEmpty())
+    JsonFileLoader jsonFileLoader(QString("%1.json").arg(name));
+    jsonFileLoader.load();
+    if(jsonFileLoader.loadedJsonDocument().isEmpty() || needUpdate)
     {
         JsonNetworkLoader jsonNetworkLoader(QString("%1%2/").arg(MainUrl).arg(name), name, this);
         jsonNetworkLoader.load();
     }
-    auto isLoaded = !loaderCountry.loadedJsonDocument().toJson().isEmpty();
+    auto isLoaded = !jsonFileLoader.loadedJsonDocument().toJson().isEmpty();
     if(isLoaded){
-        dataChanged(name, loaderCountry.loadedJsonDocument().toJson());
+        dataChanged(name, jsonFileLoader.loadedJsonDocument().toJson());
         setNewStage(nextStage);
     }
 
@@ -44,10 +44,9 @@ void Updater::startLoad()
     loadDataByName("country", Stages::CountryLoaded);
     loadDataByName("city", Stages::CityLoaded);
     loadDataByName("category", Stages::CategoryLoaded);
-    loadDataByName("public_place", Stages::PublicPlacesLoaded);
+    loadDataByName("public_place", Stages::PublicPlacesLoaded, true);
 
-    if(currentStage == Stages::PublicPlacesLoaded)
-        emit dataLoaded();
+    if(currentStage == Stages::PublicPlacesLoaded) emit dataLoaded();
 }
 
 QByteArray Updater::loadDataByStage(Updater::Resources resource)
@@ -57,16 +56,15 @@ QByteArray Updater::loadDataByStage(Updater::Resources resource)
     case Resources::PublicPlace: name = "public_place"; break;
     }
 
-    JsonFileLoader loaderCountry(QString("%1.json").arg(name));
-    loaderCountry.load();
-    if(loaderCountry.loadedJsonDocument().isEmpty())
+    JsonFileLoader jsonFileLoader(QString("%1.json").arg(name));
+    jsonFileLoader.load();
+    if(jsonFileLoader.loadedJsonDocument().isEmpty())
     {
-        qDebug() << PublicPlaceUrl;
         JsonNetworkLoader jsonNetworkLoader(PublicPlaceUrl, name, this);
         jsonNetworkLoader.load();
     }
 
-    return loaderCountry.loadedJsonDocument().toJson();
+    return jsonFileLoader.loadedJsonDocument().toJson();
 }
 
 /**

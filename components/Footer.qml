@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
 import "."
 import "../"
+
 Item{
     id: footer
     RowLayout{

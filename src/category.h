@@ -46,24 +46,23 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
 
     QHash<int, QByteArray> roleNames() const override;
-    Q_INVOKABLE void addElement(uint id, const QString &name);
-    Q_INVOKABLE void addElement(const QString &name);
-    Q_INVOKABLE void deleteElement(int index);
-    Q_INVOKABLE void move(int from, int to);
-
     bool isLoaded() const;
+
+public slots:
+    void addElement(uint id, const QString &name);
+    void addElement(const QString &name);
+    void deleteElement(int index);
+    void move(int from, int to);
+    void parseData(QString stageName, QByteArray document);
+    void setIsLoaded(bool isLoaded);
 
 signals:
     void isLoadedChanged(bool isLoaded);
 
-public slots:
-    void parseData(QString stageName, QByteArray document);
-    void setIsLoaded(bool isLoaded);
-
 private:
     enum MyCategoryRoles{ Id, NameRole, PathToFile, UrlFile, Tag };
     const QString currentStage = "category";
-    QHash<int, QByteArray> m_roles;
+    QHash<int, QByteArray> _roles;
     QVector<MyCategory *> m_data;
     QVector<MyCategory *> tmpCat;
     bool _isLoaded;

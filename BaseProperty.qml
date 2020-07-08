@@ -39,6 +39,10 @@ QtObject {
     readonly property real opacityInactive: 0.4
     property int heigthIndicator: heightDelegate /8
 
+    //delegate business item
+    readonly property int whIcon: heightDelegate *0.5
+    readonly property int whMouseAreaSocial: heightDelegate *0.75
+
     readonly property FontLoader fontLoader: FontLoader{
         id: fontLoader
         source: "fonts/Roboto-Medium.ttf"

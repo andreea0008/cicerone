@@ -55,8 +55,6 @@ void Company::setSheduleByCurrentDay(const Schedule &scheduleByCurrentDay)
 
 QString Company::scheduleByCurrentDate()
 {
-//    qDebug() << QString("%1-%2").arg(schedule.breakTimeFrom.toString("hh:mm")).arg(schedule.workTimeTo.toString("hh:mm"));
-//    return QString("%1-%2").arg(schedule.breakTimeFrom.toString("hh:mm")).arg(schedule.workTimeTo.toString("hh:mm"));
     if(locationsList.isEmpty())
         return QString();
 

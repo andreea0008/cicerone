@@ -24,6 +24,7 @@ signals:
 
 private slots:
     void onLoaded(QNetworkReply *reply);
+
 protected:
     QJsonDocument loadedJsonDocument_;
     QString url_;

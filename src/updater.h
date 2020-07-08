@@ -24,9 +24,8 @@ class Updater : public QObject
     void operator=(const Updater &updater) = delete;
 
     Settings* _settings;
-    QMap<QString, QString> _namesAndUrls{ {"country", ""} };
 
-    bool loadDataByName(const QString& name, const Stages nextStage);
+    bool loadDataByName(const QString& name, const Stages nextStage, bool needUpdate=false);
 
 signals:
     void dataLoaded();
@@ -34,6 +33,7 @@ signals:
 
 protected:
     static Updater* updater_;
+
 public:
     static Updater* instance();
     enum Resources { PublicPlace };

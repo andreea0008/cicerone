@@ -1,5 +1,6 @@
 #include "jsonfileloader.h"
 #include <QJsonDocument>
+#include "src/Logger/Errors.h"
 
 JsonFileLoader::JsonFileLoader(const QString location, QObject *parent)
     : NetworkLoader(parent),
@@ -21,7 +22,7 @@ JsonFileLoader::~JsonFileLoader()
 void JsonFileLoader::load()
 {
     if(!file_->open(QIODevice::ReadOnly | QIODevice::Text)){
-        qDebug() << "file_not_open";
+        qDebug() << FILE_NOT_OPEN.arg(file_->fileName());
     }
     auto ba = file_->readAll();
     jsonDocument_ = QJsonDocument::fromJson(ba);

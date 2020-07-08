@@ -1,6 +1,5 @@
 #include "category.h"
 #include <QSettings>
-#include "saver.h"
 #include <QDataStream>
 #include <QXmlStreamWriter>
 #include <QFile>
@@ -11,14 +10,15 @@
 #include <QJsonValue>
 #include "src/xml.h"
 #include "updater.h"
+#include "saver.h"
 
 Category::Category(QObject *parent) : QAbstractItemModel(parent)
 {
-    m_roles[Id] = "categoryId";
-    m_roles[NameRole] = "categoryName";
-    m_roles[PathToFile] = "pathToFileCategory";
-    m_roles[UrlFile] = "urlCategory";
-    m_roles[Tag] = "tag";
+    _roles[Id] = "categoryId";
+    _roles[NameRole] = "categoryName";
+    _roles[PathToFile] = "pathToFileCategory";
+    _roles[UrlFile] = "urlCategory";
+    _roles[Tag] = "tag";
     setIsLoaded(false);
     connect(Updater::instance(), &Updater::dataChanged, this, &Category::parseData);
     Updater::instance()->startLoad();
@@ -55,18 +55,12 @@ QVariant Category::data(const QModelIndex &index, int role) const
 
     MyCategory *currentItem = m_data[index.row()];
     switch (role) {
-    case Id:
-        return currentItem->getId();
-    case NameRole:
-        return currentItem->getCategory();
-    case PathToFile:
-        return currentItem->getPathToFile();
-    case UrlFile:
-        return currentItem->getUrlToFile();
-    case Tag:
-        return currentItem->getTag();
-    default:
-        return QVariant();
+    case Id: return currentItem->getId();
+    case NameRole: return currentItem->getCategory();
+    case PathToFile: return currentItem->getPathToFile();
+    case UrlFile: return currentItem->getUrlToFile();
+    case Tag: return currentItem->getTag();
+    default: return QVariant();
     }
 }
 
@@ -77,7 +71,7 @@ QModelIndex Category::index(int row, int column, const QModelIndex &parent) cons
 
 QHash<int, QByteArray> Category::roleNames() const
 {
-    return m_roles;
+    return _roles;
 }
 
 void Category::addElement(uint id, const QString &name)
@@ -148,19 +142,11 @@ void Category::setIsLoaded(bool isLoaded)
 
 
 MyCategory::MyCategory(const unsigned int id, const QString &category, QObject *parent)
-    : QObject(parent), m_id(id), m_category(category)
-{
-
-}
+    : QObject(parent), m_id(id), m_category(category) {}
 
 MyCategory::MyCategory(const unsigned int id, const QString &category, const QString &pathToFile, QObject *parent)
-    : QObject(parent), m_id(id), m_category(category), m_pathToFile(pathToFile)
-{
-
-}
+    : QObject(parent), m_id(id), m_category(category), m_pathToFile(pathToFile) {}
 
 MyCategory::MyCategory(const unsigned int id, const QString &category, const QString &pathToFile, const QString &pathToFileOnline, const QString &tag, QObject *parent)
-    : QObject(parent), m_id(id), m_category(category), m_pathToFile(pathToFile), m_urlToFile(pathToFileOnline), m_tag(tag)
-{
-
-}
+    : QObject(parent), m_id(id), m_category(category), m_pathToFile(pathToFile), m_urlToFile(pathToFileOnline)
+    , m_tag(tag){}

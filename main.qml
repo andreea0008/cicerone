@@ -8,6 +8,7 @@ import "components"
 import "delegates"
 import "pages/stack"
 import "pages/SplashScreen"
+import "."
 
 App {
     id: app
@@ -16,7 +17,7 @@ App {
     height: 812
 
     onInitTheme: { Theme.normalFont = BaseProperty.fontLoader }
-//    property BaseProperty bp: BaseProperty{}
+
     // Background
     Rectangle {
         width: app.width
@@ -45,8 +46,6 @@ App {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottomMargin: app.height * 0.1
-
-
 
         EventItem {
             id: stackEventItem

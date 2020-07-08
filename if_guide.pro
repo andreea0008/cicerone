@@ -53,6 +53,7 @@ QML_DESIGNER_IMPORT_PATH =
 
 HEADERS += \
     src/Filters/filtermodel.h \
+    src/Logger/Errors.h \
     src/Networker/jsonfileloader.h \
     src/Networker/jsonnetworkloader.h \
     src/Networker/jsonsaver.h \

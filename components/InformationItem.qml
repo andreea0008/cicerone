@@ -9,6 +9,8 @@ Row {
 
     property string textInformation: ""
     property string type:           ""
+    property string latPosition: ""
+    property string lngPosition: ""
 
     signal pressedAndHold(var clipText)
 
@@ -61,13 +63,14 @@ Row {
 
     function runEvent()
     {
-//        if(type == "call")
-//            Qt.openUrlExternally("tel:%1".arg(informText.text))
-//        else if(type == "facebook")
-//            Qt.openUrlExternally("https://www.facebook.com/MAXIMGalaxy/")
-//        else if(type == "instagram")
-//            Qt.openUrlExternally("https://www.instagram.com/maximmagazinerussia")
-//        else if(type == "location")
-//            Qt.openUrlExternally("https://www.google.com/maps/@50.4283136,30.5316465,14z")
+        if(type == "call")
+            Qt.openUrlExternally("tel:%1".arg(informText.text))
+        else if(type == "facebook")
+            Qt.openUrlExternally("https://www.facebook.com/MAXIMGalaxy/")
+        else if(type == "instagram")
+            Qt.openUrlExternally("https://www.instagram.com/maximmagazinerussia")
+        else if(type == "location")
+            Qt.openUrlExternally("https://www.google.com/maps/@"+latPosition+","+lngPosition)
+        console.log(lat, lng)
     }
 }

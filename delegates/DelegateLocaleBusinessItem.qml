@@ -17,8 +17,6 @@ Rectangle {
     property string facebook: ""
     property string instagramm: ""
 
-//    property BaseProperty bp: BaseProperty{}
-
     MouseArea{
         id: mouseArea
         anchors.fill: parent
@@ -81,8 +79,8 @@ Rectangle {
                 }
                 Image{
                     anchors.centerIn: parent
-                    width: parent.height * 0.5
-                    height: width
+                    width: BaseProperty.whIcon
+                    height: BaseProperty.whIcon
                     antialiasing: true
                     source: delegate.isFavorite ? "../img/delegate_icons/128x128/favorite_check.png"
                                                 : "../img/delegate_icons/128x128/favorite_uncheck.png"
@@ -123,6 +121,8 @@ Rectangle {
 
                                 visible: redSpacer.visible
                                 type: "location"
+                                latPosition: lat
+                                lngPosition: lng
                                 textInformation: address_location
                             }
 
@@ -172,6 +172,7 @@ Rectangle {
                     icon: "qrc:/img/delegate_icons/facebook.png"
                     link: "facebook"
                 }
+
             }
 
             ListView {
@@ -186,11 +187,12 @@ Rectangle {
                 spacing: BaseProperty.heightDelegate * 0.125
 
                 delegate: MouseArea{
-                    height: BaseProperty.heightDelegate * 0.75
-                    width: BaseProperty.heightDelegate * 0.75
+                    height: BaseProperty.whMouseAreaSocial
+                    width: BaseProperty.whMouseAreaSocial
 
                     Image{
-                        anchors.fill: parent
+                        width: BaseProperty.whIcon
+                        height: BaseProperty.whIcon
                         source: icon
                         antialiasing: true
                     }
@@ -290,7 +292,6 @@ Rectangle {
             for( var phone in phones)
             {
                 phonesData.append( {"phone" : phones[phone], "index": startIndex} )
-                console.log(phonesData)
             }
 
             startIndex++
