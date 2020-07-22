@@ -40,8 +40,10 @@ Row {
         MouseArea{
             anchors.fill: parent
             hoverEnabled: true
-            onPressAndHold: pressedAndHold(informText.text)
-            onPressed: runEvent()
+            onPressAndHold: {
+                pressedAndHold(informText.text)
+                runEvent()
+            }
         }
     }
 

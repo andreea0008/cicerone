@@ -22,9 +22,6 @@ class Updater : public QObject
     Updater(QObject *parent = nullptr);
     Updater(const Updater&) = delete;
     void operator=(const Updater &updater) = delete;
-
-    Settings* _settings;
-
     bool loadDataByName(const QString& name, const Stages nextStage, bool needUpdate=false);
 
 signals:

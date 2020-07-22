@@ -1,10 +1,15 @@
 #include "favoritecompanylist.h"
 #include <QDebug>
+#include <QSettings>
 
 FavoriteCompanyList::FavoriteCompanyList(QObject *parent)
     : CompanyListByCategory(parent)
 {
-//    refresh();
+    //    refresh();
+}
+
+FavoriteCompanyList::~FavoriteCompanyList()
+{
 }
 
 void FavoriteCompanyList::refresh()
@@ -18,6 +23,7 @@ void FavoriteCompanyList::refresh()
             addCompany(currentCompany);
         }
     }
+    saveSettings();
 }
 
 void FavoriteCompanyList::addCompanyToFavorite(QString nameCompany)
@@ -32,6 +38,7 @@ void FavoriteCompanyList::addCompanyToFavorite(QString nameCompany)
             break;
         }
     }
+    saveSettings();
 }
 
 void FavoriteCompanyList::removeCompanyFromFavorite(QString companyName)
@@ -47,5 +54,18 @@ void FavoriteCompanyList::removeCompanyFromFavorite(QString companyName)
     }
     beginResetModel();
     endResetModel();
+}
+
+void FavoriteCompanyList::saveSettings()
+{
+    QSettings settings("smart.game.pro", "cicerone");
+    settings.beginGroup("FavoriteCompany");
+    settings.setValue("favorite_company", QVariant::fromValue(filteredCompany));
+    settings.endGroup();
+}
+
+void FavoriteCompanyList::loadSettings()
+{
+
 }
 

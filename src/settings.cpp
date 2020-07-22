@@ -1,6 +1,9 @@
 #include "settings.h"
 #include <QSettings>
 
+//init static settings singleton
+Settings* Settings::_settings = nullptr;
+
 Settings::Settings(QObject *parent) : QObject(parent)
 {
     mSettings = new QSettings("smartgame", "cicerone");
@@ -10,6 +13,12 @@ Settings::Settings(QObject *parent) : QObject(parent)
 Settings::~Settings()
 {
     saveSettings();
+}
+
+Settings *Settings::Instance(){
+    if(_settings == nullptr)
+        _settings = new Settings();
+    return _settings;
 }
 
 bool Settings::isSendData() const
@@ -29,7 +38,6 @@ void Settings::setIsSendData(bool isSendData)
 void Settings::saveSettings()
 {
     mSettings->setValue("is_send_data", isSendData());
-
 }
 
 void Settings::loadSettings()

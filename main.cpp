@@ -2,10 +2,10 @@
 #include <FelgoApplication>
 
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 // uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
 #include <FelgoLiveClient>
-#include <QQmlContext>
 #include "src/settings.h"
 #include "src/category.h"
 #include "src/companylistbycategory.h"
@@ -14,6 +14,11 @@
 
 //TEST
 #include"src/updater.h"
+
+static QObject *singletonTypeProvider(QQmlEngine *, QJSEngine *)
+{
+    return Settings::Instance();
+}
 
 int main(int argc, char *argv[])
 {
@@ -26,10 +31,13 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     felgo.initialize(&engine);
     qmlRegisterType<FilterModel>("com.cicerone.filterModel", 1, 0, "FilterModel");
-
-
-
-    Settings settings(&engine);
+    qmlRegisterSingletonType<Settings>("com.cicerone.filterModel", 1, 0, "Settings", singletonTypeProvider);
+//                                       [](QQmlEngine *qmlEngine, QJSEngine *scriptEngine)->QObject*
+//    {
+//        qmlEngine->setContextOwnership(Settings::Instance(), QQmlEngine::CppOwnership);
+//        return Settings::Instance();
+//    });
+//    Settings settings(&engine);
     Category category(&engine);
 
     CompanyListByCategory companyListByCategory(&engine);
@@ -49,7 +57,7 @@ int main(int argc, char *argv[])
     felgo.setMainQmlFileName(QStringLiteral("qrc:/main.qml"));
 
     engine.load(QUrl(felgo.mainQmlFileName()));
-    engine.rootContext()->setContextProperty("CiceroneSettings", &settings);
+//    engine.rootContext()->setContextProperty("CiceroneSettings", &settings);
     engine.rootContext()->setContextProperty("Category", &category);
     engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
     engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);

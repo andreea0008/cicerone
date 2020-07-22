@@ -14,7 +14,6 @@ void Updater::setNewStage(const Updater::Stages stage)
 
 Updater::Updater(QObject *parent) : QObject(parent)
 {
-    _settings = new Settings(this);
 //    connect(this, &Updater::dataChanged, this, &Updater::ondataChanged);
 }
 

@@ -37,7 +37,6 @@ QModelIndex CompanyListByCategory::parent(const QModelIndex &child) const
 
 void CompanyListByCategory::initializeRoles()
 {
-    roles[Id] = "CompanyId";
     roles[NameCompany] = "NameCompany";
     roles[IsFavorite] = "IsFavorite";
     roles[Address] = "Address";
@@ -59,7 +58,6 @@ QVariant CompanyListByCategory::data(const QModelIndex &index, int role) const
     const auto company = filteredCompany[index.row()];
     switch(role)
     {
-    case Id: return company->id();
     case NameCompany: return company->getNameCompany();
     case IsFavorite: return company->getIsFavorite();
     case Address: return QVariant::fromValue(company->getLocationList());

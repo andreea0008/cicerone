@@ -9,10 +9,16 @@ class FavoriteCompanyList : public CompanyListByCategory
     Q_OBJECT
 public:
     FavoriteCompanyList(QObject *parent = nullptr);
+    ~FavoriteCompanyList();
 
-    Q_INVOKABLE void refresh();
-    Q_INVOKABLE void addCompanyToFavorite(QString nameCompany);
-    Q_INVOKABLE void removeCompanyFromFavorite(QString companyName);
+public slots:
+    void refresh();
+    void addCompanyToFavorite(QString nameCompany);
+    void removeCompanyFromFavorite(QString companyName);
+
+private:
+    void saveSettings();
+    void loadSettings();
 };
 
 #endif // FAVORITECOMPANYLIST_H
