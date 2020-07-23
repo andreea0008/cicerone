@@ -2,9 +2,12 @@
 #include <QQmlPropertyMap>
 #include <QDebug>
 #include <QJsonArray>
-Company::Company(const QString &nameBusinessCompany, QObject *parent)
-    : QObject(parent),
-      nameCompany(nameBusinessCompany),
+
+Company::Company() : isFavorite(false)
+{}
+
+Company::Company(const QString &nameBusinessCompany)
+    : nameCompany(nameBusinessCompany),
       isFavorite(false)
 {}
 

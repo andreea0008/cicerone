@@ -172,7 +172,7 @@ void CompanyListByCategory::parseData(QByteArray document)
     {
         auto objectCompany = item.toObject();
         auto name_company = objectCompany.value("name").toString();
-        Company *company = new Company(name_company, this);
+        Company *company = new Company(name_company);
 
         company->setCategoryId(objectCompany.value("category").toInt());
 

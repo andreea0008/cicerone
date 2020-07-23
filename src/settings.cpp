@@ -1,5 +1,6 @@
 #include "settings.h"
 #include <QSettings>
+#include <QJsonObject>
 
 //init static settings singleton
 Settings* Settings::_settings = nullptr;
@@ -44,4 +45,14 @@ void Settings::loadSettings()
 {
     setIsSendData(mSettings->value("is_send_data", false).toBool());
     mSettings->sync();
+}
+
+void Settings::saveFavoriteListCompany(QVector<Company*> companies)
+{
+    QVector<Company> companiesList;
+
+    for(int index = 0; index < companies.size(); index++)
+        companiesList.push_back(*companies[index]);
+
+    mSettings->setValue("favorite_list_company", QVariant::fromValue(companiesList));
 }

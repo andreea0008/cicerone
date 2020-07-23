@@ -15,15 +15,19 @@
 //TEST
 #include"src/updater.h"
 
-static QObject *singletonTypeProvider(QQmlEngine *, QJSEngine *)
-{
-    return Settings::Instance();
-}
+//static QObject *singletonTypeProvider(QQmlEngine *, QJSEngine *)
+//{
+//    return Settings::Instance();
+//}
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     FelgoApplication felgo;
+
+    qRegisterMetaTypeStreamOperators<Schedule>("Schedule");
+    qRegisterMetaTypeStreamOperators<Company>("Company");
+    qRegisterMetaTypeStreamOperators<QVector<Company>>("QVector<Company>");
 
     // Use platform-specific fonts instead of Felgo's default font
     felgo.setPreservePlatformFonts(true);
@@ -31,12 +35,12 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     felgo.initialize(&engine);
     qmlRegisterType<FilterModel>("com.cicerone.filterModel", 1, 0, "FilterModel");
-    qmlRegisterSingletonType<Settings>("com.cicerone.filterModel", 1, 0, "Settings", singletonTypeProvider);
-//                                       [](QQmlEngine *qmlEngine, QJSEngine *scriptEngine)->QObject*
-//    {
+    qmlRegisterSingletonType<Settings>("com.cicerone.filterModel", 1, 0, "Settings", /*singletonTypeProvider);*/
+                                       [](QQmlEngine *qmlEngine, QJSEngine *scriptEngine)->QObject*
+    {
 //        qmlEngine->setContextOwnership(Settings::Instance(), QQmlEngine::CppOwnership);
-//        return Settings::Instance();
-//    });
+        return Settings::Instance();
+    });
 //    Settings settings(&engine);
     Category category(&engine);
 

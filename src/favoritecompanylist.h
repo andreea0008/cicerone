@@ -19,6 +19,7 @@ public slots:
 private:
     void saveSettings();
     void loadSettings();
+    QVector<Company> companiesList;
 };
 
 #endif // FAVORITECOMPANYLIST_H

@@ -7,8 +7,10 @@
 #include <QVariant>
 #include <QDebug>
 #include <QPair>
+#include <QDataStream>
 
 static QString FORMAT_SCHEDULE = QString("hh:mm");
+
 struct Schedule
 {
     QString day;
@@ -41,7 +43,11 @@ struct Schedule
     {
         return (breakTime > breakTimeFrom) && (breakTime < breakTimeTo);
     }
+
+    friend QDataStream& operator<<(QDataStream& out, const Schedule& v);
+    friend QDataStream& operator>>(QDataStream& in, Schedule& v);
 };
+
 
 struct LocationCompany
 {
@@ -74,13 +80,10 @@ struct LocationCompany
     }
 };
 
-class Company : public QObject{
-    Q_OBJECT
-
+class Company {
 public:
-    Company(const QString &nameBusinessCompany, QObject *parent = nullptr);
-
-
+    Company();
+    Company(const QString &nameBusinessCompany);
 
     int id() const;
     void setId(int id);
@@ -120,6 +123,8 @@ public:
     int getCategoryId() const;
     void setCategoryId(int value);
 
+    friend QDataStream& operator<<(QDataStream& out, const Company& v);
+    friend QDataStream& operator>>(QDataStream& in, Company& v);
 private:
     int m_id;
     int categoryId;
@@ -135,4 +140,19 @@ private:
     Schedule schedule;
 };
 Q_DECLARE_METATYPE(Schedule);
+Q_DECLARE_METATYPE(Company);
+
+inline QDataStream& operator<<(QDataStream& out, const Schedule& v) {
+    out << v.day << v.workTimeTo;
+    return out;
+};
+
+inline QDataStream& operator>>(QDataStream& in, Schedule& v) {
+    in >> v.day;
+    in >> v.workTimeTo;
+    return in;
+};
+
+inline QDataStream& operator<<(QDataStream& out, const Company& v) {}
+inline QDataStream& operator>>(QDataStream& in, Company& v) {}
 #endif // COMPANY_H

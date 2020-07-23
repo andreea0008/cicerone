@@ -1,6 +1,7 @@
 #include "favoritecompanylist.h"
 #include <QDebug>
-#include <QSettings>
+#include "settings.h"
+#include <QJsonObject>
 
 FavoriteCompanyList::FavoriteCompanyList(QObject *parent)
     : CompanyListByCategory(parent)
@@ -58,10 +59,8 @@ void FavoriteCompanyList::removeCompanyFromFavorite(QString companyName)
 
 void FavoriteCompanyList::saveSettings()
 {
-    QSettings settings("smart.game.pro", "cicerone");
-    settings.beginGroup("FavoriteCompany");
-    settings.setValue("favorite_company", QVariant::fromValue(filteredCompany));
-    settings.endGroup();
+
+    Settings::Instance()->saveFavoriteListCompany(filteredCompany);
 }
 
 void FavoriteCompanyList::loadSettings()

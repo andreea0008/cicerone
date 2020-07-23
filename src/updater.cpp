@@ -43,7 +43,7 @@ void Updater::startLoad()
     loadDataByName("country", Stages::CountryLoaded);
     loadDataByName("city", Stages::CityLoaded);
     loadDataByName("category", Stages::CategoryLoaded);
-    loadDataByName("public_place", Stages::PublicPlacesLoaded, true);
+    loadDataByName("public_place", Stages::PublicPlacesLoaded);
 
     if(currentStage == Stages::PublicPlacesLoaded) emit dataLoaded();
 }

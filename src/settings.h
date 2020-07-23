@@ -2,6 +2,9 @@
 #define SETTINGS_H
 
 #include <QObject>
+#include <QVector>
+#include "company.h"
+
 class QSettings;
 
 class Settings : public QObject
@@ -27,13 +30,15 @@ signals:
     void isSendDataChanged(bool isSendData);
 
 public slots:
-    Q_INVOKABLE void setIsSendData(bool isSendData);
+    void setIsSendData(bool isSendData);
     void saveSettings();
     void loadSettings();
 
+    void saveFavoriteListCompany(QVector<Company *> companies);
+
 private:
     QSettings *mSettings;
-
+    QVector<Company*> _listCompany;
 };
 
 #endif // SETTINGS_H
