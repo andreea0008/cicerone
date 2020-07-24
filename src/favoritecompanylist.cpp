@@ -2,11 +2,21 @@
 #include <QDebug>
 #include "settings.h"
 #include <QJsonObject>
+#include <QDebug>
 
 FavoriteCompanyList::FavoriteCompanyList(QObject *parent)
     : CompanyListByCategory(parent)
 {
     //    refresh();
+    allCompanies = Settings::Instance()->loadFavoriteListCompany();
+//    qDebug() << allCompanies.size();
+    const auto list = Settings::Instance()->loadFavoriteListCompany();
+    for(int index = 0; index < list.size(); index++){
+        addCompany(list[index]);
+    }
+//    qDebug() << allCompanies.size();
+//    beginResetModel();
+//    endResetModel();
 }
 
 FavoriteCompanyList::~FavoriteCompanyList()
@@ -59,12 +69,11 @@ void FavoriteCompanyList::removeCompanyFromFavorite(QString companyName)
 
 void FavoriteCompanyList::saveSettings()
 {
-
     Settings::Instance()->saveFavoriteListCompany(filteredCompany);
 }
 
 void FavoriteCompanyList::loadSettings()
 {
-
+    Settings::Instance()->loadFavoriteListCompany();
 }
 

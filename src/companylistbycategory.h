@@ -31,8 +31,8 @@ public slots:
 
 protected:
     void parseData(QByteArray document);
-    QVector<Company*> filteredCompany;
     QVector<Company*> allCompanies;
+    QVector<Company*> filteredCompany;
     QVector<Company*> cloneFilteredCompany;
     void initializeRoles();
     enum CompanyRoles { NameCompany, IsFavorite, Address, ScheduleByCurrentDate,

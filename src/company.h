@@ -153,6 +153,14 @@ inline QDataStream& operator>>(QDataStream& in, Schedule& v) {
     return in;
 };
 
-inline QDataStream& operator<<(QDataStream& out, const Company& v) {}
-inline QDataStream& operator>>(QDataStream& in, Company& v) {}
+inline QDataStream& operator<<(QDataStream& out, const Company& v)
+{
+    out << v.nameCompany;
+    return out;
+}
+inline QDataStream& operator>>(QDataStream& in, Company& v)
+{
+    in >> v.nameCompany;
+    return in;
+}
 #endif // COMPANY_H
