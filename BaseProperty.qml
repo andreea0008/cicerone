@@ -41,6 +41,9 @@ QtObject {
 
     //delegate business item
     readonly property int whIcon: heightDelegate *0.5
+
+    //MouseArea
+    readonly property int whCloseMouseArea: whIcon *2
     readonly property int whMouseAreaSocial: heightDelegate *0.75
 
     readonly property FontLoader fontLoader: FontLoader{

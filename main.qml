@@ -76,6 +76,14 @@ App {
         height: app.height * 0.08
     }
 
+    Loader{
+        id: eventOverviewLoader
+        anchors.fill: parent
+        visible: false
+    }
+
+    function showEvent() { eventOverviewLoader.source = "pages/EventOverviewScreen.qml"; eventOverviewLoader.visible = true }
+    function hideEvent() { eventOverviewLoader.source = "" }
 //    Splash {
 
 //    }

@@ -44,8 +44,9 @@ void Updater::startLoad()
     loadDataByName("city", Stages::CityLoaded);
     loadDataByName("category", Stages::CategoryLoaded);
     loadDataByName("public_place", Stages::PublicPlacesLoaded);
+    loadDataByName("event_type", Stages::EventType);
 
-    if(currentStage == Stages::PublicPlacesLoaded) emit dataLoaded();
+    if(currentStage == Stages::EventType) emit dataLoaded();
 }
 
 QByteArray Updater::loadDataByStage(Updater::Resources resource)
@@ -53,6 +54,7 @@ QByteArray Updater::loadDataByStage(Updater::Resources resource)
     QString name = "";
     switch (resource) {
     case Resources::PublicPlace: name = "public_place"; break;
+    case Resources::Event: name = "event"; break;
     }
 
     JsonFileLoader jsonFileLoader(QString("%1.json").arg(name));
