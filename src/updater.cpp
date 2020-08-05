@@ -44,24 +44,30 @@ void Updater::startLoad()
     loadDataByName("city", Stages::CityLoaded);
     loadDataByName("category", Stages::CategoryLoaded);
     loadDataByName("public_place", Stages::PublicPlacesLoaded);
-    loadDataByName("event_type", Stages::EventType);
+    loadDataByName("event_type", Stages::EventTypeLoaded);
+    loadDataByName("event", Stages::EventLoaded);
 
-    if(currentStage == Stages::EventType) emit dataLoaded();
+    if(currentStage == Stages::EventLoaded) emit dataLoaded();
 }
 
 QByteArray Updater::loadDataByStage(Updater::Resources resource)
 {
-    QString name = "";
+    //QPair<name, url>
+    QPair<QString, QString> data;
     switch (resource) {
-    case Resources::PublicPlace: name = "public_place"; break;
-    case Resources::Event: name = "event"; break;
+    case Resources::PublicPlace: data = { "public_place", PublicPlaceUrl }; break;
+    case Resources::EventType: data = { "event_type", EventTypeUrl }; break;
+    case Resources::Event: data = { "event", EventUrl }; break;
     }
+
+    const QString name = data.first;
+    const QString url = data.second;
 
     JsonFileLoader jsonFileLoader(QString("%1.json").arg(name));
     jsonFileLoader.load();
     if(jsonFileLoader.loadedJsonDocument().isEmpty())
     {
-        JsonNetworkLoader jsonNetworkLoader(PublicPlaceUrl, name, this);
+        JsonNetworkLoader jsonNetworkLoader(url, name, this);
         jsonNetworkLoader.load();
     }
 

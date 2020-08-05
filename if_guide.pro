@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    src/Event/eventcategory.cpp \
     src/Filters/filtermodel.cpp \
     src/Networker/jsonfileloader.cpp \
     src/Networker/jsonnetworkloader.cpp \
@@ -52,6 +53,7 @@ QML_DESIGNER_IMPORT_PATH =
 #!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/Event/eventcategory.h \
     src/Filters/filtermodel.h \
     src/Logger/Errors.h \
     src/Networker/jsonfileloader.h \

@@ -31,8 +31,6 @@ Item{
 //            scheduleByCurrentDate: Schedule
             facebook: FacebookLink
             onPressedFavorite: pressFavorite(index, companyName, isFavorite);
-
-            onShowEvent: app.showEvent()
         }
     }
 

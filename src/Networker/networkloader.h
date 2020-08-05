@@ -9,7 +9,7 @@ class NetworkLoader : public LoaderInterface
     Q_OBJECT
 public:
     NetworkLoader(QObject *parent = nullptr);
-    virtual ~NetworkLoader(){};
+    virtual ~NetworkLoader(){}
     virtual void load() = 0;
     virtual void save() = 0;
 

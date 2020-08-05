@@ -23,7 +23,7 @@ void JsonSaver::save()
 {
     if(!file_->isOpen())
     {
-        qDebug() << FILE_NOT_OPEN.arg(file_->fileName());
+//        qDebug() << FILE_NOT_OPEN.arg(file_->fileName());
         return;
     }
 

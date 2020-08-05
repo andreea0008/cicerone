@@ -13,7 +13,8 @@
 #include "src/Filters/filtermodel.h"
 
 //TEST
-#include"src/updater.h"
+#include "src/updater.h"
+#include "src/Event/eventcategory.h"
 
 //static QObject *singletonTypeProvider(QQmlEngine *, QJSEngine *)
 //{
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
     });
 //    Settings settings(&engine);
     Category category(&engine);
-
+    EventController eventController(&engine);
     CompanyListByCategory companyListByCategory(&engine);
     FavoriteCompanyList favoriteCompanyList(&engine);
     // Set an optional license key from project file
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("Category", &category);
     engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
     engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
+    engine.rootContext()->setContextProperty("Events", &eventController);
 
     engine.addImportPath("qrc:/");
 //    //    Test

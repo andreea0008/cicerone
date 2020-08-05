@@ -143,14 +143,14 @@ Item
                 anchors.bottom: parent.bottom
                 clip: true
                 spacing: dp(1)
-                model: ['Кафе', 'Ресторани', 'Кафе', 'Ресторани', 'Кафе', 'Ресторани']
+                model: Events.eventTypes
                 delegate: DelegateCompany {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.leftMargin: dp(1)
                     anchors.rightMargin: dp(1)
                     text: modelData
-                    onRelesed: stackEvents.push("../EventsPage.qml")
+                    onRelesed: stackEvents.push("qrc:/pages/EventsPage.qml")
                 }
             }
         }

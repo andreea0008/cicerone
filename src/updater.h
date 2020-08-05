@@ -14,7 +14,8 @@ class Updater : public QObject
 {
     Q_OBJECT
 
-    enum Stages { NoLoaded, CountryLoaded, CityLoaded, CategoryLoaded, PublicPlacesLoaded, EventType };
+    enum Stages { NoLoaded, CountryLoaded, CityLoaded, CategoryLoaded, PublicPlacesLoaded,
+                  EventTypeLoaded, EventLoaded };
 
     Stages currentStage = Stages::NoLoaded;
     void setNewStage(const Stages stage);
@@ -33,7 +34,7 @@ protected:
 
 public:
     static Updater* instance();
-    enum Resources { PublicPlace, Event };
+    enum Resources { PublicPlace, EventType, Event };
     void startLoad();
     QByteArray loadDataByStage(Resources resource);
 };

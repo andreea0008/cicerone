@@ -52,7 +52,7 @@ void CompanyListByCategory::initializeRoles()
 
 QVariant CompanyListByCategory::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || index.column() != 0 || index.row() < 0 || index.row() >= filteredCompany.count())
+    if(!index.isValid() || index.column() != 0 || index.row() < 0 || index.row() >= filteredCompany.size())
         return QVariant();
 
     const auto company = filteredCompany[index.row()];
