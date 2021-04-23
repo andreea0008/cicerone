@@ -1,5 +1,5 @@
 QT += quick xml location
-CONFIG += felgo
+CONFIG += felgo felgo-live
 CONFIG += C++14
 #QMAKE_CXXFLAGS += -std=c++11
 # The following define makes your compiler emit warnings if you use

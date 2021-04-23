@@ -2,9 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import Felgo 3.0
+import com.cicerone.filterModel 1.0
 import "../components"
 import "../"
-import com.cicerone.filterModel 1.0
 
 Rectangle {
     id: delegate
@@ -14,8 +14,10 @@ Rectangle {
     property bool isFavorite
     property string companyName
     property var address
-    property string facebook: ""
-    property string instagramm: ""
+    property string facebook
+    property string instagram
+    property string www
+    property string mail
 
     MouseArea{
         id: mouseArea
@@ -24,7 +26,10 @@ Rectangle {
         onReleased: delegate.state = (delegate.state === "hide") ? "show" : "hide"
     }
 
-    Component.onCompleted: parseLocationData()
+    Component.onCompleted: {
+        parseLocationData()
+        fillInSocial()
+    }
 
     signal pressedFavorite()
     state: "hide"
@@ -38,11 +43,13 @@ Rectangle {
     SortFilterProxyModel{
         id: proxyPhoneDataModel
         sourceModel: phonesData
-        filters: ValueFilter {
-            id: valuefilter
-            roleName: "index"
+        filters: [
+            ValueFilter {
+            roleName: "start_index"
             value: swipeViewAddressesAndPhones.currentIndex
+            enabled: swipeViewAddressesAndPhones.currentIndex > 0
         }
+        ]
     }
 
     Column{
@@ -86,6 +93,23 @@ Rectangle {
                                                 : "../img/delegate_icons/128x128/favorite_uncheck.png"
                 }
             }
+
+            MouseArea{
+                anchors.right: parent.right
+                anchors.rightMargin: 40
+                height: parent.height
+                width: height
+                onPressed: {
+                    showEvent()
+                }
+                Image{
+                    anchors.centerIn: parent
+                    width: BaseProperty.whIcon
+                    height: BaseProperty.whIcon
+                    antialiasing: true
+                    source: "../img/delegate_icons/128x128/favorite_check.png"
+                }
+            }
         }
 
         Rectangle{
@@ -98,21 +122,23 @@ Rectangle {
         SwipeView {
             id: swipeViewAddressesAndPhones
             width: parent.width
-
-            height: (locationData.count) * BaseProperty.heightDelegate
+            height: 2 * BaseProperty.heightDelegate
             clip: true
 
             Repeater{
                 model: locationData
                 Loader {
+                    id: loader
                     active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                     sourceComponent: Column{
                         id: locationColumnComponent
                         width: delegate.width
-                        height: delegate.height * 2
+                        height: swipeViewAddressesAndPhones.height
 
                         RowLayout{
-                            Layout.fillWidth: true
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: BaseProperty.heightDelegate
 
                             InformationItem{
                                 id: location
@@ -141,11 +167,11 @@ Rectangle {
                             id: listPhonesByLocation
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: model.count * BaseProperty.heightDelegate
-                            visible: redSpacer.visible
+                            height: BaseProperty.heightDelegate
                             interactive: false
                             clip: true
                             model: proxyPhoneDataModel
+                            spacing: 2
                             orientation: ListView.Horizontal
                             delegate: InformationItem{
                                 width: columnInformation.width /2
@@ -165,15 +191,7 @@ Rectangle {
             anchors.right: parent.right
             height: BaseProperty.heightDelegate
 
-            ListModel{
-                id: socialInformationModel
-                ListElement{
-                    name: "assessment"
-                    icon: "qrc:/img/delegate_icons/facebook.png"
-                    link: "facebook"
-                }
-
-            }
+            ListModel { id: socialInformationModel }
 
             ListView {
                 anchors.verticalCenter: parent.verticalCenter
@@ -181,6 +199,7 @@ Rectangle {
                 width: parent.width
                 height: BaseProperty.heightDelegate * 0.75
                 model: socialInformationModel
+                interactive: false
                 orientation: ListView.Horizontal
                 layoutDirection: ListView.RightToLeft
                 clip: true
@@ -198,21 +217,10 @@ Rectangle {
                     }
 
                     onPressed: {
-                        if( name == "assessent")
-                            assessmentItem.visible = true
-                        else
-                        {
-                            Qt.openUrlExternally(link === "facebook" ? "facebook.com" : "dsfsd")
-                        }
+                        console.log(link)
+                            Qt.openUrlExternally(link)
                     }
                 }
-            }
-
-            Rectangle {
-                id: assessmentItem
-                visible: false
-                anchors.fill: parent
-                color: "red"
             }
         }
     }
@@ -244,6 +252,9 @@ Rectangle {
             PropertyChanges { target: redSpacer; visible: false; width: 0 }
 
             PropertyChanges { target: socialItem; visible: false }
+
+            PropertyChanges { target:  swipeViewAddressesAndPhones; visible: false }
+
         },
         State {
             name: "show"
@@ -253,6 +264,8 @@ Rectangle {
             PropertyChanges { target: redSpacer; visible: true; width: columnInformation.width }
 
             PropertyChanges { target: socialItem; visible: true }
+
+            PropertyChanges { target:  swipeViewAddressesAndPhones; visible: true }
         }
     ]
 
@@ -270,7 +283,8 @@ Rectangle {
     ]
 
     function parseLocationData(){
-        var startIndex = 0
+        let startIndex = 0
+
         for (var prop in address)
         {
             var lat = address[prop]["lat"]
@@ -291,10 +305,38 @@ Rectangle {
                         )
             for( var phone in phones)
             {
-                phonesData.append( {"phone" : phones[phone], "index": startIndex} )
+                var data = {"phone" : phones[phone], "start_index": startIndex}
+                phonesData.append( data )
             }
 
             startIndex++
         }
+    }
+
+    function fillInSocial(){
+        if(facebook.length !== 0)
+            socialInformationModel.append({
+                                              "name": "social_info",
+                                              "icon": "qrc:/img/delegate_icons/facebook.png",
+                                              "link": facebook
+                                          })
+        if(instagram.length !== 0)
+            socialInformationModel.append({
+                                              "name": "social_info",
+                                              "icon": "qrc:/img/delegate_icons/instagram.png",
+                                              "link": instagram
+                                          })
+        if(www.length !== 0)
+            socialInformationModel.append({
+                                              "name": "social_info",
+                                              "icon": "qrc:/img/delegate_icons/www.png",
+                                              "link": www
+                                          })
+        if(mail.length !== 0)
+            socialInformationModel.append({
+                                              "name": "social_info",
+                                              "icon": "qrc:/img/delegate_icons/mail.png",
+                                              "link": mail
+                                          })
     }
 }

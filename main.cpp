@@ -42,11 +42,10 @@ int main(int argc, char *argv[])
 //        qmlEngine->setContextOwnership(Settings::Instance(), QQmlEngine::CppOwnership);
         return Settings::Instance();
     });
-//    Settings settings(&engine);
     Category category(&engine);
     EventController eventController(&engine);
     CompanyListByCategory companyListByCategory(&engine);
-    FavoriteCompanyList favoriteCompanyList(&engine);
+    FavoriteCompanyList favoriteCompanyList(&companyListByCategory);
     // Set an optional license key from project file
     // This does not work if using Felgo Live, only for Felgo Cloud Builds and local builds
 //    felgo.setLicenseKey(PRODUCT_LICENSE_KEY);
@@ -68,7 +67,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
     engine.rootContext()->setContextProperty("Events", &eventController);
 
-    engine.addImportPath("qrc:/");
+//    engine.addImportPath("qrc:/");
 //    //    Test
 //        Updater::instance()->startLoad();
 //        //END TEST

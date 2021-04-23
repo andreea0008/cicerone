@@ -43,8 +43,8 @@ void CompanyListByCategory::initializeRoles()
     roles[ScheduleByCurrentDate] = "Schedule";
     roles[StateOpen] = "StateOpen";
     roles[Phones] = "Phones";
-    roles[Facebook] = "FacebookLink";
-    roles[Instagramm] = "Instagramm";
+    roles[Facebook] = "Facebook";
+    roles[Instagramm] = "Instagram";
     roles[Www] = "WWW";
     roles[Email] = "Email";
     roles[Location] = "Location";
@@ -166,6 +166,7 @@ void CompanyListByCategory::searchCompanyByNameInFilteringList(QString partNameC
 
 void CompanyListByCategory::parseData(QByteArray document)
 {
+    qDebug() << "parse data";
     QJsonDocument doc = QJsonDocument::fromJson(document);
     auto array = doc.array();
     for(const auto item : array)
@@ -246,23 +247,27 @@ void CompanyListByCategory::parseData(QByteArray document)
         //parse social account
         {
 
-            auto socialsArray = objectCompany.value("social").toArray();
+            auto socialsArray = objectCompany.value("social_info").toArray();
             for(const auto socialItem : socialsArray)
             {
                 const auto socialObject = socialItem.toObject();
-                const auto nameSocial = socialObject.value("name_social_network").toString();
-                const auto linkSocial = socialObject.value("link_social_network").toString();
+                const auto nameSocial = socialObject.value("name_social").toString().toLower();
+                const auto linkSocial = socialObject.value("link").toString();
                 if(nameSocial == "facebook")
                     company->setFacebook(linkSocial);
 
-                if(nameSocial == "instagram")
+                if(nameSocial == "instagram"){
                     company->setInstagramm(linkSocial);
+                }
 
                 if(nameSocial == "email")
                     company->setEmail(linkSocial);
 
+                if(nameSocial == "www")
+                    company->setWww(linkSocial);
             }
         }
         allCompanies.push_back(company);
     }
+    qDebug() << __FUNCTION__ << allCompanies.size();
 }

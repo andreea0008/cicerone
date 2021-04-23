@@ -29,7 +29,10 @@ Item{
             isFavorite: IsFavorite
             address: Address
 //            scheduleByCurrentDate: Schedule
-            facebook: FacebookLink
+            facebook: Facebook
+            instagram: Instagram
+            www: WWW
+            mail: Email
             onPressedFavorite: pressFavorite(index, companyName, isFavorite);
         }
     }

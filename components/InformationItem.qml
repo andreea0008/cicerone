@@ -1,8 +1,9 @@
 import QtQuick 2.0
 import Felgo 3.0
+import QtQuick.Layouts 1.3
 import "../"
 
-Row {
+RowLayout {
     width: 300
     height: BaseProperty.heightDelegate
     spacing: height /8
@@ -17,20 +18,24 @@ Row {
     Image{
         id: icon
         source: getLogoByType()
-        width: BaseProperty.heightDelegate /2
-        height: width
+        Layout.preferredWidth: BaseProperty.heightDelegate /2
+        Layout.preferredHeight: BaseProperty.heightDelegate /2
+        Layout.alignment: Qt.AlignVCenter
+
         antialiasing: true
-        anchors.verticalCenter: parent.verticalCenter
+//        anchors.verticalCenter: parent.verticalCenter
     }
 
     Text{
         id: informText
         verticalAlignment: Text.AlignVCenter
         text: textInformation
-        height: BaseProperty.heightDelegate
+        Layout.preferredHeight: BaseProperty.heightDelegate
         color: BaseProperty.colorTextDelegate
         font.family: fontLoader.name
         font.pixelSize: BaseProperty.h2
+        Layout.fillWidth: true
+        wrapMode: Text.Wrap
 
         FontLoader{
             id: fontLoader

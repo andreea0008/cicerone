@@ -1,9 +1,68 @@
 import QtQuick 2.0
 import "../"
+import QtQuick 2.13
+
 Rectangle {
     id: box
     anchors.fill: parent
-    color: BaseProperty.backgroundColor
+    color: "transparent"
+
+    Component.onCompleted: {
+        redBox.state = "visible"
+    }
+
+    Rectangle{
+        id: redBox
+//        anchors.fill: parent
+        color: BaseProperty.backgroundColor
+
+        x: parent.width
+        y: parent.height
+
+        width: 0; height: 0;
+
+        states: [
+            State {
+                name: "visible"
+//                when: box.visible
+                PropertyChanges {
+                    target: redBox
+                    x: 0; y: 0
+                    width: box.width; height: box.height
+                    opacity: 1.0
+                }
+            },
+            State {
+                name: "unvisible"
+//                when: !box.visible
+                PropertyChanges {
+                    target: redBox
+                    x: 0; y: 0
+                    width: box.width; height: box.height
+                    opacity: 1.0
+                }
+            }
+        ]
+
+        Behavior on x {
+            NumberAnimation { duration: 500 }
+
+        }
+        Behavior on y {
+            NumberAnimation { duration: 500 }
+        }
+        OpacityAnimator on opacity{
+            from: 0;
+            to: 1;
+            duration: 1000
+        }
+
+//        transitions: [
+//            Transition {
+//                NumberAnimation { property: "opacity"; duration: 500}
+//            }
+//        ]
+    }
 
     MouseArea{
         anchors{

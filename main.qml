@@ -32,6 +32,8 @@ App {
         anchors.right: parent.right
         fontloader: BaseProperty.fontLoader
         backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1) && (BaseProperty.currentPageId !== 3 || BaseProperty.currentPageId !== 4)
+        filterBtnVisible: stackEventItem.visible
+
         onPressedArrowButton: {
             switch(categoryId){
                 case 1: stackEventItem.eventsStack.pop(); break;

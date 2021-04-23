@@ -10,9 +10,11 @@ Rectangle{
     color: BaseProperty.backgroundColor
 
     property FontLoader fontloader
+    property bool filterBtnVisible: false
     property alias backArrowVisible: backArrow.visible
 
     signal pressedArrowButton(var categoryId)
+    signal filterPressed()
 
     Text{
         id: textGuideIf
@@ -40,6 +42,23 @@ Rectangle{
             onReleased: pressedArrowButton(BaseProperty.currentPageId)
         }
     }
+
+    AppImage {
+        id: filterButton
+        height: textGuideIf.height * 0.5
+        width: height
+        visible: filterBtnVisible
+        anchors.right: parent.right
+        anchors.rightMargin: height / 2
+        anchors.verticalCenter: textGuideIf.verticalCenter
+        source: "img/svg/filter.svg"
+        antialiasing: true
+        MouseArea{
+            anchors.fill: parent
+            onReleased: filterPressed()
+        }
+    }
+
 
     Rectangle{
         anchors.left: parent.left

@@ -50,19 +50,20 @@ void Settings::loadSettings()
 void Settings::saveFavoriteListCompany(QVector<Company*> companies)
 {
     QVector<Company> companiesList;
-
+    qDebug() << __FUNCTION__ << "saveFavoriteListCompany: "<< companies.size();
     for(int index = 0; index < companies.size(); index++)
         companiesList.push_back(*companies[index]);
 
     mSettings->setValue("favorite_list_company", QVariant::fromValue(companiesList));
+    saveSettings();
 }
 
 QVector<Company*> Settings::loadFavoriteListCompany()
 {
     QVector<Company> list = mSettings->value("favorite_list_company").value<QVector<Company>>();
     QVector<Company*> favoriteCompanyList;
+    qDebug() << __FUNCTION__ << list.size();
     for(int index = 0; index < list.size(); index++)
         favoriteCompanyList.push_back(new Company(list[index]));
-    qDebug() << __FUNCTION__ << list[0].getNameCompany();
     return favoriteCompanyList;
 }

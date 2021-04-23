@@ -8,9 +8,9 @@
 
 EventController::EventController(QObject *parent) : QAbstractItemModel(parent)
 {
-    initializeRoles();
-    parseEventTypeData(Updater::instance()->loadDataByStage(Updater::Resources::EventType));
-    parseEventData(Updater::instance()->loadDataByStage(Updater::Resources::Event));
+//    initializeRoles();
+//    parseEventTypeData(Updater::instance()->loadDataByStage(Updater::Resources::EventType));
+//    parseEventData(Updater::instance()->loadDataByStage(Updater::Resources::Event));
 
 
 //    addEvent(new Event{ "first title "});

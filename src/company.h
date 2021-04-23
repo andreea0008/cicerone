@@ -62,15 +62,15 @@ struct LocationCompany
         //1 = Monday to 7 = Sunday
         QLocale englishLocale = QLocale(QLocale::English);
         const QString nameCurrentDay = englishLocale.toString(QDate::currentDate(), "dddd").toLower();
-        qDebug() << __LINE__ << nameCurrentDay;
+//        qDebug() << __LINE__ << nameCurrentDay << weekSchedule.size() << weekSchedule.at(0).day;
         QPair<bool, QString> result;
         for(int indexDay = 0; indexDay < weekSchedule.size(); indexDay++){
             const auto currentSchedule = weekSchedule.at(indexDay);
-            if(weekSchedule.at(indexDay).day == nameCurrentDay){
+            if(weekSchedule.at(indexDay).day.toLower() == nameCurrentDay){
                 const auto workSchedule = currentSchedule.workShedule();
                 const auto breakSchedule = currentSchedule.breakSchedule();
                 const auto isNowBreak = currentSchedule.nowIsBreak(QTime::currentTime());
-                qDebug() << __LINE__ << workSchedule << breakSchedule << isNowBreak << QTime::currentTime();
+//                qDebug() << __LINE__ << workSchedule << breakSchedule << isNowBreak << QTime::currentTime();
                 result = QPair<bool, QString>(isNowBreak,
                                               isNowBreak ? breakSchedule : workSchedule);
                 break;
