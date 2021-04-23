@@ -7,8 +7,10 @@
 #include <QVariant>
 #include <QDebug>
 #include <QPair>
+#include <QDataStream>
 
 static QString FORMAT_SCHEDULE = QString("hh:mm");
+
 struct Schedule
 {
     QString day;
@@ -41,7 +43,11 @@ struct Schedule
     {
         return (breakTime > breakTimeFrom) && (breakTime < breakTimeTo);
     }
+
+    friend QDataStream& operator<<(QDataStream& out, const Schedule& v);
+    friend QDataStream& operator>>(QDataStream& in, Schedule& v);
 };
+
 
 struct LocationCompany
 {
@@ -56,15 +62,15 @@ struct LocationCompany
         //1 = Monday to 7 = Sunday
         QLocale englishLocale = QLocale(QLocale::English);
         const QString nameCurrentDay = englishLocale.toString(QDate::currentDate(), "dddd").toLower();
-        qDebug() << __LINE__ << nameCurrentDay;
+//        qDebug() << __LINE__ << nameCurrentDay << weekSchedule.size() << weekSchedule.at(0).day;
         QPair<bool, QString> result;
         for(int indexDay = 0; indexDay < weekSchedule.size(); indexDay++){
             const auto currentSchedule = weekSchedule.at(indexDay);
-            if(weekSchedule.at(indexDay).day == nameCurrentDay){
+            if(weekSchedule.at(indexDay).day.toLower() == nameCurrentDay){
                 const auto workSchedule = currentSchedule.workShedule();
                 const auto breakSchedule = currentSchedule.breakSchedule();
                 const auto isNowBreak = currentSchedule.nowIsBreak(QTime::currentTime());
-                qDebug() << __LINE__ << workSchedule << breakSchedule << isNowBreak << QTime::currentTime();
+//                qDebug() << __LINE__ << workSchedule << breakSchedule << isNowBreak << QTime::currentTime();
                 result = QPair<bool, QString>(isNowBreak,
                                               isNowBreak ? breakSchedule : workSchedule);
                 break;
@@ -74,13 +80,10 @@ struct LocationCompany
     }
 };
 
-class Company : public QObject{
-    Q_OBJECT
-
+class Company {
 public:
-    Company(const QString &nameBusinessCompany, QObject *parent = nullptr);
-
-
+    Company();
+    Company(const QString &nameBusinessCompany);
 
     int id() const;
     void setId(int id);
@@ -120,6 +123,8 @@ public:
     int getCategoryId() const;
     void setCategoryId(int value);
 
+    friend QDataStream& operator<<(QDataStream& out, const Company& v);
+    friend QDataStream& operator>>(QDataStream& in, Company& v);
 private:
     int m_id;
     int categoryId;
@@ -135,4 +140,27 @@ private:
     Schedule schedule;
 };
 Q_DECLARE_METATYPE(Schedule);
+Q_DECLARE_METATYPE(Company);
+
+inline QDataStream& operator<<(QDataStream& out, const Schedule& v) {
+    out << v.day << v.workTimeTo;
+    return out;
+};
+
+inline QDataStream& operator>>(QDataStream& in, Schedule& v) {
+    in >> v.day;
+    in >> v.workTimeTo;
+    return in;
+};
+
+inline QDataStream& operator<<(QDataStream& out, const Company& v)
+{
+    out << v.nameCompany;
+    return out;
+}
+inline QDataStream& operator>>(QDataStream& in, Company& v)
+{
+    in >> v.nameCompany;
+    return in;
+}
 #endif // COMPANY_H

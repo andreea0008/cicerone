@@ -1,12 +1,16 @@
 import QtQuick 2.0
 import Felgo 3.0
 import QtQuick.Controls 2.12
+import com.cicerone.filterModel 1.0
 import "../../"
 import "../../components"
 
 Item {
     anchors.fill: parent
     visible: BaseProperty.visiblePage(4)
+
+//    Settings{ id: ciceroneSettings }
+
 
     Column{
         anchors.fill: parent
@@ -30,8 +34,8 @@ Item {
             }
 
             CiceroneSwitch {
-                checked: CiceroneSettings.isSendData
-                onCheckedChanged: CiceroneSettings.setIsSendData(checked)
+                checked: Settings.isSendData
+                onCheckedChanged: Settings.setIsSendData(checked)
             }
         }
         Item{

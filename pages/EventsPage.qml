@@ -7,7 +7,7 @@ import "../"
 Item{
     //width: parent.width
     //height: parent.height
-    Finder{ id: finder; properties: bp }
+    Finder{ id: finder }
     ListView{
         id: list
         width: parent.width
@@ -15,15 +15,17 @@ Item{
         anchors.bottom: parent.bottom
         spacing: dp(1)
         clip: true
-        model: 10
+        model: Events
         antialiasing: true
         delegate: DelegateEvent {
             id: delegate
             anchors.left: parent.left
             anchors.right: parent.right
-            color: bp.backgroundDelegateColor
-            height: bp.heightDelegate
+            color: BaseProperty.backgroundDelegateColor
+            height: BaseProperty.heightDelegate
             state: "hide"
+            eventTitle: title
+            descriptionEvent: description
         }
     }
 }

@@ -63,5 +63,10 @@
         <file>img/delegate_icons/lock_schedule.png</file>
         <file>img/delegate_icons/unlock_schedule.png</file>
         <file>qmldir</file>
+        <file>pages/EventOverviewScreen.qml</file>
+        <file>img/close_icon.png</file>
+        <file>img/delegate_icons/www.png</file>
+        <file>img/svg/rotate.svg</file>
+        <file>img/svg/filter.svg</file>
     </qresource>
 </RCC>

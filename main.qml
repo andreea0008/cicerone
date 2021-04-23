@@ -8,6 +8,7 @@ import "components"
 import "delegates"
 import "pages/stack"
 import "pages/SplashScreen"
+import "."
 
 App {
     id: app
@@ -16,7 +17,7 @@ App {
     height: 812
 
     onInitTheme: { Theme.normalFont = BaseProperty.fontLoader }
-//    property BaseProperty bp: BaseProperty{}
+
     // Background
     Rectangle {
         width: app.width
@@ -31,6 +32,8 @@ App {
         anchors.right: parent.right
         fontloader: BaseProperty.fontLoader
         backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1) && (BaseProperty.currentPageId !== 3 || BaseProperty.currentPageId !== 4)
+        filterBtnVisible: stackEventItem.visible
+
         onPressedArrowButton: {
             switch(categoryId){
                 case 1: stackEventItem.eventsStack.pop(); break;
@@ -45,8 +48,6 @@ App {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottomMargin: app.height * 0.1
-
-
 
         EventItem {
             id: stackEventItem
@@ -77,7 +78,15 @@ App {
         height: app.height * 0.08
     }
 
-    Splash {
-
+    Loader{
+        id: eventOverviewLoader
+        anchors.fill: parent
+        visible: false
     }
+
+    function showEvent() { eventOverviewLoader.source = "pages/EventOverviewScreen.qml"; eventOverviewLoader.visible = true }
+    function hideEvent() { eventOverviewLoader.source = "" }
+//    Splash {
+
+//    }
 }

@@ -10,7 +10,6 @@ Rectangle {
     color: BaseProperty.backgroundDelegateColor
 
     property alias text: label.text
-//    property BaseProperty bp: BaseProperty{}
     
     signal relesed()
 

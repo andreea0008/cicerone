@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>api_data/category.json</file>
+        <file>api_data/city.json</file>
+        <file>api_data/country.json</file>
+        <file>api_data/public_place.json</file>
+    </qresource>
+</RCC>

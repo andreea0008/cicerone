@@ -39,6 +39,7 @@ Item
                 spacing: dp(1)
                 clip: true
                 model: FavoriteCompanyList
+                onModelChanged: console.log("favorite_model_changed")
                 antialiasing: true
                 delegate: DelegateLocaleBusinessItem {
                     anchors.left: parent.left

@@ -1,5 +1,5 @@
 QT += quick xml location
-CONFIG += felgo
+CONFIG += felgo felgo-live
 CONFIG += C++14
 #QMAKE_CXXFLAGS += -std=c++11
 # The following define makes your compiler emit warnings if you use
@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    src/Event/eventcategory.cpp \
     src/Filters/filtermodel.cpp \
     src/Networker/jsonfileloader.cpp \
     src/Networker/jsonnetworkloader.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
     src/clipboard.cpp
 
 RESOURCES += qml.qrc \
+    api_data.qrc \
     xml_files.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -51,7 +53,9 @@ QML_DESIGNER_IMPORT_PATH =
 #!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/Event/eventcategory.h \
     src/Filters/filtermodel.h \
+    src/Logger/Errors.h \
     src/Networker/jsonfileloader.h \
     src/Networker/jsonnetworkloader.h \
     src/Networker/jsonsaver.h \

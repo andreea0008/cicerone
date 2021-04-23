@@ -1,26 +1,11 @@
 #ifndef URLS_H
 #define URLS_H
+
 #include <QString>
-#include <QUrl>
 
-#define COUNTRY_URL "127.0.0.1:8000/api/v1/catalog/country/"
-
-struct Urls
-{
-public:
-    QString countryUrl = "127.0.0.1:8000/api/v1/catalog/country/";
-
-};
-
-//#include <QString>
-//class AllUrls{
-//public:
-//    inline static QString MAIN_URL ="127.0.0.1:8000/api/v1/catalog";
-//    inline static QString COUNTRIES_URL = QString("%1/country/").arg(MAIN_URL);
-//    inline QString country_url()
-//    {
-//        return COUNTRIES_URL;
-//    }
-//};
+static const QString MainUrl = QString("http://127.0.0.1:8000/api/v1/catalog/");
+static const QString PublicPlaceUrl = QString("%1public_place/").arg(MainUrl);
+static const QString EventTypeUrl = QString("%1event_type/").arg(MainUrl);
+static const QString EventUrl = QString("%1event/").arg(MainUrl);
 
 #endif // URLS_H

@@ -172,7 +172,6 @@ Item
                         Finder{
                             id: finder;
                             Layout.fillWidth: true
-//                            Layout.preferredHeight: dp(20)
                         }
 
                         Item {

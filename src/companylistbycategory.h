@@ -20,22 +20,23 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE void addCompany(Company *company);
-    Q_INVOKABLE void removeCompanyByIndex(int index);
-    Q_INVOKABLE void removeCompany(QString companyName);
-    Q_INVOKABLE void changeIsFavoriteProperty(const int index, bool isFavorite);
-    Q_INVOKABLE void changeIsFavoriteProperty(QString companyName, bool isFavorite);
-    Q_INVOKABLE void filterCompanyByCategoryIndex(const int index);
-    Q_INVOKABLE void searchCompanyByNameInFilteringList(QString partNameCompany);
-    void parseData(QByteArray document);
+public slots:
+    void addCompany(Company *company);
+    void removeCompanyByIndex(int index);
+    void removeCompany(QString companyName);
+    void changeIsFavoriteProperty(const int index, bool isFavorite);
+    void changeIsFavoriteProperty(QString companyName, bool isFavorite);
+    void filterCompanyByCategoryIndex(const int index);
+    void searchCompanyByNameInFilteringList(QString partNameCompany);
 
 protected:
-    QVector<Company*> filteredCompany;
+    void parseData(QByteArray document);
     QVector<Company*> allCompanies;
+    QVector<Company*> filteredCompany;
     QVector<Company*> cloneFilteredCompany;
     void initializeRoles();
-    enum CompanyRoles {Id, NameCompany, IsFavorite, Address, ScheduleByCurrentDate,
-                      StateOpen, Phones, Facebook, Instagramm, Www, Email, Location };
+    enum CompanyRoles { NameCompany, IsFavorite, Address, ScheduleByCurrentDate,
+                        StateOpen, Phones, Facebook, Instagramm, Www, Email, Location };
     QHash<int, QByteArray> roles;
 private:
     QString previousPartNameForSearch;

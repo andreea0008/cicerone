@@ -14,8 +14,8 @@ class Updater : public QObject
 {
     Q_OBJECT
 
-    enum Stages { NoLoaded, CountryLoaded, CityLoaded, CategoryLoaded, PublicPlacesLoaded };
-    const QString MAIN_URL = "http://127.0.0.1:8000/api/v1/catalog/";
+    enum Stages { NoLoaded, CountryLoaded, CityLoaded, CategoryLoaded, PublicPlacesLoaded,
+                  EventTypeLoaded, EventLoaded };
 
     Stages currentStage = Stages::NoLoaded;
     void setNewStage(const Stages stage);
@@ -23,11 +23,7 @@ class Updater : public QObject
     Updater(QObject *parent = nullptr);
     Updater(const Updater&) = delete;
     void operator=(const Updater &updater) = delete;
-
-    Settings* _settings;
-    QMap<QString, QString> _namesAndUrls{ {"country", ""} };
-
-    bool loadDataByName(const QString& name, const Stages nextStage);
+    bool loadDataByName(const QString& name, const Stages nextStage, bool needUpdate=false);
 
 signals:
     void dataLoaded();
@@ -35,9 +31,10 @@ signals:
 
 protected:
     static Updater* updater_;
+
 public:
     static Updater* instance();
-    enum Resources { PublicPlace };
+    enum Resources { PublicPlace, EventType, Event };
     void startLoad();
     QByteArray loadDataByStage(Resources resource);
 };

@@ -5,8 +5,9 @@ import "../"
 SearchBar {
     id: searchBar
     iosAlternateStyle: true
-    textField.placeholderText: qsTr("Пошук")
+    textField.placeholderText: qsTr("Search")
     barBackgroundColor: BaseProperty.finderBackground
     inputBackgroundColor: BaseProperty.finderTextAreabackground
     textColor: BaseProperty.text_color
+    showClearButton: true
 }

@@ -11,10 +11,8 @@ Rectangle {
     property int lrMar
     property bool isFavorite
     property string eventTitle: "Event_title"
+    property string descriptionEvent: ""
     property string where: "address"
-
-    property BaseProperty bp: BaseProperty{}
-
     MouseArea{
         id: mouseArea
         anchors.fill: parent
@@ -31,7 +29,7 @@ Rectangle {
         Item{
             anchors.left: parent.left
             anchors.right: parent.right
-            height: bp.heightDelegate
+            height: BaseProperty.heightDelegate
 
 
             Text {
@@ -40,8 +38,8 @@ Rectangle {
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
-                font.family: bp.fontLoader.name
-                font.pixelSize: bp.h1
+                font.family: BaseProperty.fontLoader.name
+                font.pixelSize: BaseProperty.h1
                 text: eventTitle
             }
         }
@@ -50,22 +48,22 @@ Rectangle {
             id: redSpacer
             height: 1
             width: parent.width
-            color: bp.red_line_color
+            color: BaseProperty.red_line_color
         }
 
         Item {
             id: itemMainDescription
             anchors.left: parent.left
             anchors.right: parent.right
-            height: bp.doubleHeightDelegate
+            height: BaseProperty.doubleHeightDelegate
             Text{
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.verticalCenter
                 color: "white"
-                font.family: bp.fontLoader.name
+                font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: bp.h1
+                font.pixelSize: BaseProperty.h1
                 text: where
             }
 
@@ -74,9 +72,9 @@ Rectangle {
                 anchors.top: parent.verticalCenter
                 anchors.bottom: parent.bottom
                 color: "white"
-                font.family: bp.fontLoader.name
+                font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: bp.h1
+                font.pixelSize: BaseProperty.h1
                 text: where
             }
 
@@ -85,7 +83,7 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 width: parent.height /2
                 height: width
-                color: bp.red_line_color
+                color: BaseProperty.red_line_color
                 radius: height /8
                 opacity: mouseId.pressed ? 0.8 : 1.0
 
@@ -101,7 +99,8 @@ Rectangle {
                     id: mouseId
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: stackEvents.push("../pages/DetailEventPage.qml")
+                    onClicked: stackEvents.push("../pages/DetailEventPage.qml", {"name_event": eventTitle,
+                                                "descriptio_event": descriptionEvent})
                 }
             }
         }
@@ -113,8 +112,8 @@ Rectangle {
             name: "hide"
             PropertyChanges {
                 target: delegate
-                height: bp.heightDelegate
-                color: bp.backgroundDelegateColor
+                height: BaseProperty.heightDelegate
+                color: BaseProperty.backgroundDelegateColor
             }
 
             PropertyChanges {
@@ -132,8 +131,8 @@ Rectangle {
             name: "show"
             PropertyChanges {
                 target: delegate
-                height: bp.heightDelegate *3.2
-                color: bp.pressed_color
+                height: BaseProperty.heightDelegate *3.2
+                color: BaseProperty.pressed_color
             }
 
             PropertyChanges {

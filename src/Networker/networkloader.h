@@ -3,14 +3,13 @@
 
 #include "src/loaderinterface.h"
 #include <QNetworkAccessManager>
-#include <memory>
 
 class NetworkLoader : public LoaderInterface
 {
     Q_OBJECT
 public:
     NetworkLoader(QObject *parent = nullptr);
-    ~NetworkLoader();
+    virtual ~NetworkLoader(){}
     virtual void load() = 0;
     virtual void save() = 0;
 

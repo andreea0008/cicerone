@@ -21,7 +21,6 @@ JsonNetworkLoader::JsonNetworkLoader(QString url, QString fileName, QObject *obj
 void JsonNetworkLoader::load()
 {
     QEventLoop loop;
-    qDebug() << __FUNCTION__ << "start load";
     manager->get(QNetworkRequest(url_));
     connect(manager, &QNetworkAccessManager::finished, this, &JsonNetworkLoader::onLoaded);
     connect(manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
@@ -30,7 +29,7 @@ void JsonNetworkLoader::load()
 
 void JsonNetworkLoader::save()
 {
-    JsonSaver saver(loadedJsonDocument_, "json_files", fileName_);
+    JsonSaver saver(loadedJsonDocument_, "json_files", fileName_, true);
     saver.save();
 }
 

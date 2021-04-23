@@ -1,0 +1,65 @@
+[
+    {
+        "category": 1,
+        "city": 1,
+        "country": 1,
+        "id": 1,
+        "location": [
+            {
+                "address": "tgrtgtrg",
+                "holiday_schedule": [
+                ],
+                "id": 1,
+                "inclusive": true,
+                "lat": "4543543",
+                "lng": "4354354",
+                "phone": [
+                    {
+                        "id": 1,
+                        "location": 1,
+                        "phone": "345435435435435"
+                    },
+                    {
+                        "id": 2,
+                        "location": 1,
+                        "phone": "123123332"
+                    }
+                ],
+                "public_place": 1,
+                "working_schedule": [
+                    {
+                        "break_time_from": "13:00:00",
+                        "break_time_to": "14:00:00",
+                        "day": "sunday",
+                        "work_time_from": "08:00:00",
+                        "work_time_to": "17:00:00"
+                    }
+                ]
+            },
+            {
+                "address": "Location2",
+                "holiday_schedule": [
+                ],
+                "id": 2,
+                "inclusive": true,
+                "lat": "4543543",
+                "lng": "435435444",
+                "phone": [
+                ],
+                "public_place": 1,
+                "working_schedule": [
+                ]
+            }
+        ],
+        "name": "Cosmos",
+        "social_info": [
+            {
+                "id": 1,
+                "link": "velocity.gaga",
+                "name_social": "facebook",
+                "public_place": 1,
+                "public_place_name": "Cosmos"
+            }
+        ]
+    }
+]

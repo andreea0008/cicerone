@@ -8,7 +8,7 @@
 class JsonSaver
 {
 public:
-    JsonSaver(QJsonDocument document, QString location, QString name);
+    JsonSaver(QJsonDocument document, QString location, QString name, bool needClear=false);
     ~JsonSaver();
     void save();
 

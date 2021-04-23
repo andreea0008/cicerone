@@ -6,8 +6,6 @@
 #include <QDebug>
 #include "updater.h"
 
-static const int DAYS_COUNT = 7;
-
 CompanyListByCategory::CompanyListByCategory(QObject *parent)
     : QAbstractItemModel(parent)
 {
@@ -39,15 +37,14 @@ QModelIndex CompanyListByCategory::parent(const QModelIndex &child) const
 
 void CompanyListByCategory::initializeRoles()
 {
-    roles[Id] = "CompanyId";
     roles[NameCompany] = "NameCompany";
     roles[IsFavorite] = "IsFavorite";
     roles[Address] = "Address";
     roles[ScheduleByCurrentDate] = "Schedule";
     roles[StateOpen] = "StateOpen";
     roles[Phones] = "Phones";
-    roles[Facebook] = "FacebookLink";
-    roles[Instagramm] = "Instagramm";
+    roles[Facebook] = "Facebook";
+    roles[Instagramm] = "Instagram";
     roles[Www] = "WWW";
     roles[Email] = "Email";
     roles[Location] = "Location";
@@ -55,13 +52,12 @@ void CompanyListByCategory::initializeRoles()
 
 QVariant CompanyListByCategory::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || index.column() != 0 || index.row() < 0 || index.row() >= filteredCompany.count())
+    if(!index.isValid() || index.column() != 0 || index.row() < 0 || index.row() >= filteredCompany.size())
         return QVariant();
 
     const auto company = filteredCompany[index.row()];
     switch(role)
     {
-    case Id: return company->id();
     case NameCompany: return company->getNameCompany();
     case IsFavorite: return company->getIsFavorite();
     case Address: return QVariant::fromValue(company->getLocationList());
@@ -170,18 +166,19 @@ void CompanyListByCategory::searchCompanyByNameInFilteringList(QString partNameC
 
 void CompanyListByCategory::parseData(QByteArray document)
 {
+    qDebug() << "parse data";
     QJsonDocument doc = QJsonDocument::fromJson(document);
     auto array = doc.array();
     for(const auto item : array)
     {
         auto objectCompany = item.toObject();
-        auto name_company = objectCompany.value("name_company").toString();
-        Company *company = new Company(name_company, this);
+        auto name_company = objectCompany.value("name").toString();
+        Company *company = new Company(name_company);
 
         company->setCategoryId(objectCompany.value("category").toInt());
 
         //parse phone calls
-        auto phonesArray = objectCompany.value("phones").toArray();
+        auto phonesArray = objectCompany.value("phone").toArray();
         QStringList phonesList;
         for(const auto phoneItem : phonesArray)
         {
@@ -189,6 +186,7 @@ void CompanyListByCategory::parseData(QByteArray document)
             const auto phone = phoneObject.value("phone").toString();
             phonesList.push_back(phone);
         }
+
         auto locationArray = objectCompany.value("location").toArray();
 
         //parse locations
@@ -197,24 +195,23 @@ void CompanyListByCategory::parseData(QByteArray document)
         {
             auto locationObject = location.toObject();
             LocationCompany locationCompany;
-            locationCompany.address = locationObject.value("address_location").toString();
+            locationCompany.address = locationObject.value("address").toString();
             locationCompany.lat = locationObject.value("lat").toString();
             locationCompany.lng = locationObject.value("lng").toString();
 
             //add phones
             QStringList phonesList;
-            const auto listJsonPhones = locationObject.value("phones").toArray();
+            const auto listJsonPhones = locationObject.value("phone").toArray();
             for(const auto phoneObject : listJsonPhones)
             {
-                phonesList.push_back(phoneObject.toObject().value("phone_number").toString());
+                phonesList.push_back(phoneObject.toObject().value("phone").toString());
             }
+
             locationCompany.phones = phonesList;
 
             //fill schedule
             QVector<Schedule> scheduleByLocation;
-            qDebug() << __LINE__ << scheduleByLocation.size();
-            const auto listJsonSchedules = locationObject.value("working_days_schedule").toArray();
-           qDebug() << __LINE__ << listJsonSchedules.size();
+            const auto listJsonSchedules = locationObject.value("working_schedule").toArray();
             for(const auto scheduleObject : listJsonSchedules)
             {
                 const auto objectSchedule = scheduleObject.toObject();
@@ -250,23 +247,27 @@ void CompanyListByCategory::parseData(QByteArray document)
         //parse social account
         {
 
-            auto socialsArray = objectCompany.value("social").toArray();
+            auto socialsArray = objectCompany.value("social_info").toArray();
             for(const auto socialItem : socialsArray)
             {
                 const auto socialObject = socialItem.toObject();
-                const auto nameSocial = socialObject.value("name_social_network").toString();
-                const auto linkSocial = socialObject.value("link_social_network").toString();
+                const auto nameSocial = socialObject.value("name_social").toString().toLower();
+                const auto linkSocial = socialObject.value("link").toString();
                 if(nameSocial == "facebook")
                     company->setFacebook(linkSocial);
 
-                if(nameSocial == "instagram")
+                if(nameSocial == "instagram"){
                     company->setInstagramm(linkSocial);
+                }
 
                 if(nameSocial == "email")
                     company->setEmail(linkSocial);
 
+                if(nameSocial == "www")
+                    company->setWww(linkSocial);
             }
         }
         allCompanies.push_back(company);
     }
+    qDebug() << __FUNCTION__ << allCompanies.size();
 }
