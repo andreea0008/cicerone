@@ -115,8 +115,10 @@ Item
                                     anchors.fill: parent
                                     color: BaseProperty.backgroundDelegateColor
                                     radius: width /4
-                                    border.color: BaseProperty.red_line_color
-                                    border.width: index === listDates.currentIndex ? dp(1) : dp(0)
+                                    border.color: index === listDates.currentIndex ? BaseProperty.red_line_color
+                                                                                   : BaseProperty.color_button_shadow
+
+                                    border.width: index === listDates.currentIndex ? dp(2) : dp(1)
 
                                     Column{
                                         anchors.fill: parent
@@ -362,7 +364,7 @@ Item
             }
 
             function updateModelData() {
-                let mainUrl = "http://127.0.0.1:8000/api/v1/catalog/event/?"
+                let mainUrl = "https://dev-cicerone.herokuapp.com/api/v1/catalog/event/"
                 if(finder.text.length !== 0) {
                     mainUrl += qsTr("search=%1").arg(finder.text)
                 }
@@ -395,6 +397,8 @@ Item
                     }
                 })(request)
                 request.open("GET", url)
+                request.setRequestHeader("Authorization", "Basic " + Qt.btoa("admin:admin"));
+                request.setRequestHeader('Content-Type', 'application/json');
                 request.send()
             }
         }
