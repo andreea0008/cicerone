@@ -252,7 +252,7 @@ Item
 
                         delegate: Rectangle {
                             width: parent.width
-                            height: BaseProperty.heightEventDelegate
+                            height: app.dp(BaseProperty.heightEventDelegate)
                             color:  BaseProperty.backgroundDelegateColor
 
                             property var eventObject: modelData
@@ -300,7 +300,7 @@ Item
                                         verticalAlignment: Text.AlignVCenter
                                         color: BaseProperty.text_color
                                         font.family: BaseProperty.fontLoader.name
-                                        font.pixelSize: BaseProperty.h2
+                                        font.pixelSize: app.sp(BaseProperty.h2)
                                     }
 
                                     Text {
@@ -311,7 +311,7 @@ Item
                                         color: BaseProperty.red_text_color
                                         font.family: BaseProperty.fontLoader.name
                                         horizontalAlignment: Text.AlignHCenter
-                                        font.pixelSize: BaseProperty.h2
+                                        font.pixelSize: app.sp(BaseProperty.h2)
                                     }
                                 }
 
@@ -325,7 +325,7 @@ Item
                                         verticalAlignment: Text.AlignVCenter
                                         color: BaseProperty.text_color
                                         font.family: BaseProperty.fontLoader.name
-                                        font.pixelSize: BaseProperty.h2
+                                        font.pixelSize: app.sp(BaseProperty.h2)
                                     }
 
                                     Text {
@@ -336,7 +336,7 @@ Item
                                         color: BaseProperty.red_text_color
                                         font.family: BaseProperty.fontLoader.name
                                         horizontalAlignment: Text.AlignHCenter
-                                        font.pixelSize: BaseProperty.h2
+                                        font.pixelSize: app.sp(BaseProperty.h2)
                                     }
                                 }
                             }
