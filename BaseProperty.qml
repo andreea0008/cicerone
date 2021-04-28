@@ -8,6 +8,8 @@ import QtQuick.Layouts 1.3
 QtObject {
     readonly property color backgroundColor: "#28262E"
     readonly property color red_line_color: "#F01D44"
+    readonly property color red: "#F01D44"
+    readonly property color white: "white"
     readonly property color selected_color: "#1F1E23"
     readonly property color text_color: "white"
     readonly property color color_button_shadow: "white"

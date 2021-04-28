@@ -1,6 +1,8 @@
-import QtQuick 2.12
 import Felgo 3.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
 import "."
+
 Rectangle{
     id: topHead
     anchors.top: parent.top
@@ -16,49 +18,48 @@ Rectangle{
     signal pressedArrowButton(var categoryId)
     signal filterPressed()
 
-    Text{
-        id: textGuideIf
-        anchors.left: backArrow.visible ? backArrow.right : parent.left
-        anchors.leftMargin: parent.height / 4
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: sp(5)
-        font.pixelSize: sp(28)
-        color: BaseProperty.text_color
-        text: "Cicerone"
-        font.bold: true
-        font.family: fontloader.name
-    }
+    RowLayout {
+        anchors {
+            top: parent.verticalCenter
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
 
-    AppImage {
-        id: backArrow
-        height: textGuideIf.height * 0.5
-        width: height
-        anchors.left: parent.left
-        anchors.leftMargin: height / 2
-        anchors.verticalCenter: textGuideIf.verticalCenter
-        source: "img/left-arrow.png"
-        MouseArea{
-            anchors.fill: parent
-            onReleased: pressedArrowButton(BaseProperty.currentPageId)
+        IconButton {
+            id: backArrow
+            Layout.preferredWidth: height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignVCenter
+            icon: IconType.longarrowleft
+            size: BaseProperty.whIcon
+            color: BaseProperty.white
+            onPressed: pressedArrowButton(BaseProperty.currentPageId)
+        }
+
+        Text{
+            id: textGuideIf
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignVCenter
+            font.pixelSize: sp(28)
+            color: BaseProperty.text_color
+            text: "Cicerone"
+            font.bold: true
+            font.family: fontloader.name
+        }
+
+        IconButton {
+            Layout.preferredWidth: height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignVCenter
+            visible: filterBtnVisible
+            icon: IconType.sliders
+            size: BaseProperty.whIcon
+            color: BaseProperty.white
+            onPressed: filterPressed()
         }
     }
-
-    AppImage {
-        id: filterButton
-        height: textGuideIf.height * 0.5
-        width: height
-        visible: filterBtnVisible
-        anchors.right: parent.right
-        anchors.rightMargin: height / 2
-        anchors.verticalCenter: textGuideIf.verticalCenter
-        source: "img/svg/filter.svg"
-        antialiasing: true
-        MouseArea{
-            anchors.fill: parent
-            onReleased: filterPressed()
-        }
-    }
-
 
     Rectangle{
         anchors.left: parent.left

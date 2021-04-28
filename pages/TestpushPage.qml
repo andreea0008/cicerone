@@ -21,8 +21,7 @@ Item{
         antialiasing: true
         delegate: DelegateLocaleBusinessItem {
             id: delegate
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: parent.width
             color: BaseProperty.backgroundDelegateColor
             height: BaseProperty.heightDelegate
             companyName: NameCompany

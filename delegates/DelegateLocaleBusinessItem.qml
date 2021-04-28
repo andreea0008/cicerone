@@ -59,55 +59,32 @@ Rectangle {
         anchors.rightMargin: dp(15)
         visible: true
 
-        Item{
+        RowLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             height: BaseProperty.heightDelegate
 
-
             Text {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignVCenter
                 color: "white"
                 font.family: BaseProperty.fontLoader.name
+                verticalAlignment: Text.AlignVCenter
                 font.pixelSize: BaseProperty.h1
                 text: companyName
             }
 
-            MouseArea{
-                anchors.right: parent.right
-                height: parent.height
-                width: height
+            IconButton {
+                Layout.preferredWidth: height
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignVCenter
+                icon: delegate.isFavorite ? IconType.star : IconType.staro
+                size: BaseProperty.whIcon
+                color: BaseProperty.red
                 onPressed: {
                     delegate.isFavorite = !delegate.isFavorite
                     pressedFavorite()
-                }
-                Image{
-                    anchors.centerIn: parent
-                    width: BaseProperty.whIcon
-                    height: BaseProperty.whIcon
-                    antialiasing: true
-                    source: delegate.isFavorite ? "../img/delegate_icons/128x128/favorite_check.png"
-                                                : "../img/delegate_icons/128x128/favorite_uncheck.png"
-                }
-            }
-
-            MouseArea{
-                anchors.right: parent.right
-                anchors.rightMargin: 40
-                height: parent.height
-                width: height
-                onPressed: {
-                    showEvent()
-                }
-                Image{
-                    anchors.centerIn: parent
-                    width: BaseProperty.whIcon
-                    height: BaseProperty.whIcon
-                    antialiasing: true
-                    source: "../img/delegate_icons/128x128/favorite_check.png"
                 }
             }
         }

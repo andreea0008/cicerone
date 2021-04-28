@@ -42,10 +42,9 @@ Item
                 onModelChanged: console.log("favorite_model_changed")
                 antialiasing: true
                 delegate: DelegateLocaleBusinessItem {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    color: BaseProperty.backgroundDelegateColor
+                    width: listViewFavoriteCategory.width
                     height: BaseProperty.heightDelegate
+                    color: BaseProperty.backgroundDelegateColor
                     companyName: NameCompany
                     isFavorite: IsFavorite
                     address: Address

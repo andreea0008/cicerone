@@ -23,7 +23,7 @@ class Updater : public QObject
     Updater(QObject *parent = nullptr);
     Updater(const Updater&) = delete;
     void operator=(const Updater &updater) = delete;
-    bool loadDataByName(const QString& name, const Stages nextStage, bool needUpdate=false);
+    bool loadDataByName(const QString& name, const Stages nextStage, bool needUpdate=true);
 
 signals:
     void dataLoaded();

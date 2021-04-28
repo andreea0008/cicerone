@@ -300,7 +300,7 @@ Item
                                         verticalAlignment: Text.AlignVCenter
                                         color: BaseProperty.text_color
                                         font.family: BaseProperty.fontLoader.name
-                                        font.pixelSize: 0
+                                        font.pixelSize: BaseProperty.h2
                                     }
 
                                     Text {
@@ -311,7 +311,7 @@ Item
                                         color: BaseProperty.red_text_color
                                         font.family: BaseProperty.fontLoader.name
                                         horizontalAlignment: Text.AlignHCenter
-                                        font.pixelSize: BaseProperty.h3
+                                        font.pixelSize: BaseProperty.h2
                                     }
                                 }
 
@@ -325,7 +325,7 @@ Item
                                         verticalAlignment: Text.AlignVCenter
                                         color: BaseProperty.text_color
                                         font.family: BaseProperty.fontLoader.name
-                                        font.pixelSize: 0
+                                        font.pixelSize: BaseProperty.h2
                                     }
 
                                     Text {
@@ -336,7 +336,7 @@ Item
                                         color: BaseProperty.red_text_color
                                         font.family: BaseProperty.fontLoader.name
                                         horizontalAlignment: Text.AlignHCenter
-                                        font.pixelSize: BaseProperty.h3
+                                        font.pixelSize: BaseProperty.h2
                                     }
                                 }
                             }
@@ -364,7 +364,7 @@ Item
             }
 
             function updateModelData() {
-                let mainUrl = "https://dev-cicerone.herokuapp.com/api/v1/catalog/event/"
+                let mainUrl = "https://dev-cicerone.herokuapp.com/api/v1/catalog/event/?"
                 if(finder.text.length !== 0) {
                     mainUrl += qsTr("search=%1").arg(finder.text)
                 }
@@ -378,6 +378,7 @@ Item
 
                 request(mainUrl, function(response)
                 {
+                    console.log("response: ", response.responseText)
                     if(response.status === 200) {
                         console.log("Response: ", response.responseText)
                         allEvents = JSON.parse(response.responseText)
