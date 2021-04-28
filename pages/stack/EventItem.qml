@@ -128,7 +128,7 @@ Item
                                             height: parent.height /2
                                             text: day
                                             font.family: BaseProperty.fontLoader.name
-                                            font.pixelSize: BaseProperty.h1
+                                            font.pixelSize: app.sp(BaseProperty.h1)
                                             color: BaseProperty.text_color
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
@@ -140,7 +140,7 @@ Item
                                             height: parent.height /2
                                             text: qsTr("%1/%2").arg(date).arg(month)
                                             font.family: BaseProperty.fontLoader.name
-                                            font.pixelSize: BaseProperty.h1
+                                            font.pixelSize: app.sp(BaseProperty.h1)
                                             color: BaseProperty.red_line_color
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
