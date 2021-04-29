@@ -19,6 +19,8 @@ public:
     QUrl url() const;
     void setUrl(const QString &url);
 
+    QJsonDocument loadedJsonDocument() const;
+
 signals:
     void ready();
 

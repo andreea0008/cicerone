@@ -13,8 +13,8 @@ import "."
 App {
     id: app
     visible: true
-    width: 375
-    height: 812
+    width: 1080/2
+    height: 1920/2
 
     onInitTheme: { Theme.normalFont = BaseProperty.fontLoader }
 

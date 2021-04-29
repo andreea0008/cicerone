@@ -28,6 +28,7 @@ bool Updater::loadDataByName(const QString& name, const Stages nextStage,  bool 
     {
         JsonNetworkLoader jsonNetworkLoader(QString("%1%2/").arg(MainUrl).arg(name), name, this);
         jsonNetworkLoader.load();
+        jsonFileLoader.load();
     }
     auto isLoaded = !jsonFileLoader.loadedJsonDocument().toJson().isEmpty();
     if(isLoaded){

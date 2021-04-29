@@ -6,7 +6,8 @@ import QtGraphicalEffects 1.13
 import "../"
 
 Rectangle {
-    height: BaseProperty.heightDelegate
+    id: root
+    height: dp(BaseProperty.heightDelegate)
     color: BaseProperty.backgroundDelegateColor
 
     property alias text: label.text
@@ -21,7 +22,7 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
         color: BaseProperty.text_color
         font.family: BaseProperty.fontLoader.name
-        font.pixelSize: BaseProperty.h1
+        font.pixelSize: sp(BaseProperty.h1)
     }
 
     MouseArea{
@@ -32,7 +33,7 @@ Rectangle {
         onExited: parent.color = BaseProperty.backgroundDelegateColor
         onReleased: {
             parent.color = BaseProperty.backgroundDelegateColor
-            relesed()
+            root.relesed()
         }
     }
 }

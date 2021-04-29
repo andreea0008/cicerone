@@ -43,6 +43,11 @@ void JsonNetworkLoader::setUrl(const QString &url)
     url_ = url;
 }
 
+QJsonDocument JsonNetworkLoader::loadedJsonDocument() const
+{
+    return loadedJsonDocument_;
+}
+
 void JsonNetworkLoader::onLoaded(QNetworkReply *reply)
 {
     auto data = reply->readAll();

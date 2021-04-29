@@ -1,13 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.2
 import Felgo 3.0
-import QtQuick 2.12
 import QtGraphicalEffects 1.13
 
-import "../delegates"
-import "../components"
-import "../pages/stack"
-import "../"
+import "../../delegates"
+import "../../components"
+import "../../pages/stack"
+import "../../"
 
 Item{
     Finder{
@@ -33,7 +32,7 @@ Item{
             isFavorite: IsFavorite
             address: Address
 //            scheduleByCurrentDate: Schedule
-            facebook: Facebook
+//            facebook: Facebook
             instagram: Instagram
             www: WWW
             mail: Email

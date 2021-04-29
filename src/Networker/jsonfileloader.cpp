@@ -26,6 +26,7 @@ void JsonFileLoader::load()
     }
     auto ba = file_->readAll();
     jsonDocument_ = QJsonDocument::fromJson(ba);
+    file_->close();
 }
 
 void JsonFileLoader::save()

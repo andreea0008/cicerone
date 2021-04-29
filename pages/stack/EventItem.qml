@@ -241,10 +241,10 @@ Item
 
                         delegate: Rectangle {
                             width: parent.width
-                            height: app.dp(cl.height + 10)
+                            height: cl.implicitHeight + dp(10)
                             color:  BaseProperty.backgroundDelegateColor
 
-                            Component.onCompleted: console.log("DD:", width, height, cl.height)
+//                            Component.onCompleted: console.log("DD:", width, height, cl.height)
 
                             property var eventObject: modelData
 
@@ -274,7 +274,8 @@ Item
 
                                     Rectangle {
                                         Layout.fillWidth: true
-                                        Layout.preferredHeight: dp((width / 16) * 10)
+                                        Layout.preferredHeight: (width / 16) * 10
+                                        onHeightChanged: console.log("ffff: ", width, height)
                                         color: "black"
                                         radius: dp(5)
                                         antialiasing: true
@@ -295,7 +296,7 @@ Item
                                     }
 
                                     RowLayout {
-                                        Layout.maximumHeight: dp(BaseProperty.heightDelegate *0.75)
+                                        Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
                                         Layout.fillWidth: true
 
                                         Icon {
@@ -331,12 +332,10 @@ Item
                                     }
 
                                     RowLayout {
-                                        Layout.maximumHeight: dp(BaseProperty.heightDelegate *0.75)
+                                        Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
                                         Layout.fillWidth: true
 
                                         Icon {
-                                            Layout.fillHeight: true
-                                            Layout.preferredWidth: height
                                             icon: IconType.mapmarker
                                             color: BaseProperty.white
                                         }
@@ -363,7 +362,6 @@ Item
                                         }
                                     }
                                 }
-
                             }
 
 

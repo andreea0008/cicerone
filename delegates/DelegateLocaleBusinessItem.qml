@@ -19,8 +19,6 @@ Rectangle {
     property string www
     property string mail
 
-    height: dp(BaseProperty.heightDelegate)
-
     MouseArea{
         id: mouseArea
         anchors.fill: parent
@@ -54,22 +52,21 @@ Rectangle {
         ]
     }
 
-    Column{
+    ColumnLayout{
         id: columnInformation
         anchors.fill: parent
         anchors.leftMargin: dp(15)
         anchors.rightMargin: dp(15)
-        visible: true
+        spacing: 0
 
         RowLayout {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: dp(BaseProperty.heightDelegate)
+            Layout.fillWidth: true
+            Layout.preferredHeight: dp(BaseProperty.heightDelegate)
+            Layout.maximumHeight: dp(BaseProperty.heightDelegate)
 
             Text {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.alignment: Qt.AlignVCenter
                 color: "white"
                 font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
@@ -78,9 +75,6 @@ Rectangle {
             }
 
             IconButton {
-                Layout.preferredWidth: height
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignVCenter
                 icon: delegate.isFavorite ? IconType.star : IconType.staro
                 size: dp(BaseProperty.whIcon)
                 color: BaseProperty.red
@@ -93,15 +87,15 @@ Rectangle {
 
         Rectangle{
             id: redSpacer
-            height: dp(1)
-            width: parent.width
+            Layout.preferredHeight: dp(1)
+            Layout.fillWidth: true
             color: BaseProperty.red_line_color
         }
 
         SwipeView {
             id: swipeViewAddressesAndPhones
-            width: parent.width
-            height: dp(2 * BaseProperty.heightDelegate)
+            Layout.fillWidth: true
+            Layout.preferredHeight: dp(BaseProperty.doubleHeightDelegate)
             clip: true
 
             Repeater{
@@ -166,9 +160,8 @@ Rectangle {
 
         Item{
             id: socialItem
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: dp(BaseProperty.heightDelegate)
+            Layout.fillWidth: true
+            Layout.preferredHeight: dp(BaseProperty.heightDelegate)
 
             ListModel { id: socialInformationModel }
 
@@ -202,6 +195,12 @@ Rectangle {
                 }
             }
         }
+
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            color: "red"
+        }
     }
 
     PageIndicator {
@@ -225,7 +224,7 @@ Rectangle {
     states: [
         State {
             name: "hide"
-            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate;
+            PropertyChanges { target: delegate; height: dp(BaseProperty.heightDelegate);
                               color: BaseProperty.backgroundDelegateColor }
             
             PropertyChanges { target: redSpacer; visible: false; width: 0 }
@@ -237,7 +236,7 @@ Rectangle {
         },
         State {
             name: "show"
-            PropertyChanges { target: delegate; height: dp(BaseProperty.heightDelegate * 4.2);
+            PropertyChanges { target: delegate; height: columnInformation.implicitHeight;
                               color: BaseProperty.pressed_color }
             
             PropertyChanges { target: redSpacer; visible: true; width: columnInformation.width }
@@ -248,18 +247,18 @@ Rectangle {
         }
     ]
 
-    transitions: [
-        Transition {
-            from: "hide"
-            to: "show"
-            NumberAnimation { target: redSpacer; properties: "width" }
-        },
-        Transition {
-            from: "show"
-            to: "hide"
-            NumberAnimation { target: redSpacer; properties: "width" }
-        }
-    ]
+//    transitions: [
+//        Transition {
+//            from: "hide"
+//            to: "show"
+//            NumberAnimation { target: redSpacer; properties: "width" }
+//        },
+//        Transition {
+//            from: "show"
+//            to: "hide"
+//            NumberAnimation { target: redSpacer; properties: "width" }
+//        }
+//    ]
 
     function parseLocationData(){
         let startIndex = 0

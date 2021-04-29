@@ -28,9 +28,6 @@ Rectangle{
 
         IconButton {
             id: backArrow
-            Layout.preferredWidth: height
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignVCenter
             icon: IconType.longarrowleft
             size: BaseProperty.whIcon
             color: BaseProperty.white
@@ -50,9 +47,6 @@ Rectangle{
         }
 
         IconButton {
-            Layout.preferredWidth: height
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignVCenter
             visible: filterBtnVisible
             icon: IconType.filter
             size: BaseProperty.whIcon
