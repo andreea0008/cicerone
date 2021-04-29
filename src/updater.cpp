@@ -14,7 +14,7 @@ void Updater::setNewStage(const Updater::Stages stage)
 
 Updater::Updater(QObject *parent) : QObject(parent)
 {
-//    connect(this, &Updater::dataChanged, this, &Updater::ondataChanged);
+    //    connect(this, &Updater::dataChanged, this, &Updater::ondataChanged);
 }
 
 /**
@@ -67,8 +67,9 @@ QByteArray Updater::loadDataByStage(Updater::Resources resource)
     jsonFileLoader.load();
     if(jsonFileLoader.loadedJsonDocument().isEmpty())
     {
-        JsonNetworkLoader jsonNetworkLoader(url, name, this);
+        JsonNetworkLoader jsonNetworkLoader(url, QString("%1.json").arg(name), this);
         jsonNetworkLoader.load();
+        jsonFileLoader.load();
     }
 
     return jsonFileLoader.loadedJsonDocument().toJson();

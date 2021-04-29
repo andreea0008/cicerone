@@ -1,10 +1,12 @@
-import QtQuick 2.0
+import QtQuick 2.12
+import Felgo 3.0
 import QtQuick.Controls 2.1
 import "../"
 
 Rectangle{
     id: box
     color: BaseProperty.backgroundColor
+    property string iconType: IconType.camera
     property string pressedIconState: ""
     property string unpressedIconState: ""
     property string textButton: ""
@@ -21,14 +23,14 @@ Rectangle{
             isChecked = true
     }
 
-    Image{
+    Icon {
         id: img
         height: parent.height * koefHeight
         width: height
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        antialiasing: true
-        source: isChecked ? pressedIconState : unpressedIconState
+        icon: box.iconType
+        color: isChecked ? BaseProperty.red : BaseProperty.white
     }
 
     Text{

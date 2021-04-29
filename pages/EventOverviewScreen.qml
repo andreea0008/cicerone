@@ -1,12 +1,11 @@
-import QtQuick 2.0
-import "../"
 import QtQuick 2.13
+import Felgo 3.0
+import "../"
 
 Rectangle {
     id: box
     anchors.fill: parent
     color: "transparent"
-
     Component.onCompleted: {
         redBox.state = "visible"
     }

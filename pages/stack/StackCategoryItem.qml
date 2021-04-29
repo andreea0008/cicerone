@@ -1,11 +1,13 @@
 import QtQuick.Controls 2.2
 import Felgo 3.0
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
+
 import "../../components"
 import "../../delegates"
 import "../../"
+import "."
 
 Item
 {
@@ -15,7 +17,6 @@ Item
     property alias depthCount: stackCategory.depth
     property alias categoryStack: stackCategory
     onVisibleChanged: if(!visible) stackCategory.pop()
-
 
     StackView{
         id: stackCategory
@@ -44,7 +45,7 @@ Item
                     text: categoryName
                     onRelesed: {
                         CompanyList.filterCompanyByCategoryIndex(categoryId)
-                        stackCategory.push("../TestpushPage.qml")
+                        stackCategory.push("BusinessDelegatePage.qml")
                     }
                 }
             }

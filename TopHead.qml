@@ -54,7 +54,7 @@ Rectangle{
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             visible: filterBtnVisible
-            icon: IconType.sliders
+            icon: IconType.filter
             size: BaseProperty.whIcon
             color: BaseProperty.white
             onPressed: filterPressed()

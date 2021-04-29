@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import Felgo 3.0
@@ -18,6 +18,8 @@ Rectangle {
     property string instagram
     property string www
     property string mail
+
+    height: dp(BaseProperty.heightDelegate)
 
     MouseArea{
         id: mouseArea
@@ -62,7 +64,7 @@ Rectangle {
         RowLayout {
             anchors.left: parent.left
             anchors.right: parent.right
-            height: BaseProperty.heightDelegate
+            height: dp(BaseProperty.heightDelegate)
 
             Text {
                 Layout.fillWidth: true
@@ -71,7 +73,7 @@ Rectangle {
                 color: "white"
                 font.family: BaseProperty.fontLoader.name
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: BaseProperty.h1
+                font.pixelSize: sp(BaseProperty.h1)
                 text: companyName
             }
 
@@ -80,7 +82,7 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignVCenter
                 icon: delegate.isFavorite ? IconType.star : IconType.staro
-                size: BaseProperty.whIcon
+                size: dp(BaseProperty.whIcon)
                 color: BaseProperty.red
                 onPressed: {
                     delegate.isFavorite = !delegate.isFavorite
@@ -91,7 +93,7 @@ Rectangle {
 
         Rectangle{
             id: redSpacer
-            height: 1
+            height: dp(1)
             width: parent.width
             color: BaseProperty.red_line_color
         }
@@ -99,7 +101,7 @@ Rectangle {
         SwipeView {
             id: swipeViewAddressesAndPhones
             width: parent.width
-            height: 2 * BaseProperty.heightDelegate
+            height: dp(2 * BaseProperty.heightDelegate)
             clip: true
 
             Repeater{
@@ -166,29 +168,29 @@ Rectangle {
             id: socialItem
             anchors.left: parent.left
             anchors.right: parent.right
-            height: BaseProperty.heightDelegate
+            height: dp(BaseProperty.heightDelegate)
 
             ListModel { id: socialInformationModel }
 
             ListView {
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.topMargin: BaseProperty.heightDelegate * 0.125
+                anchors.topMargin: dp(BaseProperty.heightDelegate * 0.125)
                 width: parent.width
-                height: BaseProperty.heightDelegate * 0.75
+                height: dp(BaseProperty.heightDelegate * 0.75)
                 model: socialInformationModel
                 interactive: false
                 orientation: ListView.Horizontal
                 layoutDirection: ListView.RightToLeft
                 clip: true
-                spacing: BaseProperty.heightDelegate * 0.125
+                spacing: dp(BaseProperty.heightDelegate * 0.125)
 
                 delegate: MouseArea{
-                    height: BaseProperty.whMouseAreaSocial
-                    width: BaseProperty.whMouseAreaSocial
+                    height: dp(BaseProperty.whMouseAreaSocial)
+                    width: dp(BaseProperty.whMouseAreaSocial)
 
                     Image{
-                        width: BaseProperty.whIcon
-                        height: BaseProperty.whIcon
+                        width: dp(BaseProperty.whIcon)
+                        height: dp(BaseProperty.whIcon)
                         source: icon
                         antialiasing: true
                     }
@@ -211,9 +213,9 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         delegate: Rectangle{
-            width: BaseProperty.heigthIndicator
-            height: width
-            radius: width /2
+            width: dp(BaseProperty.heigthIndicator)
+            height: dp(width)
+            radius: dp(width /2)
             color: BaseProperty.red_line_color
             opacity: swipeViewAddressesAndPhones.currentIndex === index ? BaseProperty.opacityActive
                                                                         : BaseProperty.opacityInactive
@@ -235,7 +237,7 @@ Rectangle {
         },
         State {
             name: "show"
-            PropertyChanges { target: delegate; height: BaseProperty.heightDelegate * 4.2;
+            PropertyChanges { target: delegate; height: dp(BaseProperty.heightDelegate * 4.2);
                               color: BaseProperty.pressed_color }
             
             PropertyChanges { target: redSpacer; visible: true; width: columnInformation.width }

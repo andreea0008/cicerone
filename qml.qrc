@@ -16,7 +16,6 @@
         <file>img/category_white.png</file>
         <file>img/favorite_red.png</file>
         <file>img/favorite_white.png</file>
-        <file>pages/TestpushPage.qml</file>
         <file>components/Finder.qml</file>
         <file>components/InformationItem.qml</file>
         <file>img/delegate_icons/call.png</file>
@@ -68,5 +67,6 @@
         <file>img/delegate_icons/www.png</file>
         <file>img/svg/rotate.svg</file>
         <file>img/svg/filter.svg</file>
+        <file>pages/stack/BusinessDelegatePage.qml</file>
     </qresource>
 </RCC>

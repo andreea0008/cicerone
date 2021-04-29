@@ -1,13 +1,13 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import "../delegates"
 import "../components"
 import "../"
 
 Item{
-    //width: parent.width
-    //height: parent.height
+    id: eventPage
     Finder{ id: finder }
+
     ListView{
         id: list
         width: parent.width

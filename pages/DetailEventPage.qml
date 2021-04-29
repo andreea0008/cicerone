@@ -1,6 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 1.4
-import QtQuick 2.13
 import Felgo 3.0
 import QtLocation 5.5
 import QtPositioning 5.12

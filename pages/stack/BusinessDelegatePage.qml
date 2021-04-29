@@ -1,7 +1,12 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.2
+import Felgo 3.0
+import QtQuick 2.12
+import QtGraphicalEffects 1.13
+
 import "../delegates"
 import "../components"
+import "../pages/stack"
 import "../"
 
 Item{
@@ -23,7 +28,7 @@ Item{
             id: delegate
             width: parent.width
             color: BaseProperty.backgroundDelegateColor
-            height: BaseProperty.heightDelegate
+            height: (BaseProperty.heightDelegate)
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address

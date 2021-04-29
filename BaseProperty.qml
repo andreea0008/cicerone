@@ -1,7 +1,6 @@
 pragma Singleton
 import QtQuick.Controls 2.2
 import Felgo 3.0
-import QtQuick 2.0
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 
@@ -16,7 +15,7 @@ QtObject {
     readonly property color red_text_color: "#F01D44"
     readonly property int   count_categories: 4
     readonly property color pressed_color: "#343339"
-    readonly property string formatDateTimeEvent: "dd/MM/yy\nhh:mm"
+    readonly property string formatDateTimeEvent: "dd/MM/yy hh:mm"
 
     //pages properties
     property int currentPageId: 2
