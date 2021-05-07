@@ -28,10 +28,11 @@ int main(int argc, char *argv[])
 
     qRegisterMetaTypeStreamOperators<Schedule>("Schedule");
     qRegisterMetaTypeStreamOperators<Company>("Company");
-    qRegisterMetaTypeStreamOperators<QVector<Company>>("QVector<Company>");
+    qRegisterMetaTypeStreamOperators<QVector<int> >("QVector<int>");
 
     // Use platform-specific fonts instead of Felgo's default font
     felgo.setPreservePlatformFonts(true);
+
 
     QQmlApplicationEngine engine;
     felgo.initialize(&engine);

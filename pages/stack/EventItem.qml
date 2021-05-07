@@ -233,7 +233,6 @@ Item
                             running: parent.contentY < BaseProperty.minContentYForStartUpdate
                             interval: 500
                             onTriggered: {
-                                console.log("triggered")
                                 eventRoot.updateModelData()
                                 stop()
                             }
@@ -275,7 +274,6 @@ Item
                                     Rectangle {
                                         Layout.fillWidth: true
                                         Layout.preferredHeight: (width / 16) * 10
-                                        onHeightChanged: console.log("ffff: ", width, height)
                                         color: "black"
                                         radius: dp(5)
                                         antialiasing: true

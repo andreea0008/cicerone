@@ -84,7 +84,15 @@ QHash<int, QByteArray> CompanyListByCategory::roleNames() const
 
 void CompanyListByCategory::addCompany(Company *company)
 {
+    //check contain company in favorite list
+    for (int i = 0; i < filteredCompany.size(); i++) {
+        if(company == filteredCompany.at(i))
+            return;
+    }
+
+    //if NOT contain have to add company into list
     beginInsertRows(QModelIndex(), filteredCompany.size(), filteredCompany.size());
+
     filteredCompany.push_back(company);
     endInsertRows();
 }
@@ -115,7 +123,10 @@ void CompanyListByCategory::removeCompany(QString companyName)
 void CompanyListByCategory::changeIsFavoriteProperty(const int index, bool isFavorite)
 {
     filteredCompany.at(index)->setIsFavorite(isFavorite);
+    QModelIndex topLeft = createIndex(index, 0);
+    dataChanged(topLeft, topLeft);
 }
+
 
 void CompanyListByCategory::changeIsFavoriteProperty(QString companyName, bool isFavorite)
 {
@@ -176,7 +187,7 @@ void CompanyListByCategory::parseData(QByteArray document)
         Company *company = new Company(name_company);
 
         company->setCategoryId(objectCompany.value("category").toInt());
-
+        company->setId(objectCompany.value("id").toInt(0));
         //parse phone calls
         auto phonesArray = objectCompany.value("phone").toArray();
         QStringList phonesList;

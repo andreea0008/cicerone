@@ -2,12 +2,15 @@
 #include <QSettings>
 #include <QJsonObject>
 
+static const QString favorite_ids = "favorite_ids";
+
+
 //init static settings singleton
 Settings* Settings::_settings = nullptr;
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
-    mSettings = new QSettings("smartgame", "cicerone");
+    mSettings = new QSettings("cicerone.ini", QSettings::IniFormat, this);
     loadSettings();
 }
 
@@ -32,7 +35,7 @@ void Settings::setIsSendData(bool isSendData)
     if (m_isSendData == isSendData)
         return;
     m_isSendData = isSendData;
-    emit isSendDataChanged(m_isSendData);
+    isSendDataChanged(m_isSendData);
     saveSettings();
 }
 
@@ -49,21 +52,13 @@ void Settings::loadSettings()
 
 void Settings::saveFavoriteListCompany(QVector<Company*> companies)
 {
-    QVector<Company> companiesList;
-    qDebug() << __FUNCTION__ << "saveFavoriteListCompany: "<< companies.size();
+    QVector<int> ids;
     for(int index = 0; index < companies.size(); index++)
-        companiesList.push_back(*companies[index]);
-
-    mSettings->setValue("favorite_list_company", QVariant::fromValue(companiesList));
-    saveSettings();
+        ids.push_back(companies[index]->id());
+    mSettings->setValue(favorite_ids, QVariant::fromValue(ids));
 }
 
-QVector<Company*> Settings::loadFavoriteListCompany()
+QVector<int> Settings::loadFavoriteListCompany()
 {
-    QVector<Company> list = mSettings->value("favorite_list_company").value<QVector<Company>>();
-    QVector<Company*> favoriteCompanyList;
-    qDebug() << __FUNCTION__ << list.size();
-    for(int index = 0; index < list.size(); index++)
-        favoriteCompanyList.push_back(new Company(list[index]));
-    return favoriteCompanyList;
+    return mSettings->value(favorite_ids).value<QVector<int>>();
 }

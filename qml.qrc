@@ -68,5 +68,6 @@
         <file>img/svg/rotate.svg</file>
         <file>img/svg/filter.svg</file>
         <file>pages/stack/BusinessDelegatePage.qml</file>
+        <file>components/CiceroneComboBox.qml</file>
     </qresource>
 </RCC>

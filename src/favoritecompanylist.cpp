@@ -1,28 +1,23 @@
 #include "favoritecompanylist.h"
-#include <QDebug>
-#include "settings.h"
 #include <QJsonObject>
-#include <QDebug>
+#include "settings.h"
 
 FavoriteCompanyList::FavoriteCompanyList(QObject *parent)
     : CompanyListByCategory(parent)
 {
-
-//    allCompanies =
-      auto comp =       Settings::Instance()->loadFavoriteListCompany();
-      qDebug() << "FavoriteCompanyList constructor: " << __LINE__ << comp.size();
-      for(auto company : comp){
-          qDebug() << company->getNameCompany();
-          addCompany(company);
+      auto loadedCompanies = Settings::Instance()->loadFavoriteListCompany();
+      for (int allCompanyIndex = 0; allCompanyIndex < allCompanies.size(); allCompanyIndex++)
+      {
+          for (int savedCompanyIndex = 0; savedCompanyIndex < loadedCompanies.size(); savedCompanyIndex++)
+          {
+              if(allCompanies[allCompanyIndex]->id() == loadedCompanies[savedCompanyIndex])
+              {
+                auto favoriteLoadedCompany = allCompanies[allCompanyIndex];
+                favoriteLoadedCompany->setIsFavorite(true);
+                addCompany(favoriteLoadedCompany);
+              }
+          }
       }
-//    qDebug() << allCompanies.size();
-//    const auto list = Settings::Instance()->loadFavoriteListCompany();
-//    allCompanies = QVector<Company*>{new Company("dfdsf")};
-//    for(int index = 0; index < list.size(); index++){
-//        addCompany(list[index]);
-//    }
-//    addCompany(new Company("dcdcd"));
-//    qDebug() << "SIZE: " << __FUNCTION__ << allCompanies.size();
 }
 
 FavoriteCompanyList::~FavoriteCompanyList()
@@ -32,9 +27,9 @@ FavoriteCompanyList::~FavoriteCompanyList()
 void FavoriteCompanyList::refresh()
 {
     filteredCompany.clear();
-    for(int i = 0; i < allCompanies.size(); i++)
+    for(int i = 0; i < filteredCompany.size(); i++)
     {
-        auto currentCompany = allCompanies.at(i);
+        auto currentCompany = filteredCompany.at(i);
         if(currentCompany->getIsFavorite())
         {
             addCompany(currentCompany);
@@ -45,44 +40,39 @@ void FavoriteCompanyList::refresh()
 
 void FavoriteCompanyList::addCompanyToFavorite(QString nameCompany)
 {
-    qDebug() << "addCompanyToFavorite: " << allCompanies.size();
-
-    qDebug() <<__FUNCTION__ << nameCompany;
     for(int i = 0; i < allCompanies.size(); i++)
     {
         Company* currentCompany = allCompanies.at(i);
         if(currentCompany->getNameCompany() == nameCompany)
         {
-            qDebug() << "found" << currentCompany->getNameCompany();
             currentCompany->setIsFavorite(true);
-
             addCompany(currentCompany);
+            QModelIndex topLeft = createIndex(i,0);
+            dataChanged(topLeft, topLeft);
             break;
         }
     }
-//    refresh();
-    qDebug() << allCompanies.size();
     saveSettings();
 }
 
-void FavoriteCompanyList::removeCompanyFromFavorite(QString companyName)
+void FavoriteCompanyList::removeCompanyFromFavorite(QString nameCompany)
 {
-    beginResetModel();
-    for(int i = 0; i < allCompanies.size(); i++)
+    for(int i = 0; i < filteredCompany.size(); i++)
     {
-        Company* currentCompany = allCompanies.at(i);
-        if(currentCompany->getNameCompany() == companyName)
+        Company* currentCompany = filteredCompany.at(i);
+        if(currentCompany->getNameCompany() == nameCompany)
         {
             currentCompany->setIsFavorite(false);
-            break;
+            beginRemoveRows(QModelIndex(), i,i);
+            filteredCompany.remove(i);
+            endRemoveRows();
         }
     }
-    endResetModel();
+    saveSettings();
 }
 
 void FavoriteCompanyList::saveSettings()
 {
-    qDebug() << __FUNCTION__ << filteredCompany.size();
     Settings::Instance()->saveFavoriteListCompany(filteredCompany);
 }
 

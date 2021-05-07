@@ -1,34 +1,30 @@
 import QtQuick 2.12
+import QtQuick.Layouts 1.12
 import Felgo 3.0
 import "../"
 
-Row {
+RowLayout {
     width: 300
     height: BaseProperty.heightDelegate
-    spacing: height /8
 
     property string textInformation: ""
     property bool isBreakHourNow: false
 
     signal pressedAndHold(var clipText)
 
-    Image{
-        source: isBreakHourNow ? "qrc:/img/delegate_icons/lock_schedule.png"
-                               : "qrc:/img/delegate_icons/unlock_schedule.png"
-
-        width: BaseProperty.heightDelegate /2
-        height: width
-        antialiasing: true
-        anchors.verticalCenter: parent.verticalCenter
+    Icon{
+        icon: isBreakHourNow ? IconType.lock : IconType.unlock
+        color: BaseProperty.red
     }
 
     Text{
         verticalAlignment: Text.AlignVCenter
         text: textInformation
-        height: BaseProperty.heightDelegate
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         color: BaseProperty.colorTextDelegate
         font.family: fontLoader.name
-        font.pixelSize: BaseProperty.h2
+        font.pixelSize: sp(BaseProperty.h2)
 
         FontLoader{
             id: fontLoader

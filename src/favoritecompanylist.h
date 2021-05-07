@@ -14,12 +14,11 @@ public:
 public slots:
     void refresh();
     void addCompanyToFavorite(QString nameCompany);
-    void removeCompanyFromFavorite(QString companyName);
+    void removeCompanyFromFavorite(QString nameCompany);
 
 private:
     void saveSettings();
     void loadSettings();
-    QVector<Company> companiesList;
 };
 
 #endif // FAVORITECOMPANYLIST_H

@@ -31,6 +31,7 @@ struct Schedule
                 .arg(workTimeTo.toString(FORMAT_SCHEDULE));
         return workSchedule;
     }
+
     QString breakSchedule() const
     {
         QString breakSchedule = QString("%1-%2")

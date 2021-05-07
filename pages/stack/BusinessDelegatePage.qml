@@ -27,26 +27,24 @@ Item{
             id: delegate
             width: parent.width
             color: BaseProperty.backgroundDelegateColor
-            height: (BaseProperty.heightDelegate)
+            height: BaseProperty.heightDelegate
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address
 //            scheduleByCurrentDate: Schedule
-//            facebook: Facebook
+            facebook: modelData.Facebook
             instagram: Instagram
             www: WWW
             mail: Email
-            onPressedFavorite: pressFavorite(index, companyName, isFavorite);
-        }
-    }
+            onAddToFavoriteList: {
+                CompanyList.changeIsFavoriteProperty(index, true)
+                FavoriteCompanyList.addCompanyToFavorite(companyName)
+            }
 
-    function pressFavorite(index, companyName, isFavorite){
-        if(isFavorite){
-            CompanyList.changeIsFavoriteProperty(index, true)
-            FavoriteCompanyList.addCompanyToFavorite(companyName)
-        } else {
-            FavoriteCompanyList.removeCompany(companyName)
-            CompanyList.changeIsFavoriteProperty(index, false)
+            onRemoveFromFavoriteList: {
+                FavoriteCompanyList.removeCompany(companyName)
+                CompanyList.changeIsFavoriteProperty(index, false)
+            }
         }
     }
 }

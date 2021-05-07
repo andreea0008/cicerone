@@ -19,6 +19,11 @@ Rectangle {
     property string www
     property string mail
 
+    property bool locateInFavoriteCategory: false
+
+    signal addToFavoriteList()
+    signal removeFromFavoriteList()
+
     MouseArea{
         id: mouseArea
         anchors.fill: parent
@@ -31,7 +36,8 @@ Rectangle {
         fillInSocial()
     }
 
-    signal pressedFavorite()
+
+
     state: "hide"
 
     ListModel { id: locationData }
@@ -75,12 +81,15 @@ Rectangle {
             }
 
             IconButton {
-                icon: delegate.isFavorite ? IconType.star : IconType.staro
+                icon: locateInFavoriteCategory ? IconType.trasho
+                                               : delegate.isFavorite ? IconType.star : IconType.staro
                 size: dp(BaseProperty.whIcon)
                 color: BaseProperty.red
                 onPressed: {
-                    delegate.isFavorite = !delegate.isFavorite
-                    pressedFavorite()
+//                    delegate.isFavorite = !delegate.isFavorite
+                    locateInFavoriteCategory ? removeFromFavoriteList()
+                                             : !delegate.isFavorite ? addToFavoriteList()
+                                                                   : removeFromFavoriteList()
                 }
             }
         }
@@ -111,12 +120,12 @@ Rectangle {
                         RowLayout{
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: BaseProperty.heightDelegate
+                            height: dp(BaseProperty.heightDelegate)
 
                             InformationItem{
                                 id: location
                                 Layout.preferredWidth: columnInformation.width/2
-                                Layout.preferredHeight: height
+                                Layout.fillHeight: true
 
                                 visible: redSpacer.visible
                                 type: "location"
@@ -128,7 +137,7 @@ Rectangle {
                             ScheduleInformationItem{
                                 id: schedule
                                 Layout.preferredWidth: columnInformation.width/2
-                                Layout.preferredHeight: height
+                                Layout.fillHeight: true
 
                                 visible: redSpacer.visible
                                 isBreakHourNow: true
@@ -140,11 +149,11 @@ Rectangle {
                             id: listPhonesByLocation
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: BaseProperty.heightDelegate
+                            height: dp(BaseProperty.heightDelegate)
                             interactive: false
                             clip: true
                             model: proxyPhoneDataModel
-                            spacing: 2
+                            spacing: dp(2)
                             orientation: ListView.Horizontal
                             delegate: InformationItem{
                                 width: columnInformation.width /2
@@ -167,9 +176,7 @@ Rectangle {
 
             ListView {
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.topMargin: dp(BaseProperty.heightDelegate * 0.125)
-                width: parent.width
-                height: dp(BaseProperty.heightDelegate * 0.75)
+                anchors.fill: parent
                 model: socialInformationModel
                 interactive: false
                 orientation: ListView.Horizontal
@@ -177,20 +184,13 @@ Rectangle {
                 clip: true
                 spacing: dp(BaseProperty.heightDelegate * 0.125)
 
-                delegate: MouseArea{
-                    height: dp(BaseProperty.whMouseAreaSocial)
-                    width: dp(BaseProperty.whMouseAreaSocial)
-
-                    Image{
-                        width: dp(BaseProperty.whIcon)
-                        height: dp(BaseProperty.whIcon)
-                        source: icon
-                        antialiasing: true
-                    }
-
+                delegate: IconButton{
+                    size: dp(BaseProperty.whMouseAreaSocial)
+                    icon: socialInformationModel.get(index)["icon"]
+                    color: BaseProperty.red
                     onPressed: {
                         console.log(link)
-                            Qt.openUrlExternally(link)
+                        Qt.openUrlExternally(link)
                     }
                 }
             }
@@ -295,25 +295,25 @@ Rectangle {
         if(facebook.length !== 0)
             socialInformationModel.append({
                                               "name": "social_info",
-                                              "icon": "qrc:/img/delegate_icons/facebook.png",
+                                              "icon": IconType.facebooksquare,
                                               "link": facebook
                                           })
         if(instagram.length !== 0)
             socialInformationModel.append({
                                               "name": "social_info",
-                                              "icon": "qrc:/img/delegate_icons/instagram.png",
+                                              "icon": IconType.instagram,
                                               "link": instagram
                                           })
         if(www.length !== 0)
             socialInformationModel.append({
                                               "name": "social_info",
-                                              "icon": "qrc:/img/delegate_icons/www.png",
+                                              "icon": IconType.globe,
                                               "link": www
                                           })
         if(mail.length !== 0)
             socialInformationModel.append({
                                               "name": "social_info",
-                                              "icon": "qrc:/img/delegate_icons/mail.png",
+                                              "icon": IconType.envelopesquare,
                                               "link": mail
                                           })
     }

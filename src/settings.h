@@ -35,7 +35,7 @@ public slots:
     void loadSettings();
 
     void saveFavoriteListCompany(QVector<Company *> companies);
-    QVector<Company*> loadFavoriteListCompany();
+    QVector<int> loadFavoriteListCompany();
 
 private:
     QSettings *mSettings;

@@ -29,7 +29,7 @@ Item
                 text: qsTr("Тут поки пусто")
                 color: BaseProperty.text_color
                 font.family: BaseProperty.fontLoader.name
-                font.pixelSize: BaseProperty.h1
+                font.pixelSize: sp(BaseProperty.h1)
             }
             
             ListView{
@@ -43,16 +43,18 @@ Item
                 antialiasing: true
                 delegate: DelegateLocaleBusinessItem {
                     width: listViewFavoriteCategory.width
-                    height: BaseProperty.heightDelegate
+                    height: dp(BaseProperty.heightDelegate)
                     color: BaseProperty.backgroundDelegateColor
                     companyName: NameCompany
                     isFavorite: IsFavorite
                     address: Address
-                    //                    scheduleByCurrentDate: Schedule
-                    //                    facebook: FacebookLink
-                    onPressedFavorite: {
+//                                        scheduleByCurrentDate: Schedule
+                    locateInFavoriteCategory: true
+                    facebook: FacebookLink
+
+                    onRemoveFromFavoriteList: {
                         CompanyList.changeIsFavoriteProperty(companyName, false)
-                        FavoriteCompanyList.removeCompanyByIndex(index)
+                        FavoriteCompanyList.removeCompanyFromFavorite(companyName)
                     }
                 }
             }

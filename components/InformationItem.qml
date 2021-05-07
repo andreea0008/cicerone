@@ -6,7 +6,6 @@ import "../"
 RowLayout {
     width: 300
     height: BaseProperty.heightDelegate
-    spacing: height /8
 
     property string textInformation: ""
     property string type:           ""
@@ -15,25 +14,22 @@ RowLayout {
 
     signal pressedAndHold(var clipText)
 
-    Image{
+    Icon{
         id: icon
-        source: getLogoByType()
-        Layout.preferredWidth: BaseProperty.heightDelegate /2
-        Layout.preferredHeight: BaseProperty.heightDelegate /2
+        icon: getLogoByType()
         Layout.alignment: Qt.AlignVCenter
-
+        color: BaseProperty.red
         antialiasing: true
-//        anchors.verticalCenter: parent.verticalCenter
     }
 
     Text{
         id: informText
         verticalAlignment: Text.AlignVCenter
         text: textInformation
-        Layout.preferredHeight: BaseProperty.heightDelegate
+        Layout.preferredHeight: dp(BaseProperty.heightDelegate)
         color: BaseProperty.colorTextDelegate
         font.family: fontLoader.name
-        font.pixelSize: BaseProperty.h2
+        font.pixelSize: sp(BaseProperty.h2)
         Layout.fillWidth: true
         wrapMode: Text.Wrap
 
@@ -55,17 +51,19 @@ RowLayout {
     function getLogoByType()
     {
         if(type === "call")
-            return "../img/delegate_icons/call.png"
+            return IconType.phonesquare;
+
         else if (type === "facebook")
-            return "../img/delegate_icons/facebook.png"
+            return IconType.facebooksquare;
+
         else if (type == "instagram")
-            return "../img/delegate_icons/instagram.png"
+            return IconType.instagram;
         else if (type === "mail")
-            return "../img/delegate_icons/mail.png"
+            return IconType.envelopesquare;
         else if (type === "location")
-            return "../img/delegate_icons/location.png"
+            return IconType.mapmarker
         else if (type === "schedule")
-            return "../img/delegate_icons/schedule.png"
+            return IconType.clocko
     }
 
     function runEvent()
