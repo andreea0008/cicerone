@@ -69,5 +69,6 @@
         <file>img/svg/filter.svg</file>
         <file>pages/stack/BusinessDelegatePage.qml</file>
         <file>components/CiceroneComboBox.qml</file>
+        <file>delegates/qmldir</file>
     </qresource>
 </RCC>

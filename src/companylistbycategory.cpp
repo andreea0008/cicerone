@@ -43,10 +43,10 @@ void CompanyListByCategory::initializeRoles()
     roles[ScheduleByCurrentDate] = "Schedule";
     roles[StateOpen] = "StateOpen";
     roles[Phones] = "Phones";
-    roles[Facebook] = "Facebook";
-    roles[Instagramm] = "Instagram";
-    roles[Www] = "WWW";
-    roles[Email] = "Email";
+    roles[Facebook] = "FacebookLnk";
+    roles[Instagramm] = "InstagramLnk";
+    roles[Www] = "WwwLnk";
+    roles[Email] = "EmailLnk";
     roles[Location] = "Location";
 }
 

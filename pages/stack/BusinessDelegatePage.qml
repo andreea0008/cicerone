@@ -31,11 +31,10 @@ Item{
             companyName: NameCompany
             isFavorite: IsFavorite
             address: Address
-//            scheduleByCurrentDate: Schedule
-            facebook: modelData.Facebook
-            instagram: Instagram
-            www: WWW
-            mail: Email
+            facebook: FacebookLnk
+            instagram: InstagramLnk
+            www: WwwLnk
+            mail: EmailLnk
             onAddToFavoriteList: {
                 CompanyList.changeIsFavoriteProperty(index, true)
                 FavoriteCompanyList.addCompanyToFavorite(companyName)

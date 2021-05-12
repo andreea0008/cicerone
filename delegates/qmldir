@@ -1,0 +1,3 @@
+module Delegates
+
+DelegateEvent DelegateEvent.qml

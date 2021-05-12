@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<Settings>("com.cicerone.filterModel", 1, 0, "Settings", /*singletonTypeProvider);*/
                                        [](QQmlEngine *qmlEngine, QJSEngine *scriptEngine)->QObject*
     {
+        Q_UNUSED(qmlEngine);
+        Q_UNUSED(scriptEngine);
 //        qmlEngine->setContextOwnership(Settings::Instance(), QQmlEngine::CppOwnership);
         return Settings::Instance();
     });
@@ -61,17 +63,13 @@ int main(int argc, char *argv[])
     // also see the .pro file for more details
     felgo.setMainQmlFileName(QStringLiteral("qrc:/main.qml"));
 
-    engine.load(QUrl(felgo.mainQmlFileName()));
 //    engine.rootContext()->setContextProperty("CiceroneSettings", &settings);
     engine.rootContext()->setContextProperty("Category", &category);
     engine.rootContext()->setContextProperty("CompanyList", &companyListByCategory);
     engine.rootContext()->setContextProperty("FavoriteCompanyList", &favoriteCompanyList);
     engine.rootContext()->setContextProperty("Events", &eventController);
+    engine.load(QUrl(felgo.mainQmlFileName()));
 
-//    engine.addImportPath("qrc:/");
-//    //    Test
-//        Updater::instance()->startLoad();
-//        //END TEST
     // to start your project as Live Client, comment (remove) the lines "felgo.setMainQmlFileName ..." & "engine.load ...",
     // and uncomment the line below
     //FelgoLiveClient client (&engine);

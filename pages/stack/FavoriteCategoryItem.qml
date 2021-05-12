@@ -39,7 +39,6 @@ Item
                 spacing: dp(1)
                 clip: true
                 model: FavoriteCompanyList
-                onModelChanged: console.log("favorite_model_changed")
                 antialiasing: true
                 delegate: DelegateLocaleBusinessItem {
                     width: listViewFavoriteCategory.width
@@ -48,9 +47,11 @@ Item
                     companyName: NameCompany
                     isFavorite: IsFavorite
                     address: Address
-//                                        scheduleByCurrentDate: Schedule
                     locateInFavoriteCategory: true
-                    facebook: FacebookLink
+                    facebook: FacebookLnk
+                    instagram: InstagramLnk
+                    www: WwwLnk
+                    mail: EmailLnk
 
                     onRemoveFromFavoriteList: {
                         CompanyList.changeIsFavoriteProperty(companyName, false)

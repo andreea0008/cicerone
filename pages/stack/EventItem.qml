@@ -192,7 +192,7 @@ Item
 
                             onClicked: {
                                 //                                console.log("pressed apply", filterColumn.height, filterColumn.implicitHeight)
-                                eventRoot.updateModelData()
+                                eventRoot .runUpdatePromiseData()
                             }
                         }
                     }
@@ -223,8 +223,8 @@ Item
 
                         onContentYChanged: {
                             contentY < -dp(100)
-                                      ? updateActivityindicator.startAnimating()
-                                      : updateActivityindicator.stopAnimating()
+                                    ? updateActivityindicator.startAnimating()
+                                    : updateActivityindicator.stopAnimating()
                         }
 
                         Timer {
@@ -233,43 +233,34 @@ Item
                             running: parent.contentY < BaseProperty.minContentYForStartUpdate
                             interval: 500
                             onTriggered: {
-                                eventRoot.updateModelData()
+                                eventRoot.runUpdatePromiseData()
                                 stop()
                             }
                         }
 
-                        delegate: Rectangle {
+                        delegate: Item {
+                            id: delegateEvent
                             width: parent.width
-                            height: cl.implicitHeight + dp(10)
-                            color:  BaseProperty.backgroundDelegateColor
-
-//                            Component.onCompleted: console.log("DD:", width, height, cl.height)
+//                            height: cl.implicitHeight + dp(20)
 
                             property var eventObject: modelData
 
-                            Rectangle {
+                            AppPaper {
                                 anchors.fill: parent
-                                anchors.margins: dp(3)
-                                color: parent.color
-                                radius: dp(6)
-                                layer.enabled: listEvents.currentIndex === index
-                                layer.effect: DropShadow {
-                                    transparentBorder: true
-                                    horizontalOffset: 0
-                                    verticalOffset: 0
-                                    spread: 0
-                                    radius: dp(6)
-                                    color: BaseProperty.white
-                                }
+                                anchors.margins: dp(10)
+                                background.color: BaseProperty.backgroundColor
+                                background.radius: dp(5)
+                                elevated: true
+                                shadowColor: BaseProperty.red
 
                                 ColumnLayout {
                                     id: cl
                                     y: dp(5)
                                     anchors.left: parent.left
                                     anchors.right: parent.right
-                                    anchors.leftMargin: dp(15)
-                                    anchors.rightMargin: dp(15)
                                     spacing: dp(5)
+
+                                    onHeightChanged: delegateEvent.height = implicitHeight + dp(20)
 
                                     Rectangle {
                                         Layout.fillWidth: true
@@ -277,15 +268,6 @@ Item
                                         color: "black"
                                         radius: dp(5)
                                         antialiasing: true
-                                        layer.enabled: true
-                                        layer.effect: DropShadow {
-                                            transparentBorder: true
-                                            horizontalOffset: 0
-                                            verticalOffset: 0
-                                            spread: 0
-                                            radius: 6
-                                            color: BaseProperty.colorDropShadow
-                                        }
 
                                         Image {
                                             anchors.fill: parent
@@ -296,6 +278,8 @@ Item
                                     RowLayout {
                                         Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
                                         Layout.fillWidth: true
+                                        Layout.leftMargin: dp(5)
+                                        Layout.rightMargin: dp(5)
 
                                         Icon {
                                             icon: IconType.calendar
@@ -332,6 +316,8 @@ Item
                                     RowLayout {
                                         Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
                                         Layout.fillWidth: true
+                                        Layout.leftMargin: dp(5)
+                                        Layout.rightMargin: dp(5)
 
                                         Icon {
                                             icon: IconType.mapmarker
@@ -359,25 +345,9 @@ Item
                                             font.pixelSize: app.sp(BaseProperty.h2)
                                         }
                                     }
+
                                 }
                             }
-
-
-                            //                    signal relesed()
-
-
-
-                            //                    MouseArea{
-                            //                        anchors.fill: parent
-                            //                        hoverEnabled: true
-                            //                        onPressed: parent.color = BaseProperty.pressed_color
-                            //                        onCanceled: parent.color = BaseProperty.backgroundDelegateColor
-                            //                        onExited: parent.color = BaseProperty.backgroundDelegateColor
-                            //                        onReleased: {
-                            //                            parent.color = BaseProperty.backgroundDelegateColor
-                            //                            relesed()
-                            //                        }
-                            //                    }
                         }
                     }
 
@@ -385,11 +355,11 @@ Item
             }
 
             Component.onCompleted: {
-                updateModelData()
+                runUpdatePromiseData()
             }
 
-            function updateModelData() {
-                let mainUrl = "https://dev-cicerone.herokuapp.com/api/v1/catalog/event/?"
+            function runUpdatePromiseData() {
+                let mainUrl = "https://dev-cicerone.herokuapp.com/api/v1/catalog/event/?ordering=-rating&"
                 if(finder.text.length !== 0) {
                     mainUrl += qsTr("search=%1").arg(finder.text)
                 }
@@ -401,43 +371,38 @@ Item
 
                 console.log(mainUrl)
 
-                request(mainUrl, function(response)
-                {
-                    console.log("response: ", response.responseText)
-                    if(response.status === 200) {
-                        console.log("Response: ", response.responseText)
-                        allEvents = JSON.parse(response.responseText)
-                        console.log("Print: ", allEvents)
-                    }
-                }
-                )
-            }
+                var p = Promise.create(function(resolve, reject) {
+                    // handle asynchronous code here
+                    // e.g. with asynchronous HttpRequest
+                    HttpRequest
+                    .get(mainUrl)
+                    .timeout(5000)
+                    .end(function (err, res) {
+                        if(res.ok)
+                            resolve(res.body)
+                        else
+                            reject(err.message)
+                    })
+                });
 
-            function request(url, callback) {
-                var request = new XMLHttpRequest();
-                request.onreadystatechange = (function(response) {
-                    return function() {
-                        if(response.readyState === 4) {
-                            callback(response)
-                        }
-                    }
-                })(request)
-                request.open("GET", url)
-                request.setRequestHeader("Authorization", "Basic " + Qt.btoa("admin:admin"));
-                request.setRequestHeader('Content-Type', 'application/json');
-                request.send()
+                // execute promise and handle result
+                p.then(function(value) {
+                    // success
+                    console.log("Value: "+JSON.stringify(value))
+                    allEvents = value
+                }).catch(function(reason) {
+                    // failure
+                    console.log("Error: "+reason)
+                });
             }
         }
-    }
 
+    }
     Connections {
         target: topHead
         onFilterPressed: {
             console.log("filterPressed")
-
             filterRect.visible = !filterRect.visible
-            console.log(filterRect.visible)
-
         }
     }
 }
