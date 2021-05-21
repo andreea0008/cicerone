@@ -31,6 +31,7 @@ public slots:
 
 protected:
     void parseData(QByteArray document);
+    void loadFavorites();
     QVector<Company*> allCompanies;
     QVector<Company*> filteredCompany;
     QVector<Company*> cloneFilteredCompany;

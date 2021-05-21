@@ -13,6 +13,7 @@ CompanyListByCategory::CompanyListByCategory(QObject *parent)
     initializeRoles();
 
     parseData(Updater::instance()->loadDataByStage(Updater::Resources::PublicPlace));
+    loadFavorites();
 }
 
 int CompanyListByCategory::rowCount(const QModelIndex &parent) const
@@ -172,7 +173,7 @@ void CompanyListByCategory::searchCompanyByNameInFilteringList(QString partNameC
     endResetModel();
 
     previousPartNameForSearch = partNameCompany;
-
+    loadFavorites();
 }
 
 void CompanyListByCategory::parseData(QByteArray document)
@@ -280,5 +281,20 @@ void CompanyListByCategory::parseData(QByteArray document)
         }
         allCompanies.push_back(company);
     }
-    qDebug() << __FUNCTION__ << allCompanies.size();
+}
+
+void CompanyListByCategory::loadFavorites()
+{
+    qDebug() << "start load favorites";
+
+    auto loadedCompanies = Settings::Instance()->loadFavoriteListCompany();
+    for (int allCompanyIndex = 0; allCompanyIndex < allCompanies.size(); allCompanyIndex++) {
+        for (int loadedCompanyIndex = 0; loadedCompanyIndex < loadedCompanies.size(); loadedCompanyIndex++) {
+            {
+                if(loadedCompanies[loadedCompanyIndex] == allCompanies[allCompanyIndex]->id()) {
+                    allCompanies[allCompanyIndex]->setIsFavorite(true);
+                }
+            }
+        }
+    }
 }

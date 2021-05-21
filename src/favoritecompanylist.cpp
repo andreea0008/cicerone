@@ -13,7 +13,6 @@ FavoriteCompanyList::FavoriteCompanyList(QObject *parent)
               if(allCompanies[allCompanyIndex]->id() == loadedCompanies[savedCompanyIndex])
               {
                 auto favoriteLoadedCompany = allCompanies[allCompanyIndex];
-                favoriteLoadedCompany->setIsFavorite(true);
                 addCompany(favoriteLoadedCompany);
               }
           }
