@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.15
 import Felgo 3.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
@@ -15,6 +15,8 @@ Item
     anchors.topMargin: dp(4)
 
     onVisibleChanged: if(!visible) stackEvents.pop()
+
+    readonly property int stackEventsCategoryDepth: stackEventsCategory.depth
 
     property alias depthStack: stackEvents.depth
     property alias eventsStack: stackEvents
@@ -71,291 +73,284 @@ Item
             color: BaseProperty.backgroundColor
 
             property var allEvents: []
+            property var categories: []
+            property string selectedCategoty: ""
+            property var filteredByCategoryModel: allEvents.filter(function filter_events_by_category(event) {
+                return event.event_type_name === selectedCategoty
+            })
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.leftMargin: dp(5)
-                anchors.rightMargin: dp(5)
 
-                Rectangle {
-                    id: filterRect
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: filterColumn.implicitHeight //visible ? filterColumn.height : 0
-                    color: BaseProperty.backgroundDelegateColor
-                    visible: false
+                PageIndicator {
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    count: eventsSwipe.count
+                    currentIndex: eventsSwipe.currentIndex
 
-                    ColumnLayout {
-                        id: filterColumn
-                        anchors.fill: parent
-
-                        ListView{
-                            id: listDates
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: ((listDates.width - 6*(dp(4))) / 7) * 1.75
-                            orientation: ListView.Horizontal
-                            interactive: false
-                            model: listModelDate
-                            property string formatDate: ""
-                            spacing: dp(4)
-                            currentIndex: -1
-                            delegate: Item{
-                                width: (listDates.width - 6*(dp(4))) / 7
-                                height: width * 1.75
-                                DropShadow {
-                                    anchors.fill: rect
-                                    horizontalOffset: 1
-                                    verticalOffset: 2
-                                    radius: 8.0
-                                    samples: 17
-                                    color: BaseProperty.red_line_color
-                                    visible: listDates.currentIndex === index
-                                    source: rect
-                                }
-
-                                Rectangle{
-                                    id: rect
-                                    anchors.fill: parent
-                                    color: BaseProperty.backgroundDelegateColor
-                                    radius: width /4
-                                    border.color: index === listDates.currentIndex ? BaseProperty.red_line_color
-                                                                                   : BaseProperty.color_button_shadow
-
-                                    border.width: index === listDates.currentIndex ? dp(2) : dp(1)
-
-                                    Column{
-                                        anchors.fill: parent
-                                        Text{
-                                            anchors.left: parent.left
-                                            anchors.right: parent.right
-                                            height: parent.height /2
-                                            text: day
-                                            font.family: BaseProperty.fontLoader.name
-                                            font.pixelSize: app.sp(BaseProperty.h1)
-                                            color: BaseProperty.text_color
-                                            horizontalAlignment: Text.AlignHCenter
-                                            verticalAlignment: Text.AlignVCenter
-                                        }
-
-                                        Text{
-                                            anchors.left: parent.left
-                                            anchors.right: parent.right
-                                            height: parent.height /2
-                                            text: qsTr("%1/%2").arg(date).arg(month)
-                                            font.family: BaseProperty.fontLoader.name
-                                            font.pixelSize: app.sp(BaseProperty.h1)
-                                            color: BaseProperty.red_line_color
-                                            horizontalAlignment: Text.AlignHCenter
-                                            verticalAlignment: Text.AlignVCenter
-                                        }
-                                    }
-                                }
-
-                                MouseArea{
-                                    anchors.fill: parent
-                                    onClicked:
-                                    {
-                                        if(listDates.currentIndex === index) {
-                                            listDates.currentIndex = -1
-                                            listDates.formatDate = ""
-                                            return
-                                        }
-                                        //2021-04-23T16:00:00
-                                        listDates.formatDate = qsTr("start_data_event=%1-%2-%3T00:00:00Z").arg(full_year).arg(month).arg(date)
-                                        console.log(listDates.formatDate)
-                                        listDates.currentIndex = index
-                                    }
-                                }
-
-                            }
-
-                            function widthDelegateItem(){
-                                return (listDates.width + (6 * dp(2))) / 7
-                            }
+                    delegate: Rectangle {
+                        border.color: BaseProperty.red
+                        opacity: eventsSwipe.currentIndex === index ? 1.0 : 0.5
+                        width: dp(70)
+                        height: dp(24)
+                        color: "transparent"
+                        radius: dp(4)
+                        AppText {
+                            anchors.centerIn: parent
+                            text: index === 0 ? qsTr("Recomended") : qsTr("Categories")
+                            color: "red"
+                            font.pixelSize: sp(BaseProperty.h3)
+                            opacity: eventsSwipe.currentIndex === index ? 1.0 : 0.5
+                            font.family: BaseProperty.fontLoader.name
                         }
 
-                        Finder{
-                            id: finder;
-                            Layout.fillWidth: true
-                        }
-
-                        Item {
-                            Layout.fillHeight: true
-                            Layout.fillWidth: true
-                        }
-
-                        AppButton {
-                            text: qsTr("Filter")
-                            Layout.alignment: Qt.AlignHCenter
-                            Layout.preferredWidth: dp(50)
-                            Layout.preferredHeight: dp(20)
-                            flat: true
-
-                            onClicked: {
-                                //                                console.log("pressed apply", filterColumn.height, filterColumn.implicitHeight)
-                                eventRoot .runUpdatePromiseData()
+                        MouseArea {
+                            anchors.fill: parent
+                            onPressed: {
+                                console.log("pressed page indicator item")
+                                switch (index) {
+                                    case 0: eventsSwipe.decrementCurrentIndex(); break;
+                                    case 1: eventsSwipe.incrementCurrentIndex(); break;
+                                }
                             }
                         }
                     }
-
-                    Behavior on Layout.preferredHeight { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad; } }
                 }
 
-                Item{
+                SwipeView {
+                    id: eventsSwipe
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.fillWidth:  true
+                    interactive: stackEventsCategory.depth <= 1
 
-                    AppActivityIndicator {
-                        id: updateActivityindicator
-                        animating: visible
-                        visible: listEvents.contentY < dp(20)
-                        color: BaseProperty.red
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
+                    Item{
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: dp(5)
+                            anchors.rightMargin: dp(5)
 
-                    ListView{
-                        id: listEvents
-                        anchors.fill: parent
-                        clip: true
-                        spacing: dp(1)
-                        model: eventRoot.allEvents
-
-                        property bool isPressed: false
-
-                        onContentYChanged: {
-                            contentY < -dp(100)
-                                    ? updateActivityindicator.startAnimating()
-                                    : updateActivityindicator.stopAnimating()
-                        }
-
-                        Timer {
-                            id: updateTimer
-                            repeat: false
-                            running: parent.contentY < BaseProperty.minContentYForStartUpdate
-                            interval: 500
-                            onTriggered: {
-                                eventRoot.runUpdatePromiseData()
-                                stop()
-                            }
-                        }
-
-                        delegate: Item {
-                            id: delegateEvent
-                            width: parent.width
-//                            height: cl.implicitHeight + dp(20)
-
-                            property var eventObject: modelData
-
-                            AppPaper {
-                                anchors.fill: parent
-                                anchors.margins: dp(10)
-                                background.color: BaseProperty.backgroundColor
-                                background.radius: dp(5)
-                                elevated: true
-                                shadowColor: BaseProperty.red
+                            Rectangle {
+                                id: filterRect
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: filterColumn.implicitHeight //visible ? filterColumn.height : 0
+                                color: BaseProperty.backgroundDelegateColor
+                                visible: false
 
                                 ColumnLayout {
-                                    id: cl
-                                    y: dp(5)
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-                                    spacing: dp(5)
+                                    id: filterColumn
+                                    anchors.fill: parent
 
-                                    onHeightChanged: delegateEvent.height = implicitHeight + dp(20)
-
-                                    Rectangle {
+                                    ListView{
+                                        id: listDates
                                         Layout.fillWidth: true
-                                        Layout.preferredHeight: (width / 16) * 10
-                                        color: "black"
-                                        radius: dp(5)
-                                        antialiasing: true
+                                        Layout.preferredHeight: ((listDates.width - 6*(dp(4))) / 7) * 1.75
+                                        orientation: ListView.Horizontal
+                                        interactive: false
+                                        model: listModelDate
+                                        property string formatDate: ""
+                                        spacing: dp(4)
+                                        currentIndex: -1
+                                        delegate: Item{
+                                            width: (listDates.width - 6*(dp(4))) / 7
+                                            height: width * 1.75
+                                            DropShadow {
+                                                anchors.fill: rect
+                                                horizontalOffset: 1
+                                                verticalOffset: 2
+                                                radius: 8.0
+                                                samples: 17
+                                                color: BaseProperty.red_line_color
+                                                visible: listDates.currentIndex === index
+                                                source: rect
+                                            }
 
-                                        Image {
-                                            anchors.fill: parent
-                                            source: "https://dev-cicerone.s3.eu-central-1.amazonaws.com/poster%231.jpg"
+                                            Rectangle{
+                                                id: rect
+                                                anchors.fill: parent
+                                                color: BaseProperty.backgroundDelegateColor
+                                                radius: width /4
+                                                border.color: index === listDates.currentIndex ? BaseProperty.red_line_color
+                                                                                               : BaseProperty.color_button_shadow
+
+                                                border.width: index === listDates.currentIndex ? dp(2) : dp(1)
+
+                                                Column{
+                                                    anchors.fill: parent
+                                                    Text{
+                                                        anchors.left: parent.left
+                                                        anchors.right: parent.right
+                                                        height: parent.height /2
+                                                        text: day
+                                                        font.family: BaseProperty.fontLoader.name
+                                                        font.pixelSize: app.sp(BaseProperty.h1)
+                                                        color: BaseProperty.text_color
+                                                        horizontalAlignment: Text.AlignHCenter
+                                                        verticalAlignment: Text.AlignVCenter
+                                                    }
+
+                                                    Text{
+                                                        anchors.left: parent.left
+                                                        anchors.right: parent.right
+                                                        height: parent.height /2
+                                                        text: qsTr("%1/%2").arg(date).arg(month)
+                                                        font.family: BaseProperty.fontLoader.name
+                                                        font.pixelSize: app.sp(BaseProperty.h1)
+                                                        color: BaseProperty.red_line_color
+                                                        horizontalAlignment: Text.AlignHCenter
+                                                        verticalAlignment: Text.AlignVCenter
+                                                    }
+                                                }
+                                            }
+
+                                            MouseArea{
+                                                anchors.fill: parent
+                                                onClicked:
+                                                {
+                                                    if(listDates.currentIndex === index) {
+                                                        listDates.currentIndex = -1
+                                                        listDates.formatDate = ""
+                                                        return
+                                                    }
+                                                    //2021-04-23T16:00:00
+                                                    listDates.formatDate = qsTr("start_data_event=%1-%2-%3T00:00:00Z").arg(full_year).arg(month).arg(date)
+                                                    console.log(listDates.formatDate)
+                                                    listDates.currentIndex = index
+                                                }
+                                            }
+
+                                        }
+
+                                        function widthDelegateItem(){
+                                            return (listDates.width + (6 * dp(2))) / 7
                                         }
                                     }
 
-                                    RowLayout {
-                                        Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
+                                    Finder{
+                                        id: finder;
                                         Layout.fillWidth: true
-                                        Layout.leftMargin: dp(5)
-                                        Layout.rightMargin: dp(5)
+                                    }
 
-                                        Icon {
-                                            icon: IconType.calendar
-                                            color: BaseProperty.white
+                                    Item {
+                                        Layout.fillHeight: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    AppButton {
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: qsTr("Filter")
+                                        backgroundColor: BaseProperty.backgroundColor
+                                        borderColor: textColor
+                                        borderColorPressed: BaseProperty.white
+                                        flat: false
+                                        textColor: BaseProperty.red
+                                        textColorPressed: BaseProperty.white
+
+                                        onClicked: {
+                                            eventRoot .runUpdatePromiseData()
                                         }
+                                    }
+                                }
 
-                                        Text {
-                                            Layout.fillWidth: true
-                                            Layout.fillHeight: true
-                                            text: eventObject.title_event
-                                            verticalAlignment: Text.AlignVCenter
-                                            color: BaseProperty.text_color
-                                            font.family: BaseProperty.fontLoader.name
-                                            font.pixelSize: app.sp(BaseProperty.h2)
-                                        }
+                                Behavior on Layout.preferredHeight { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad; } }
+                            }
 
-                                        Icon {
-                                            icon: IconType.clocko
-                                            color: BaseProperty.red
-                                        }
+                            Item{
+                                Layout.fillHeight: true
+                                Layout.fillWidth:  true
 
-                                        Text {
-                                            Layout.minimumWidth: 30
-                                            Layout.fillHeight: true
-                                            text: Qt.formatDateTime(eventObject.start_data_event, BaseProperty.formatDateTimeEvent)
-                                            verticalAlignment: Text.AlignVCenter
-                                            color: BaseProperty.red_text_color
-                                            font.family: BaseProperty.fontLoader.name
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.pixelSize: app.sp(BaseProperty.h2)
+                                AppActivityIndicator {
+                                    id: updateActivityindicator
+                                    animating: visible
+                                    visible: listEvents.contentY < dp(20)
+                                    color: BaseProperty.red
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+
+                                ListView{
+                                    id: listEvents
+                                    width: parent.width
+                                    height: parent.height
+                                    clip: true
+                                    spacing: dp(1)
+                                    model: eventRoot.allEvents
+
+                                    property bool isPressed: false
+
+                                    onContentYChanged: {
+                                        contentY < -dp(100)
+                                                ? updateActivityindicator.startAnimating()
+                                                : updateActivityindicator.stopAnimating()
+                                    }
+
+                                    Timer {
+                                        id: updateTimer
+                                        repeat: false
+                                        running: parent.contentY < BaseProperty.minContentYForStartUpdate
+                                        interval: 500
+                                        onTriggered: {
+                                            eventRoot.runUpdatePromiseData()
+                                            stop()
                                         }
                                     }
 
-                                    RowLayout {
-                                        Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
-                                        Layout.fillWidth: true
-                                        Layout.leftMargin: dp(5)
-                                        Layout.rightMargin: dp(5)
+                                    delegate: DelegateEvent {
+                                        id: delegateEvent
+                                        width: parent.width
+                                        eventObject: modelData
+                                    }
+                                }
 
-                                        Icon {
-                                            icon: IconType.mapmarker
-                                            color: BaseProperty.white
-                                        }
+                            }
+                        }
+                    }
 
-                                        Text {
-                                            Layout.fillWidth: true
-                                            Layout.fillHeight: true
-                                            text: eventObject.location_address
-                                            verticalAlignment: Text.AlignVCenter
-                                            color: BaseProperty.text_color
-                                            font.family: BaseProperty.fontLoader.name
-                                            font.pixelSize: app.sp(BaseProperty.h2)
-                                        }
+                    Item {
+                        StackView{
+                            id: stackEventsCategory
+                            width: parent.width
+                            height: parent.height
+                            focus: true
 
-                                        Text {
-                                            Layout.minimumWidth: 30
-                                            Layout.fillHeight: true
-                                            text: qsTr("%1 %2").arg(eventObject.cost_event).arg(eventObject.name_currency)
-                                            verticalAlignment: Text.AlignVCenter
-                                            color: BaseProperty.red_text_color
-                                            font.family: BaseProperty.fontLoader.name
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.pixelSize: app.sp(BaseProperty.h2)
+                            initialItem: Rectangle{
+                                width: parent.width
+                                height: parent.height
+                                color: BaseProperty.backgroundColor
+
+                                Connections {
+                                    target: topHead
+                                    onPressedArrowButton: {
+                                        stackEventsCategory.pop()
+                                    }
+                                }
+
+                                ListView{
+                                    id: listViewCategory
+                                    width: parent.width
+                                    height: parent.height
+                                    spacing: dp(1)
+                                    clip: true
+                                    model: eventRoot.categories
+                                    antialiasing: true
+                                    delegate: DelegateCompany {
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.leftMargin: dp(1)
+                                        anchors.rightMargin: dp(1)
+                                        text: modelData.type
+                                        onRelesed: {
+                                            eventRoot.selectedCategoty = text
+                                            stackEventsCategory.push(eventRoot.filteredByCategoryModel.length > 0 ? filteredByCategoryListComponent : emptyEventByCategory)
                                         }
                                     }
-
                                 }
                             }
                         }
                     }
-
                 }
             }
 
             Component.onCompleted: {
                 runUpdatePromiseData()
+                loadCategories()
             }
 
             function runUpdatePromiseData() {
@@ -395,14 +390,75 @@ Item
                     console.log("Error: "+reason)
                 });
             }
+
+            function loadCategories() {
+                let url = "https://dev-cicerone.herokuapp.com/api/v1/catalog/event_type"
+
+                var p = Promise.create(function(resolve, reject) {
+                    // handle asynchronous code here
+                    // e.g. with asynchronous HttpRequest
+                    HttpRequest
+                    .get(url)
+                    .timeout(5000)
+                    .end(function (err, res) {
+                        if(res.ok)
+                            resolve(res.body)
+                        else
+                            reject(err.message)
+                    })
+                });
+
+                // execute promise and handle result
+                p.then(function(value) {
+                    // success
+                    console.log("Value categories: "+JSON.stringify(value))
+                    categories = value
+                }).catch(function(reason) {
+                    // failure
+                    console.log("Error: "+reason)
+                });
+            }
         }
 
     }
+
+
+
     Connections {
         target: topHead
         onFilterPressed: {
             console.log("filterPressed")
             filterRect.visible = !filterRect.visible
+        }
+    }
+
+    Component {
+        id: filteredByCategoryListComponent
+        ListView{
+            id: listEvents
+            clip: true
+            spacing: dp(1)
+            model: eventRoot.filteredByCategoryModel
+
+            property bool isPressed: false
+
+            delegate: DelegateEvent {
+                id: delegateEvent
+                width: parent.width
+                eventObject: modelData
+            }
+        }
+    }
+
+    Component {
+        id: emptyEventByCategory
+
+        Text {
+            text: qsTr("No Events")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            color: BaseProperty.white
+            font.pixelSize: dp(BaseProperty.h2)
         }
     }
 }

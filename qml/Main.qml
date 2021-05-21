@@ -1,99 +1,93 @@
 import Felgo 3.0
-import QtQuick 2.0
-import "model"
-import "logic"
-import "pages"
+import QtQuick 2.12
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.13
 
+
+import "../components"
+import "../delegates"
+import "../pages/stack"
+import "../pages/SplashScreen"
+import "."
 
 App {
-    // You get free licenseKeys from https://felgo.com/licenseKey
-    // With a licenseKey you can:
-    //  * Publish your games & apps for the app stores
-    //  * Remove the Felgo Splash Screen or set a custom one (available with the Pro Licenses)
-    //  * Add plugins to monetize, analyze & improve your apps (available with the Pro Licenses)
-    //licenseKey: "<generate one from https://felgo.com/licenseKey>"
+    id: app
+    visible: true
+    width: 1080/2
+    height: 1920/2
 
-    // app initialization
-    Component.onCompleted: {
-        // if device has network connection, clear cache at startup
-        // you'll probably implement a more intelligent cache cleanup for your app
-        // e.g. to only clear the items that aren't required regularly
-        if(isOnline) {
-            logic.clearCache()
-        }
+    onInitTheme: { Theme.normalFont = BaseProperty.fontLoader }
 
-        // fetch todo list data
-        logic.fetchTodos()
-        logic.fetchDraftTodos()
+    // Background
+    Rectangle {
+        width: app.width
+        height: app.height
+        color: BaseProperty.backgroundColor
     }
 
-    // business logic
-    Logic {
-        id: logic
-    }
+    TopHead{
+        id: topHead
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        fontloader: BaseProperty.fontLoader
+        backArrowVisible: (stackCategoryItem.depthCount > 1 || stackEventItem.depthStack > 1 || stackEventItem.stackEventsCategoryDepth > 1) && (BaseProperty.currentPageId !== 3 || BaseProperty.currentPageId !== 4)
+        filterBtnVisible: stackEventItem.visible
 
-    // model
-    DataModel {
-        id: dataModel
-        dispatcher: logic // data model handles actions sent by logic
-
-        // global error handling
-        onFetchTodosFailed: nativeUtils.displayMessageBox("Unable to load todos", error, 1)
-        onFetchTodoDetailsFailed: nativeUtils.displayMessageBox("Unable to load todo "+id, error, 1)
-        onStoreTodoFailed: nativeUtils.displayMessageBox("Failed to store "+viewHelper.formatTitle(todo))
-    }
-
-    // helper functions for view
-    ViewHelper {
-        id: viewHelper
-    }
-
-    // view
-    Navigation {
-        id: navigation
-
-        // only enable if user is logged in
-        // login page below overlays navigation then
-        enabled: dataModel.userLoggedIn
-
-        // first tab
-        NavigationItem {
-            title: qsTr("Todo List")
-            icon: IconType.list
-
-            NavigationStack {
-                splitView: tablet // use side-by-side view on tablets
-                initialPage: TodoListPage { }
-            }
-        }
-
-        // second tab
-        NavigationItem {
-            title: qsTr("Profile") // use qsTr for strings you want to translate
-            icon: IconType.circle
-
-            NavigationStack {
-                initialPage: ProfilePage {
-                    // handle logout
-                    onLogoutClicked: {
-                        logic.logout()
-
-                        // jump to main page after logout
-                        navigation.currentIndex = 0
-                        navigation.currentNavigationItem.navigationStack.popAllExceptFirst()
-                    }
-                }
+        onPressedArrowButton: {
+            switch(categoryId){
+                case 1: stackEventItem.eventsStack.pop(); break;
+                case 2: stackCategoryItem.categoryStack.pop(); break;
             }
         }
     }
 
-    // login page lies on top of previous items and overlays if user is not logged in
-    LoginPage {
-        visible: opacity > 0
-        enabled: visible
-        opacity: dataModel.userLoggedIn ? 0 : 1 // hide if user is logged in
+    Item{
+        anchors.top: topHead.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottomMargin: app.height * 0.1
 
-        Behavior on opacity { NumberAnimation { duration: 250 } } // page fade in/out
+        EventItem {
+            id: stackEventItem
+            anchors.fill: parent
+        }
+
+        StackCategoryItem {
+            id: stackCategoryItem
+            anchors.fill: parent
+        }
+
+        FavoriteCategoryItem{
+            id: favoriteCategoryItem
+            anchors.fill: parent
+        }
+
+        Settings{
+            id: settingsItem
+            anchors.fill: parent
+        }
     }
 
+    Footer {
+        id: footer
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: app.height * 0.08
+    }
+
+    Loader{
+        id: eventOverviewLoader
+        anchors.fill: parent
+        visible: false
+    }
+
+    function showEvent() { eventOverviewLoader.source = "pages/EventOverviewScreen.qml"; eventOverviewLoader.visible = true }
+    function hideEvent() { eventOverviewLoader.source = "" }
+//    Splash {
+
+//    }
 }

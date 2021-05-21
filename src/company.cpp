@@ -139,7 +139,6 @@ QVariantMap Company::getLocationList()
         const auto scheduleByCurrentDate = currentAddress.sheduleByCurrentDay();
         propertyMap.insert("schedule_is_now_break", scheduleByCurrentDate.first);
         propertyMap.insert("schedule_cy_current_date", scheduleByCurrentDate.second);
-        qDebug() << __LINE__ << scheduleByCurrentDate.second;
         mapLocations.insert(QString("location_%1").arg(rand()), QVariant::fromValue(propertyMap));
     }
     return mapLocations;

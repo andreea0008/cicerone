@@ -133,5 +133,6 @@ DISTFILES += \
     ios/Assets.xcassets/LaunchImage.launchimage/Default768x1024.png \
     ios/Project-Info.plist \
     macx/app_icon.icns \
+    qml/Main.qml \
     qml/config.json \
 

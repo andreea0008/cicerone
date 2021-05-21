@@ -1,164 +1,160 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import Felgo 3.0
+import QtGraphicalEffects 1.13
 
 import "../components"
 import "../"
 
-Rectangle {
-    id: delegate
-    anchors.leftMargin: dp(2)
-    anchors.rightMargin: dp(2)
-    property int lrMar
-    property bool isFavorite
-    property string eventTitle: "Event_title"
-    property string descriptionEvent: ""
-    property string where: "address"
-    MouseArea{
-        id: mouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        onReleased: delegate.state = (delegate.state === "hide") ? "show" : "hide"
-    }
+Item {
+    id: delegateEvent
+    property var eventObject: modelData
 
-    Column{
-        id: columnInformation
+    AppPaper {
         anchors.fill: parent
-        anchors.leftMargin: dp(15)
-        anchors.rightMargin: dp(15)
+        anchors.margins: dp(10)
+        background.color: BaseProperty.backgroundColor
+        background.radius: dp(5)
+        elevated: true
+        shadowColor: BaseProperty.red
 
-        Item{
+        ColumnLayout {
+            id: cl
+            y: dp(5)
             anchors.left: parent.left
             anchors.right: parent.right
-            height: BaseProperty.heightDelegate
+            spacing: dp(5)
 
+            onHeightChanged: delegateEvent.height = implicitHeight + dp(20)
 
-            Text {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
-                color: "white"
-                font.family: BaseProperty.fontLoader.name
-                font.pixelSize: BaseProperty.h1
-                text: eventTitle
-            }
-        }
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: (width / 16) * 10
+                color: "black"
+                radius: dp(5)
+                antialiasing: true
 
-        Rectangle {
-            id: redSpacer
-            height: 1
-            width: parent.width
-            color: BaseProperty.red_line_color
-        }
-
-        Item {
-            id: itemMainDescription
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: BaseProperty.doubleHeightDelegate
-            Text{
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.verticalCenter
-                color: "white"
-                font.family: BaseProperty.fontLoader.name
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: BaseProperty.h1
-                text: where
-            }
-
-            Text{
-                anchors.left: parent.left
-                anchors.top: parent.verticalCenter
-                anchors.bottom: parent.bottom
-                color: "white"
-                font.family: BaseProperty.fontLoader.name
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: BaseProperty.h1
-                text: where
-            }
-
-            Rectangle{
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                width: parent.height /2
-                height: width
-                color: BaseProperty.red_line_color
-                radius: height /8
-                opacity: mouseId.pressed ? 0.8 : 1.0
-
-                Image{
-                    source: "../img/delegate_icons/right_arrow.png"
-                    width: parent.width * 0.5
-                    height: width
-                    anchors.centerIn: parent
-                    antialiasing: true
-                }
-
-                MouseArea{
-                    id: mouseId
+                Image {
                     anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: stackEvents.push("../pages/DetailEventPage.qml", {"name_event": eventTitle,
-                                                "descriptio_event": descriptionEvent})
+                    source: "https://dev-cicerone.s3.eu-central-1.amazonaws.com/poster%231.jpg"
+                }
+            }
+
+            RowLayout {
+                Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
+                Layout.fillWidth: true
+                Layout.leftMargin: dp(5)
+                Layout.rightMargin: dp(5)
+
+                Icon {
+                    icon: IconType.calendar
+                    color: BaseProperty.white
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    text: eventObject.title_event
+                    verticalAlignment: Text.AlignVCenter
+                    color: BaseProperty.text_color
+                    font.family: BaseProperty.fontLoader.name
+                    font.pixelSize: app.sp(BaseProperty.h2)
+                }
+
+                Icon {
+                    icon: IconType.clocko
+                    color: BaseProperty.red
+                }
+
+                Text {
+                    Layout.minimumWidth: 30
+                    Layout.fillHeight: true
+                    text: Qt.formatDateTime(eventObject.start_data_event, BaseProperty.formatDateTimeEvent)
+                    verticalAlignment: Text.AlignVCenter
+                    color: BaseProperty.red_text_color
+                    font.family: BaseProperty.fontLoader.name
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: app.sp(BaseProperty.h2)
+                }
+            }
+
+            RowLayout {
+                Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
+                Layout.fillWidth: true
+                Layout.leftMargin: dp(5)
+                Layout.rightMargin: dp(5)
+
+                Icon {
+                    icon: IconType.mapmarker
+                    color: BaseProperty.white
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    text: eventObject.location_address
+                    verticalAlignment: Text.AlignVCenter
+                    color: BaseProperty.text_color
+                    font.family: BaseProperty.fontLoader.name
+                    font.pixelSize: app.sp(BaseProperty.h2)
+                }
+
+                Text {
+                    Layout.minimumWidth: 30
+                    Layout.fillHeight: true
+                    text: qsTr("%1 %2").arg(eventObject.cost_event).arg(eventObject.name_currency)
+                    verticalAlignment: Text.AlignVCenter
+                    color: BaseProperty.red_text_color
+                    font.family: BaseProperty.fontLoader.name
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: app.sp(BaseProperty.h2)
+                }
+            }
+
+            RowLayout {
+                Layout.preferredHeight: dp(BaseProperty.heightDelegate *0.75)
+                Layout.fillWidth: true
+                Layout.leftMargin: dp(5)
+                Layout.rightMargin: dp(5)
+                spacing: dp(0)
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
+
+                AppButton {
+                    Layout.fillHeight: true
+                    text: qsTr("Buy")
+                    iconLeft: IconType.ticket
+                    backgroundColor: BaseProperty.backgroundColor
+                    borderColor: textColor
+                    borderColorPressed: BaseProperty.white
+                    flat: false
+                    textColor: BaseProperty.red
+                    textColorPressed: BaseProperty.white
+
+                    onClicked: {
+                        console.log("open url buy ticket")
+                    }
+                }
+
+                AppButton {
+                    Layout.fillHeight: true
+                    text: qsTr("More")
+                    iconRight: IconType.angledoubleright
+                    backgroundColor: BaseProperty.backgroundColor
+                    borderColor: textColor
+                    borderColorPressed: BaseProperty.white
+                    flat: false
+                    textColor: BaseProperty.red
+                    textColorPressed: BaseProperty.white
+
+                    onClicked: {
+                        console.log("show more detail")
+                    }
                 }
             }
         }
     }
-
-
-    states: [
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: delegate
-                height: BaseProperty.heightDelegate
-                color: BaseProperty.backgroundDelegateColor
-            }
-
-            PropertyChanges {
-                target: redSpacer
-                visible: false
-                width: 0
-            }
-
-            PropertyChanges {
-                target: itemMainDescription
-                visible: false
-            }
-        },
-        State {
-            name: "show"
-            PropertyChanges {
-                target: delegate
-                height: BaseProperty.heightDelegate *3.2
-                color: BaseProperty.pressed_color
-            }
-
-            PropertyChanges {
-                target: redSpacer
-                visible: true
-                width: columnInformation.width
-            }
-
-            PropertyChanges {
-                target: itemMainDescription
-                visible: true
-            }
-        }
-    ]
-
-    //    transitions: [
-    //        Transition {
-    //            from: "hide"
-    //            to: "show"
-    //            NumberAnimation { target: redSpacer; properties: "width" }
-    //        },
-    //        Transition {
-    //            from: "show"
-    //            to: "hide"
-    //            NumberAnimation { target: redSpacer; properties: "width" }
-    //        }
-    //    ]
 }
